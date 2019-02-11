@@ -1,0 +1,87 @@
+/* ---------------------------------------------------
+インフォメーション他、文字多めのページ用
+----------------------------------------------------- */
+p,h2 { text-align : left ; }
+
+p { margin : 0 auto ;
+margin-bottom : 40px;
+width : 90% ; }
+
+h2 { font-size: 20px;font-size: 2.0rem; }
+
+
+/* theadを使ってないテーブルの線とセルの上線が被るのを防ぐ */
+tr:first-child th,
+tr:first-child td {
+		border-top: none;
+}
+
+.info,.info2 {
+	margin-bottom: 20px;	margin-bottom: 2.0rem;
+}
+
+.info th:not([colspan]),
+.info td:not([colspan]) {
+		width : 50% ; 
+}
+
+.info2 th:not([colspan]) { width : 27% ; }
+.info2 td:not([colspan]) { width : 73% ; }
+
+
+/* ここから対談一覧用のテーブル設定 */
+.talkmenu th:not(nth-of-type(3n)),
+.talkmenu td:not(nth-of-type(3n)) {
+		width : 40% ; 
+}
+
+.talkmenu th:nth-of-type(3n),
+.talkmenu td:nth-of-type(3n) {
+		width : 20% ; 
+}
+
+
+/* ここから対談ログのテーブル設定 */
+.talktable th {
+	text-align : left ;
+	font-weight : bold ;
+}
+
+.talktable td {
+	padding: 5px ;
+}
+
+.talktable tr td:nth-child(odd) {
+	width : 15% ;
+	text-align : right ;
+	vertical-align : top ;
+}
+
+.talktable tr td:nth-child(even){
+	width : 85% ;
+	text-align: left;
+}
+/* ここまで対談ログのテーブル設定 */
+
+.talker {
+	color : #009900 ;
+}
+
+.talker1 {
+	color : #FF9900 ;
+}
+
+.talker2 {
+	color : #0000FF ; 
+}
+
+.talker3 {
+	color : #FF0000 ;
+}
+
+.talker4 {
+	color : #FF00FF ;
+}
+
+.attention { color : #FF0000 ; }
+
