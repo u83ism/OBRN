@@ -1,59 +1,20 @@
-html,body{
-	margin: 0;
-	padding: 0;
-}
-
 html {
 	font-size: 62.5%;
 	font-family: Verdana, "游ゴシック", YuGothic, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, sans-serif;
 }
 
 body {
-	background : url(kabe.gif) fixed ;
+	background : url(./img/kabe.gif) fixed ;
+	font-size: 1.4em;
 }
+
+
 /*Chromeのremバグ対策*/
-body > div {
+body > * {
 	font-size: 16px; font-size: 1.6rem;
 	line-height : 20px ; line-height : 2.0rem ;
 }
 
-a { text-decoration : none ; }
-a:link { color : #0000FF ; }
-a:visited { color : #0000FF ; }
-a:hover { color : #0000FF ; }
-a:active { color : #0000FF ; }
-
-hr {
-			border : #CCCCCC solid 1px ;
-}
-
-h1 {
-			font-size: 24px;font-size: 2.4rem;
-			font-weight : bold ;
-			margin : 30px auto ;
-			line-height : 24px ;line-height : 2.4rem ;
-}
-
-header{
-	position: fixed;
-	top:0;
-	left: 0;
-	width: 100%;
-	z-index : 2147483647;/*geocitiesの広告を下に回す*/
-}
-
-footer { text-align : right ; }
-
-/* ここからテーブル関係（全般） */
-table {
-			border-spacing: 0;
-			width: 100% ;
-			margin-bottom: 80px;margin-bottom: 8.0rem;
-}
-/* 全部隠しておきJSで表示 */
-table[data-bunrui] {
-	display:none;
-}
 
 .bordered {
 			border-spacing: 0;
@@ -226,13 +187,6 @@ thead tr:first-of-type td {
 }
 /* ここまでテーブル関係（全般） */
 
-
-/* ここからメニューのツールバー関係 */
-ul {
-	margin : 0px ;
-	padding: 0px ;
-	list-style-type: none ;
-}
 
 .menu {
 	width : 100% ;
