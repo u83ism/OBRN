@@ -1,8 +1,24 @@
 "use strict";
 
 $(function () {
+	const backGroundFolderPath = "./img/background/";
+	const backGroundNumber = 33;
+	const getRandomIntInclusive = (min, max) => {
+		min = Math.ceil(min);
+		max = Math.floor(max);
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+	const backgroundPath = backGroundFolderPath + getRandomIntInclusive(1, backGroundNumber) + ".jpg";
+
+	$('.background').css({
+		"background": "url(" + backgroundPath + ") center",
+		"background-size": "cover"
+	});
+
+
+
 	const headerHTML = `<header>
-		<nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
+		<nav class="navbar fixed-top navbar-expand-sm navbar-dark customNavbar">
 			<a class="navbar-brand" href="./index.html">
 				<img src="./img/banner.jpg" alt="サイトバナー">
 			</a>
@@ -28,7 +44,5 @@ $(function () {
 			</div>
 		</nav>
 	</header>`;
-
-
-	$('body').prepend(headerHTML);
+	$('.main').prepend(headerHTML);
 });
