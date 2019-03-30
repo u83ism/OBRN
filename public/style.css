@@ -1,52 +1,59 @@
+html,body{
+	margin: 0;
+	padding: 0;
+}
+
 html {
 	font-size: 62.5%;
 	font-family: Verdana, "游ゴシック", YuGothic, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, sans-serif;
 }
 
 body {
-	font-size: 1.4em;/*Chromeのremバグ対策*/
+	background : url(kabe.gif) fixed ;
 }
-body > * {
-	font-size: 1.6rem;
-	line-height : 2.0rem ;
-}
-
-.background{
-  width: 100%;
-  height:100vh;
-  position: relative;
-  z-index: 0;
-  overflow: hidden;/*ブラー効果でボヤけた部分を非表示*/
-}
-/*:beforeにぼかし効果を設定する*/
-.background:before{
-  content: '';
-  background: inherit;/*.bgImageで設定した背景画像を継承する*/
-  -webkit-filter: blur(0.3rem);
-  -moz-filter: blur(0.3rem);
-  -o-filter: blur(0.3rem);
-  -ms-filter: blur(0.3rem);
-  filter: blur(0.3rem) grayscale(50%);
-  position: absolute;
-  /*ブラー効果で画像の端がボヤけた分だけ位置を調整*/
-  top: -0.3rem;
-  left: -0.3rem;
-  right: -0.3rem;
-  bottom: -0.3rem;
-  z-index: -1;/*重なり順序を一番下にしておく*/
+/*Chromeのremバグ対策*/
+body > div {
+	font-size: 16px; font-size: 1.6rem;
+	line-height : 20px ; line-height : 2.0rem ;
 }
 
-.customNavbar {
-	background: rgba(0,0,0,0.5);
+a { text-decoration : none ; }
+a:link { color : #0000FF ; }
+a:visited { color : #0000FF ; }
+a:hover { color : #0000FF ; }
+a:active { color : #0000FF ; }
+
+hr {
+			border : #CCCCCC solid 1px ;
 }
 
-.main { 
-	width : 980px ;
-	margin : 6.0rem auto 0 auto;
-	text-align : center ;
+h1 {
+			font-size: 24px;font-size: 2.4rem;
+			font-weight : bold ;
+			margin : 30px auto ;
+			line-height : 24px ;line-height : 2.4rem ;
 }
 
+header{
+	position: fixed;
+	top:0;
+	left: 0;
+	width: 100%;
+	z-index : 2147483647;/*geocitiesの広告を下に回す*/
+}
 
+footer { text-align : right ; }
+
+/* ここからテーブル関係（全般） */
+table {
+			border-spacing: 0;
+			width: 100% ;
+			margin-bottom: 80px;margin-bottom: 8.0rem;
+}
+/* 全部隠しておきJSで表示 */
+table[data-bunrui] {
+	display:none;
+}
 
 .bordered {
 			border-spacing: 0;
@@ -220,6 +227,13 @@ thead tr:first-of-type td {
 /* ここまでテーブル関係（全般） */
 
 
+/* ここからメニューのツールバー関係 */
+ul {
+	margin : 0px ;
+	padding: 0px ;
+	list-style-type: none ;
+}
+
 .menu {
 	width : 100% ;
 	margin : 0px;
@@ -318,9 +332,19 @@ thead tr:first-of-type td {
 	font-weight : bold ;
 }
 
-
+.container { width : 980px ;
+			margin : 0 auto ;
+			margin-top:20px;margin-top:2.0rem;/*広告が入るのでそこからの距離*/
+			text-align : center ;
+}
 
 .title {
 	font-family : 'Permanent Marker', cursive ;
 	font-size: 40px;font-size: 4.0rem;
+}
+
+/*geocitiesの広告の位置調整*/
+#y_gc_div_adcntr{
+	margin-top : 100px;margin-top:10.0rem;
+	z-index : -100 !important ;/*念のためz-index上書き*/
 }
