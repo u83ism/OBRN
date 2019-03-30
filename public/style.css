@@ -333,8 +333,7 @@ ul {
 }
 
 .container { width : 980px ;
-			margin : 0 auto ;
-			margin-top:20px;margin-top:2.0rem;/*広告が入るのでそこからの距離*/
+			margin : 10.0rem auto 0rem auto ;
 			text-align : center ;
 }
 
