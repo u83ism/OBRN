@@ -1,65 +1,139 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
 
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/5.9.0/firebase-app.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/5.9.0/firebase-auth.js"></script>
-    <script defer src="/__/firebase/5.9.0/firebase-database.js"></script>
-    <script defer src="/__/firebase/5.9.0/firebase-messaging.js"></script>
-    <script defer src="/__/firebase/5.9.0/firebase-storage.js"></script>
-    <!-- initialize the SDK after all desired features are loaded -->
-    <script defer src="/__/firebase/init.js"></script>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Original Battle Royale Network</title>
+	<meta name="Keywords" content="オリバト,BATTLE ROYALE,バトルロワイアル,BR,オリジナル">
+	<meta name="Description" content="バトルロワイアル（著：高見広春）の1.5次創作ジャンル「オリジナルバトルロワイアル」（通称オリバト）専門リンク集です。">
+	<link rel="icon" href="./img/favicon.ico">
+	<link rel="stylesheet" href="style.css" type="text/css">
+	<!-- <link rel="stylesheet" href="style2.css" type="text/css"> -->
+	<link href='http://fonts.googleapis.com/css?family=Permanent+Marker' rel='stylesheet' type='text/css'>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+		integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+		crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+		integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+		integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+		crossorigin="anonymous"></script>
+	<script type="text/javascript" src="getDOM.js"></script>
 
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
-    </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
+	<!-- update the version number as needed -->
+	<script defer src="/__/firebase/5.9.0/firebase-app.js"></script>
+	<!-- include only the Firebase features as you need -->
+	<script defer src="/__/firebase/5.9.0/firebase-auth.js"></script>
+	<script defer src="/__/firebase/5.9.0/firebase-database.js"></script>
+	<script defer src="/__/firebase/5.9.0/firebase-messaging.js"></script>
+	<script defer src="/__/firebase/5.9.0/firebase-storage.js"></script>
+	<!-- initialize the SDK after all desired features are loaded -->
+	<script defer src="/__/firebase/init.js"></script>
+</head>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+<body>
+	<div class="background">
+		<!-- JSでヘッダ挿入 -->
+		<div class="main">
+			<h1 class="title"><span style="color:#FF9900;">O</span>riginal <span style="color:#FF9900;">B</span>attle
+				<span style="color:#FF9900;">R</span>oyale <span style="color:#FF9900;">N</span>etwork</h1>
+			<p>
+				いらっしゃいませ。<br>
+				当サイトは「オリジナルバトルロワイアル」（通称：オリバト）専門のリンク集です。<br>
+			</p>
+			<table class="bordered">
+				<thead>
+					<tr>
+						<th colspan="4">データベース一括更新日：2016年7月24日</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>2016年7月24日 13：00</td>
+						<td width="75%">
+							<p>
+								また間空いてすいません……。データベース一括更新しました。<br>
+							</p>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 
-        try {
-          let app = firebase.app();
-          let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
-          document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
-        }
-      });
-    </script>
-  </body>
+			<table class="bordered">
+				<thead>
+					<tr>
+						<th colspan="4">更新サイト（対象期間：2016年4月18日～2016年7月23日／五十音順）</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr class="sitedata">
+						<td><a href="http://id55.fm-p.jp/532/reitouapple/" target="_blank"><img
+									src="http://id55.fm-p.jp/data/532/reitouapple/pri/6.jpg" alt="冷凍りんごは歯が折れる "
+									width="200" height="40" border="0"></a></td>
+						<td>はまぐり</td>
+						<td colspan="2">無節操ジャンルサイトですので、OBRのみのURLは<a
+								href="http://id55.fm-p.jp/532/reitouapple/index.php?module=viewbk&action=ptop&stid=5">こちら</a>になります
+						</td>
+					</tr>
+					<tr class="obrdata">
+						<td>午後のパレード</td>
+						<td>200X年度<br>
+							北海道上見市立狛楠中学校3年B組 <br>
+							（男子20名/女子21名/計41名）</td>
+						<td class="new last">進行中<br>
+							43話/終盤戦<br>
+							【残り14人】</td>
+						<td>標準ルール。血と暴力の青春をただ書いていく予定です。</td>
+					</tr>
+					<tr class="sitedata">
+						<td><a href="http://1995anotherworld.web.fc2.com/" target="_blank" class="letter">another
+								world</a>
+						</td>
+						<td>透</td>
+						<td colspan="2">サブタイトルに沿うように話を展開しています。</td>
+					</tr>
+					<tr class="obrdata">
+						<td>～Real～</td>
+						<td>
+							1993年度第43号<br>
+							私立青奉中学校3年1組（特進クラス）<br>
+							（男子17名/女子17名/計34名）
+						</td>
+						<td class="new">
+							進行中<br>
+							78話（79話）/中盤戦<br>
+							【残り15人】
+						</td>
+						<td>～Link～と若干の関連性あり </td>
+					</tr>
+					<tr class="sitedata">
+						<td><a href="http://stardust0302.fc2web.com/" target="_blank"><img
+									src="http://stardust0302.fc2web.com/image/banabattle.jpg" alt="Star☆Dust"
+									border="0"></a></td>
+						<td>水金 翔</td>
+						<td colspan="2">読みやすく、を目標にマイペース更新しています。イラスト・質問・お題などもたまに更新しているのでよろしければそちらもどうぞ(^_^)</td>
+					</tr>
+					<tr class="obrdata">
+						<td>月に叢雲、花に風</td>
+						<td>
+							2012年度<br>
+							東京都私立帝東学院中等部3年A組<br>
+							（男子20名/女子20名/計40名）
+						</td>
+						<td class="last new">
+							進行中<br>
+							91話/終盤戦<br>
+							【残り4人】
+						</td>
+						<td>特殊ルール採用。</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+
 </html>
