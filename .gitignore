@@ -1,8 +1,8 @@
-# "#" で始まる行はコメント
 *.ico
 *.jpg
 *.png
 *.gif
 .firebase
-
-google9c5644de372b582c.html
+firebase-debug.log
+hosting/google9c5644de372b582c.html
+node_modules

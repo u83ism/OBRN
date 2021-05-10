@@ -37,8 +37,6 @@ $(function () {
 		"background-size": "cover"
 	});
 
-
-
 	const headerHTML = `<header>
 		<nav class="navbar fixed-top navbar-expand-sm navbar-dark customNavbar">
 			<a class="navbar-brand" href="./index.html">
@@ -66,18 +64,59 @@ $(function () {
 			</div>
 		</nav>
 	</header>`;
+	$('.main').prepend(headerHTML);
 
-	const cardsHTML = `<div class="card" style="width: 18rem;">
-		<img src="..." class="card-img-top" alt="...">
-		<div class="card-body">
-		<h5 class="card-title">Card title</h5>
-		<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-		<a href="#" class="btn btn-primary">Go somewhere</a>
-		</div>
-	</div>`
+	$.ajax({ // json読み込み開始
+		type: 'GET',
+		url: './data.json',
+		dataType: 'json'
+	}).then(// jsonの読み込みに成功した時
+		dataList => {
+			console.log(dataList);
 
-	const HTML = headerHTML + cardsHTML;
+			const cardsHTML = dataList.map((siteData, index) => {
+				let html = "";
+				if (index % 3 === 0) { html += `<div class = "row row-eq-height">` }
+				html += getCardHTML(siteData);
+				if (index % 3 === 2) { html += `</div>` }
+				return html;
+			}).reduce((previous, current) => previous + current)
+			const cardsContainerHTML = `<div class="container">${cardsHTML}</div>`
 
 
-	$('.main').prepend(HTML);
+			$('.main').append(cardsContainerHTML);
+		}
+	);
+
+	const getCardHTML = siteData => {
+		let imageHTML;
+		if (siteData.hasOwnProperty("bannerURL")) {
+			imageHTML = `<img src=${siteData.bannerURL} class="card-img-top" alt="..."></img>`
+		} else {
+			imageHTML = `<div class="card-img-top noBanner">${siteData.name}</div>`;
+		}
+
+		let siteCommentHTML;
+		if (siteData.hasOwnProperty("comment")) {
+			siteCommentHTML = `<p class="card-text">${siteData.comment}</p>`
+		} else {
+			siteCommentHTML = ``;
+		}
+
+		return `
+			<div class="col-sm">
+				<div class="card h-100 m-1">
+					<a href ="${siteData.URL}">${imageHTML}</a>
+					<div class="card-body">
+						<h5 class="card-title">${siteData.name}</h5>
+						${siteCommentHTML}
+						<a href="#" class="btn btn-primary">Go somewhere</a>
+					</div>
+				</div>
+			</div>
+		`
+	}
+
+
+
 });
