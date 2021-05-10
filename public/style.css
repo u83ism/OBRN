@@ -1,50 +1,319 @@
+html,body{
+	margin: 0;
+	padding: 0;
+}
+
 html {
 	font-size: 62.5%;
 	font-family: Verdana, "游ゴシック", YuGothic, "ヒラギノ角ゴ ProN W3", "Hiragino Kaku Gothic ProN", "メイリオ", Meiryo, sans-serif;
 }
 
 body {
-	font-size: 1.4em;/*Chromeのremバグ対策*/
+	background : url(kabe.gif) fixed ;
 }
-body > * {
-	font-size: 1.6rem;
-	line-height : 2.0rem ;
-}
-
-.background{
-  width: 100%;
-  height:100vh;
-  position: relative;
-  z-index: 0;
-  /* overflow: hidden;ブラー効果でボヤけた部分を非表示 */
-}
-/*:beforeにぼかし効果を設定する*/
-.background:before{
-  content: '';
-  background: inherit;/*.bgImageで設定した背景画像を継承する*/
-  -webkit-filter: blur(0.3rem);
-  -moz-filter: blur(0.3rem);
-  -o-filter: blur(0.3rem);
-  -ms-filter: blur(0.3rem);
-  filter: blur(0.3rem) grayscale(50%);
-  position: absolute;
-  /*ブラー効果で画像の端がボヤけた分だけ位置を調整*/
-  top: -0.3rem;
-  left: -0.3rem;
-  right: -0.3rem;
-  bottom: -0.3rem;
-  z-index: -1;/*重なり順序を一番下にしておく*/
+/*Chromeのremバグ対策*/
+body > div {
+	font-size: 16px; font-size: 1.6rem;
+	line-height : 20px ; line-height : 2.0rem ;
 }
 
-.customNavbar {
-	background: rgba(0,0,0,0.5);
+a { text-decoration : none ; }
+a:link { color : #0000FF ; }
+a:visited { color : #0000FF ; }
+a:hover { color : #0000FF ; }
+a:active { color : #0000FF ; }
+
+hr {
+			border : #CCCCCC solid 1px ;
 }
 
-.main { 
-	width : 980px ;
-	margin : 6.0rem auto 0 auto;
+h1 {
+			font-size: 24px;font-size: 2.4rem;
+			font-weight : bold ;
+			margin : 30px auto ;
+			line-height : 24px ;line-height : 2.4rem ;
+}
+
+header{
+	position: fixed;
+	top:0;
+	left: 0;
+	width: 100%;
+	z-index : 2147483647;/*geocitiesの広告を下に回す*/
+}
+
+footer { text-align : right ; }
+
+/* ここからテーブル関係（全般） */
+table {
+			border-spacing: 0;
+			width: 100% ;
+			margin-bottom: 80px;margin-bottom: 8.0rem;
+}
+/* 全部隠しておきJSで表示 */
+table[data-bunrui] {
+	display:none;
+}
+
+.bordered {
+			border-spacing: 0;
+			width: 100% ;
+			border: solid #CCCCCC 1px;
+			-moz-border-radius: 3px;
+			-webkit-border-radius: 3px;
+			-o-border-radius: 3px;
+			border-radius: 3px;
+			-webkit-box-shadow: 0 1px 1px #CCCCCC;
+			-moz-box-shadow: 0 1px 1px #CCCCCC;
+			box-shadow: 0 1px 1px #CCCCCC;
+}
+
+.bordered td, .bordered th {
+				border-left: 1px solid #CCCCCC ;
+				border-top: 1px solid #CCCCCC ;
+				padding: 5px;
+				text-align: left ;
+}
+
+.bordered td {
+				background-color: #FFFFFF;
+}
+
+
+.bordered th {
+				height: 20px;
+				background-color: #D7EBBE;
+				-webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset;
+				-moz-box-shadow:0 1px 0 rgba(255,255,255,0.8) inset;
+				box-shadow: 0 1px 0 rgba(255,255,255,0.8) inset;
+				text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+}
+
+/* 1つのテーブルに結合されてないthがある場合に低層にあたるthを色換え */
+.bordered th:not([colspan]) {
+				background-color: #DCEBFA;
+				font-weight : normal;
+}
+
+
+/* ---------------------------------------------
+thead使ってるテーブルの線とセルの上線が被るのを防ぐ
+使ってないテーブルについては別に処理
+-----------------------------------------------*/
+thead tr:first-of-type th,
+thead tr:first-of-type td {
+			border-top : none ;
+}
+
+
+/* テーブルの線と各行最初のセルの左の線が被って左の線が太くなるのを防ぐ */
+.bordered td:first-child, .bordered th:first-child {
+		border-left: none ;
+}
+
+/* -----------------------
+  左上角丸　最初の行の最初のセル
+----------------------- */
+.bordered tr:first-child th:first-child,
+.bordered tr:first-child td:first-child {
+	-webkit-border-radius: 3px 0 0 0;
+		-moz-border-radius: 3px 0 0 0;
+			-o-border-radius: 3px 0 0 0;
+				border-radius: 3px 0 0 0;
+}
+/* -----------------------
+  右上角丸　最初の行の最後のセル
+----------------------- */
+.bordered tr:first-child th:last-child,
+.bordered tr:first-child td:last-child {
+	-webkit-border-radius: 0 3px 0 0;
+		-moz-border-radius: 0 3px 0 0;
+			-o-border-radius: 0 3px 0 0;
+				border-radius: 0 3px 0 0;
+}
+
+/* --------------------------------------
+  左右上各丸　最初の行にセルが1つしかない時用
+----------------------------------------- */
+.bordered tr:first-child th:only-child {
+	-webkit-border-radius: 3px 3px 0 0;
+		-moz-border-radius: 3px 3px 0 0;
+			-o-border-radius: 3px 3px 0 0;
+				border-radius: 3px 3px 0 0;
+}
+
+/* -----------------------
+  左下角丸　最後の行の最初のセル
+----------------------- */
+.bordered tr:last-child th:first-child,
+.bordered tr:last-child td:first-child {
+	-webkit-border-radius: 0 0 0 3px;
+		-moz-border-radius: 0 0 0 3px;
+			-o-border-radius: 0 0 0 3px;
+				border-radius: 0 0 0 3px;
+}
+/* -----------------------
+  右下角丸　最後の行の最後のセル
+----------------------- */
+.bordered tr:last-child th:last-child,
+.bordered tr:last-child td:last-child {
+	-webkit-border-radius: 0 0 3px 0;
+		-moz-border-radius: 0 0 3px 0;
+			-o-border-radius: 0 0 3px 0;
+				border-radius: 0 0 3px 0;
+}
+
+
+/* -----------------------
+  左上角丸 thead内　最初の行の最初のセル
+----------------------- */
+.bordered thead tr:first-child th:first-child,
+.bordered thead tr:first-child td:first-child {
+	-webkit-border-radius: 3px 0 0 0;
+		-moz-border-radius: 3px 0 0 0;
+			-o-border-radius: 3px 0 0 0;
+				border-radius: 3px 0 0 0;
+}
+/* -----------------------
+  右上角丸 thead内　最初の行の最後のセル
+----------------------- */
+.bordered thead tr:first-child th:last-child,
+.bordered thead tr:first-child td:last-child {
+	-webkit-border-radius: 0 3px 0 0;
+		-moz-border-radius: 0 3px 0 0;
+			-o-border-radius: 0 3px 0 0;
+				border-radius: 0 3px 0 0;
+}
+
+/* ---------------------------------------------------
+  左右上角丸 thead内　（最初の行にセルが1つしかない時用）
+------------------------------------------------------ */
+.bordered thead tr:first-child th:only-child {
+	-webkit-border-radius: 3px 3px 0 0;
+		-moz-border-radius: 3px 3px 0 0;
+			-o-border-radius: 3px 3px 0 0;
+				border-radius: 3px 3px 0 0;
+}
+
+/* -----------------------
+  角丸なし　thaedの後のtbody 最初の行の最初のセル
+  角丸なし　thaedの後のtbody 最初の行の最後のセル
+----------------------- */
+.bordered thead+tbody tr:first-child th:first-child,
+.bordered thead+tbody tr:first-child td:first-child,
+.bordered thead+tbody tr:first-child th:last-child,
+.bordered thead+tbody tr:first-child td:last-child {
+	-webkit-border-radius:0px;
+		-moz-border-radius:0px;
+			-o-border-radius:0px;
+				border-radius:0px;
+}
+/* 左下角丸　thaedの後のtbody 最後の行の最初のセル */
+.bordered thead+tbody tr:last-child th:first-child,
+.bordered thead+tbody tr:last-child td:first-child {
+	-webkit-border-radius: 0 0 0 3px;
+		-moz-border-radius: 0 0 0 3px;
+			-o-border-radius: 0 0 0 3px;
+				border-radius: 0 0 0 3px;
+}
+/* 右下角丸　thaedの後のtbody 最後の行の最後のセル */
+.bordered thead+tbody tr:last-child th:last-child,
+.bordered thead+tbody tr:last-child td:last-child {
+	-webkit-border-radius: 0 0 3px 0;
+		-moz-border-radius: 0 0 3px 0;
+			-o-border-radius: 0 0 3px 0;
+				border-radius: 0 0 3px 0;
+}
+/* ここまでテーブル関係（全般） */
+
+
+/* ここからメニューのツールバー関係 */
+ul {
+	margin : 0px ;
+	padding: 0px ;
+	list-style-type: none ;
+}
+
+.menu {
+	width : 100% ;
+	margin : 0px;
+	position: relative;/* サブメニューの表示位置の基点は親のliではなくメニュー全体のul */
+}
+
+.menu li {
+	width : 14% ;
+	height: 50px;height: 5.0rem;
+	line-height: 50px ;line-height: 5.0rem;
+	float : left ;
+	padding : 0 ;
+	margin : 0 ;
 	text-align : center ;
 }
+.menu > li:nth-of-type(1),.menu > li:nth-of-type(2){
+	width:15%;
+}
+
+.menu li a {
+	display : block ;
+	width : 100% ;
+	height : 100% ;
+	padding : 0px ;
+	background-color: rgb(175,185,220);
+	color : #FFFFFF ;
+	font-size: 14px;font-size: 1.4rem;
+	font-weight : bold ;
+	text-decoration : none ;
+	text-shadow : 0 -1px 1px #333,0 1px 1px #555 ;
+	border-left : 1px solid #999999 ;
+	border-bottom : 1px solid #999999 ;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.menu li > a:not([href]) {
+	text-shadow : none;
+	color : gray ;
+}
+
+.menu li:first-of-type a{
+	border-left: none;
+}
+
+.menu li:hover > a[href] {
+	background-color:  #737DA0 ;
+	color : #eff7b1 ;
+}
+
+/* ここからサブメニュー関係 */
+.sub1,.sub2 {
+	position : absolute;
+	top : 100%;
+	left : 0;
+	display: none;
+	width: 100%;
+}
+.sub1 li,.sub2 li{
+	width : 10% ;
+	height: 40px;height: 4.0rem ;
+	line-height: 40px ;line-height: 4.0rem ;
+}
+.sub1 li {
+	width: 10%;
+}
+.sub2 li {
+	width: 3.7%;
+}
+.sub2 li:first-of-type {
+	width: 3.8%;
+}
+/* ここまでサブメニュー関係*/
+.menu:after {
+	content: "";
+	clear: both;
+	display: block;
+}
+/* ここまでメニューのツールバー関係 */
 
 
 .stop { color : #FF0000 ; }
@@ -63,22 +332,18 @@ body > * {
 	font-weight : bold ;
 }
 
+.container { width : 980px ;
+			margin : 10.0rem auto 0rem auto ;
+			text-align : center ;
+}
+
 .title {
 	font-family : 'Permanent Marker', cursive ;
 	font-size: 40px;font-size: 4.0rem;
 }
 
-.noBanner {
-		text-decoration: none;
-		display: table-cell;
-		width: 200px;
-		height: 40px;
-		padding: 10px;
-		-webkit-box-sizing: border-box;
-		   -moz-box-sizing: border-box;
-		        box-sizing: border-box;
-		vertical-align: middle;
-		text-align: center;
-		color : white ; /* 仮に白 */
-		background-color: black ; /* 仮に黒 */
+/*geocitiesの広告の位置調整*/
+#y_gc_div_adcntr{
+	margin-top : 100px;margin-top:10.0rem;
+	z-index : -100 !important ;/*念のためz-index上書き*/
 }
