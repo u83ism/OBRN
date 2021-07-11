@@ -5,4 +5,5 @@
 .firebase
 firebase-debug.log
 hosting/google9c5644de372b582c.html
+public/dist/main.js
 node_modules
