@@ -17,7 +17,7 @@ type TSchool = {
 	name?: string,
 }
 
-type TObr = {
+export type TObr = {
 	name: string,
 	school: TSchool,
 	comment: string,
@@ -38,7 +38,7 @@ type TObr = {
 	remainingNumber?: number,
 }
 
-type TObrSite = {
+export type TObrSite = {
 	nameCategory: string,
 	URL: string,
 	name: string,
@@ -50,7 +50,7 @@ type TObrSite = {
 
 
 
-const siteLists: Array<TObrSite> = [
+export const siteLists: Array<TObrSite> = [
 	{
 		"nameCategory": "aa",
 		"URL": "http://aichou.sakura.ne.jp/",
