@@ -9,7 +9,7 @@ html {
 }
 
 body {
-	background : url(kabe.gif) fixed ;
+	background : url(./img/kabe.gif) fixed ;
 }
 /*Chromeのremバグ対策*/
 body > div {
@@ -241,7 +241,7 @@ ul {
 }
 
 .menu li {
-	width : 14% ;
+	width : 16% ;
 	height: 50px;height: 5.0rem;
 	line-height: 50px ;line-height: 5.0rem;
 	float : left ;
@@ -249,8 +249,8 @@ ul {
 	margin : 0 ;
 	text-align : center ;
 }
-.menu > li:nth-of-type(1),.menu > li:nth-of-type(2){
-	width:15%;
+.menu > li:nth-of-type(1),.menu > li:nth-of-type(2), .menu > li:nth-of-type(3),.menu > li:nth-of-type(4){
+	width:17%;
 }
 
 .menu li a {
