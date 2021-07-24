@@ -1,4 +1,4 @@
-export type TObrSite = {
+export type TSite = {
 	id: number,
 	nameCategory: string,
 	URL: string,
@@ -8,7 +8,7 @@ export type TObrSite = {
 	bannerURL?: string
 }
 
-export const siteLists: Array<TObrSite> =
+export const sites: Array<TSite> =
 	[
 		{
 			"nameCategory": "aa",

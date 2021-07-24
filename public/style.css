@@ -55,6 +55,10 @@ table[data-bunrui] {
 	display:none;
 }
 
+img {
+	border: 0;
+}
+
 .bordered {
 			border-spacing: 0;
 			width: 100% ;

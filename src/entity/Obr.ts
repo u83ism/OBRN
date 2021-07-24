@@ -17,6 +17,9 @@ type TSchool = {
 	name?: string,
 }
 
+
+type TStatus = "progress" | "suspend" | "finish"
+
 export type TObr = {
 	siteId: number
 	name: string,
@@ -39,7 +42,7 @@ export type TObr = {
 	remainingNumber?: number,
 }
 
-const obrList: Array<TObr> =
+export const obrList: Array<TObr> =
 	[
 		{
 			"name": "musical chairs",
