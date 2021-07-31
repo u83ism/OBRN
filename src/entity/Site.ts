@@ -1,4 +1,5 @@
 export type TSite = {
+	isOpen: boolean,
 	id: number,
 	nameCategory: string,
 	URL: string,
@@ -11,30 +12,32 @@ export type TSite = {
 export const sites: Array<TSite> =
 	[
 		{
+			"isOpen": true,
 			"nameCategory": "aa",
-			"URL": "http://aichou.sakura.ne.jp/",
-			"bannerURL": "http://aichou.sakura.ne.jp/link/images/bw01.jpg",
+			"URL": "http://aichou.sub.jp/",
 			"name": "愛鳥週間",
 			"administorName": "りん",
 			"id": 1
 		},
 		{
+			"isOpen": true,
 			"nameCategory": "aa",
 			"URL": "http://mippi.jp/xxlovelikexx/",
-			"bannerURL": "http://mippi.jp/xxlovelikexx/aimaimii.png",
 			"name": "あいまいみい",
 			"administorName": "源 彩璃",
 			"id": 2
 		},
 		{
+			"isOpen": false,
 			"nameCategory": "aa",
 			"URL": "http://homepage3.nifty.com/colorful-box/",
-			"bannerURL": "http://homepage3.nifty.com/colorful-box/kusuribig1.gif",
+
 			"name": "アカネコトウヒコウ",
 			"administorName": "栢森 夏弥",
 			"id": 3
 		},
 		{
+			"isOpen": true,
 			"nameCategory": "aa",
 			"URL": "http://skygray.nobody.jp/",
 			"name": "あの日の空の色",
@@ -42,14 +45,16 @@ export const sites: Array<TSite> =
 			"id": 4
 		},
 		{
+			"isOpen": true,
 			"nameCategory": "aa",
 			"URL": "http://othellodo.gozaru.jp/",
-			"bannerURL": "http://othellodo.gozaru.jp/banner.gif",
+
 			"name": "オセロ堂",
 			"administorName": "ひま",
 			"id": 5
 		},
 		{
+			"isOpen": true,
 			"nameCategory": "aa",
 			"URL": "http://ameblo.jp/k7734/",
 			"name": "オリバトちゃんねる",
@@ -58,40 +63,42 @@ export const sites: Array<TSite> =
 			"id": 6
 		},
 		{
+			"isOpen": true,
 			"nameCategory": "ka",
 			"URL": "http://gc.rgr.jp/",
-			"bannerURL": "http://gc.rgr.jp/banner.gif",
 			"name": "かみさまはこども",
 			"administorName": "のの",
 			"id": 7
 		},
 		{
+			"isOpen": true,
 			"nameCategory": "ka",
-			"URL": "http://garunan.com/",
-			"bannerURL": "http://garunan.com/garunan.png",
+			"URL": "https://garunan.com/",
+			"bannerURL": "https://garunan.com/garunan.png",
 			"name": "がるなん.com",
 			"administorName": "ガルナ",
 			"comment": "連動シリーズを個人的にお薦めしたいです。短いので、時間がない方でも気軽に読むことが出来ます。是非一度は読んでみて下さい。",
 			"id": 8
 		},
 		{
+			"isOpen": false,
 			"nameCategory": "ka",
 			"URL": "http://www.geocities.jp/kuusouteki/",
-			"bannerURL": "http://www.geocities.jp/kuusouteki/link/bana.gif",
 			"name": "空想的社会主義",
 			"administorName": "AKIRA.A",
 			"id": 9
 		},
 		{
+			"isOpen": true,
 			"nameCategory": "ka",
 			"URL": "http://glennapple.hanagumori.com/",
-			"bannerURL": "http://glennapple.hanagumori.com/banner.gif",
 			"name": "グリーンアップル",
 			"administorName": "スミレ",
 			"comment": "オリバト中心のサイトです。",
 			"id": 10
 		},
 		{
+			"isOpen": true,
 			"nameCategory": "sa",
 			"URL": "http://blue.ribbon.to/%7Esoukaclass3/",
 			"name": "埼玉県草加市立草加南中学校\n\t\t 3年3組プログラム ",
@@ -99,6 +106,7 @@ export const sites: Array<TSite> =
 			"id": 11
 		},
 		{
+			"isOpen": false,
 			"nameCategory": "sa",
 			"URL": "http://www.geocities.jp/seika39you/index.html",
 			"name": "終無始夢",
@@ -107,6 +115,7 @@ export const sites: Array<TSite> =
 			"id": 12
 		},
 		{
+			"isOpen": true,
 			"nameCategory": "sa",
 			"URL": "http://dsmd.kumogakure.com/",
 			"name": "深影霧夢",
@@ -114,47 +123,48 @@ export const sites: Array<TSite> =
 			"id": 13
 		},
 		{
+			"isOpen": false,
 			"nameCategory": "sa",
 			"URL": "http://www.geocities.jp/m92f_renzoku/",
-			"bannerURL": "http://www.geocities.jp/m92f_renzoku/bannar.jpg",
 			"name": "赤色少年",
 			"administorName": "ベレッタM92F",
 			"id": 14
 		},
 		{
+			"isOpen": true,
 			"nameCategory": "sa",
 			"URL": "http://yuzurik.nobody.jp/",
-			"bannerURL": "http://yuzurik.nobody.jp/banner.jpg",
 			"name": "ゼロゼロアリス",
 			"administorName": "紺野ゆずり",
 			"comment": "オリバト・イラストサイト。",
 			"id": 15
 		},
 		{
+			"isOpen": true,
 			"nameCategory": "ta",
 			"URL": "http://toua.x0.to/br/br.htm",
-			"bannerURL": "http://toua.x0.to/br/link/bana3.gif",
 			"name": "東亜的英雄伝",
 			"administorName": "桜城聖耶",
 			"id": 16
 		},
 		{
+			"isOpen": true,
 			"nameCategory": "ta",
 			"URL": "http://wakamarusinnji.fc2web.com/index.html",
-			"bannerURL": "http://wakamarusinnji.fc2web.com/bana1.gif",
 			"name": "毒人間の館",
 			"administorName": "若丸進二",
 			"id": 17
 		},
 		{
+			"isOpen": false,
 			"nameCategory": "na",
 			"URL": "http://www.t.zaq.jp/sanitation/",
-			"bannerURL": "http://www.t.zaq.jp/sanitation/bana.jpg",
 			"name": "なにかんがえてんの",
 			"administorName": "工場女",
 			"id": 18
 		},
 		{
+			"isOpen": false,
 			"nameCategory": "ha",
 			"URL": "http://www.geocities.jp/merder_girl666/haikai.html",
 			"name": "徘徊行路",
@@ -163,6 +173,7 @@ export const sites: Array<TSite> =
 			"id": 19
 		},
 		{
+			"isOpen": true,
 			"nameCategory": "ha",
 			"URL": "http://battlex2.ninpou.jp/index.html",
 			"name": "バトル×２",
@@ -170,57 +181,59 @@ export const sites: Array<TSite> =
 			"id": 20
 		},
 		{
+			"isOpen": true,
 			"nameCategory": "ha",
 			"URL": "http://mist.in/higanbanar/",
-			"bannerURL": "http://mist.in/higanbanar/higanbana-1.PNG",
+
 			"name": "ヒガンバラ",
 			"administorName": "安部美晴",
 			"id": 21
 		},
 		{
+			"isOpen": true,
 			"nameCategory": "ha",
 			"URL": "http://kyo0204.fc2web.com/",
-			"bannerURL": "http://kyo0204.fc2web.com/bana/hue.gif",
 			"name": "ファンタジスタ！",
 			"administorName": "佐倉恭祐",
 			"comment": "プログラムを『殺し合い』としてみるのではなく、何かひとつの『きっかけ』としてそこから派生する数々の気持ちを描写していこうとしているけなげなチキンサイトです。",
 			"id": 22
 		},
 		{
+			"isOpen": false,
 			"nameCategory": "ha",
 			"URL": "http://www.geocities.jp/bookend1449/",
-			"bannerURL": "http://www.geocities.jp/bookend1449/b-puredream.gif",
 			"name": "\"PURE\"dream",
 			"administorName": "マリカ",
 			"id": 23
 		},
 		{
+			"isOpen": false,
 			"nameCategory": "ma",
 			"URL": "http://www.geocities.jp/kannnabr/",
-			"bannerURL": "http://www.geocities.jp/kannnabr/banermakoto.gif",
 			"name": "誠～MAKOTO～",
 			"administorName": "神奈勝",
 			"comment": "オリバトメインに、生徒イラスト等も置いてます。",
 			"id": 24
 		},
 		{
+			"isOpen": true,
 			"nameCategory": "ma",
 			"URL": "http://midareuti.gozaru.jp/",
-			"bannerURL": "http://midareuti.gozaru.jp/banner.jpg ",
 			"name": "乱れ撃ちっ！！",
 			"administorName": "唄くろいつ",
 			"comment": "オリバトメインに、生徒イラスト等も置いてます。",
 			"id": 25
 		},
 		{
+			"isOpen": false,
 			"nameCategory": "ya",
 			"URL": "http://www.geocities.co.jp/Milkyway-Sirius/8385/",
-			"bannerURL": "http://www.geocities.co.jp/Milkyway-Sirius/8385/banner1.gif",
 			"name": "「館」",
 			"administorName": "kura",
 			"id": 26
 		},
 		{
+			"isOpen": true,
 			"nameCategory": "ya",
 			"URL": "http://www1.winknet.ne.jp/~yasyanomizuumi/",
 			"name": "夜叉の湖",
@@ -229,14 +242,15 @@ export const sites: Array<TSite> =
 			"id": 27
 		},
 		{
+			"isOpen": true,
 			"nameCategory": "ya",
 			"URL": "http://tibikop.fc2web.com/",
-			"bannerURL": "http://tibikop.fc2web.com/bana.jpg",
 			"name": "夢日和",
 			"administorName": "知美子",
 			"id": 28
 		},
 		{
+			"isOpen": true,
 			"nameCategory": "ya",
 			"URL": "http://youkiya.ifdef.jp/",
 			"name": "陽気屋",
@@ -245,15 +259,16 @@ export const sites: Array<TSite> =
 			"id": 29
 		},
 		{
+			"isOpen": true,
 			"nameCategory": "ra",
 			"URL": "http://id55.fm-p.jp/532/reitouapple/",
-			"bannerURL": "http://id55.fm-p.jp/data/532/reitouapple/pri/6.jpg",
 			"name": "冷凍りんごは歯が折れる ",
 			"administorName": "はまぐり",
 			"comment": "無節操ジャンルサイトですので、OBRのみのURLはこちらになります",
 			"id": 30
 		},
 		{
+			"isOpen": true,
 			"nameCategory": "wa",
 			"URL": "http://www3.starcat.ne.jp/%7Ekusu/",
 			"bannerURL": "http://www3.starcat.ne.jp/%7Ekusu/contents/banner.gif",
@@ -262,6 +277,7 @@ export const sites: Array<TSite> =
 			"id": 31
 		},
 		{
+			"isOpen": false,
 			"nameCategory": "a",
 			"URL": "http://www.geocities.jp/nanamin0809/enter.html",
 			"name": "A Beam of Hope",
@@ -270,14 +286,16 @@ export const sites: Array<TSite> =
 			"id": 32
 		},
 		{
+			"isOpen": true,
 			"nameCategory": "a",
-			"URL": "http://1995anotherworld.web.fc2.com/",
+			"URL": "https://1995anotherworld.web.fc2.com/",
 			"name": "another world",
 			"administorName": "透",
 			"comment": "サブタイトルに沿うように話を展開しています。",
 			"id": 33
 		},
 		{
+			"isOpen": false,
 			"nameCategory": "a",
 			"URL": "http://www.geocities.co.jp/Bookend-Ryunosuke/5694/index.html",
 			"name": "Artificial Garden",
@@ -285,6 +303,7 @@ export const sites: Array<TSite> =
 			"id": 34
 		},
 		{
+			"isOpen": true,
 			"nameCategory": "b",
 			"URL": "http://blackjoker.buzama.com/",
 			"name": "Black Joker",
@@ -293,41 +312,43 @@ export const sites: Array<TSite> =
 			"id": 35
 		},
 		{
+			"isOpen": true,
 			"nameCategory": "b",
 			"URL": "http://kurotori.fc2web.com/",
-			"bannerURL": "http://kurotori.fc2web.com/bp1.gif",
 			"name": "BLACK PROJECT",
 			"administorName": "ケータ",
 			"id": 36
 		},
 		{
+			"isOpen": true,
 			"nameCategory": "d",
 			"URL": "http://diekon968.web.fc2.com/",
-			"bannerURL": "http://diekon968.web.fc2.com/banner.gif",
 			"name": "Die魂",
 			"administorName": "黒羽 花樹＆俊",
 			"comment": " 2人で運営しているサイトです。イラストも少ないですが展示しています。毎週土曜日に更新目指しています。",
 			"id": 37
 		},
 		{
+			"isOpen": true,
 			"nameCategory": "d",
-			"URL": "http://u83ism.sakura.ne.jp/",
-			"bannerURL": "http://u83ism.sakura.ne.jp/gazou/banner.jpg",
+			"URL": "https://u83ism.github.io/DLB/",
+			"bannerURL": "https://u83ism.github.io/DLB/gazou/banner.jpg",
 			"name": "Don't Look Back",
 			"administorName": "ゆうやみ",
 			"comment": "自分の好きなモノについてかなり脈絡なく扱っています。BR系は原作研究とオリバト中心です。よろしければどうぞ。",
 			"id": 38
 		},
 		{
+			"isOpen": true,
 			"nameCategory": "d",
 			"URL": "http://yozora17.fc2web.com/",
-			"bannerURL": "http://yozora17.fc2web.com/banner/mybanner.jpg",
 			"name": "Doomsday",
 			"administorName": "夜空",
 			"comment": "読む方の印象に残るような生徒と、意外性のある展開を目標に書いています。",
 			"id": 39
 		},
 		{
+			isOpen: false,
 			"nameCategory": "k",
 			"URL": "http://www.geocities.co.jp/Bookend-Akiko/2861/",
 			"name": "KILL TIME",
@@ -335,32 +356,34 @@ export const sites: Array<TSite> =
 			"id": 40
 		},
 		{
+			isOpen: true,
 			"nameCategory": "l",
-			"URL": "http://www.geocities.co.jp/SiliconValley-Sunnyvale/3894/br.html",
-			"bannerURL": "http://www.geocities.co.jp/SiliconValley-Sunnyvale/3894/brhpbanner017.jpg",
+			"URL": "https://wishstar1208.web.fc2.com/",
+			"bannerURL": "https://wishstar1208.web.fc2.com/brhpbanner017.jpg",
 			"name": "Last Message",
 			"administorName": "みかど",
 			"comment": "オリバト関係雑記（考察含み）や管理人ゲームもあります。",
 			"id": 41
 		},
 		{
+			isOpen: true,
 			"nameCategory": "l",
 			"URL": "http://mippi.jp/lgo/",
-			"bannerURL": "http://mippi.jp/lgo/banner.gif",
 			"name": "Life goes on",
 			"administorName": "浅俊カイ",
 			"id": 42
 		},
 		{
+			isOpen: false,
 			"nameCategory": "n",
 			"URL": "http://www.geocities.jp/kyarochi/",
-			"bannerURL": "http://www.geocities.jp/kyarochi/enu-fuma.jpg",
 			"name": "N.enu.",
 			"administorName": "ユウキ ナオ",
 			"comment": "人との繋がりと、誰か想う気持ちをテーマにしたオリバトを描いています。イラストもたまに更新しています（＾＾）",
 			"id": 43
 		},
 		{
+			isOpen: true,
 			"nameCategory": "n",
 			"URL": "http://naoenever009.web.fc2.com/home.htm",
 			"name": "Never give up!",
@@ -369,14 +392,15 @@ export const sites: Array<TSite> =
 			"id": 44
 		},
 		{
+			isOpen: true,
 			"nameCategory": "n",
 			"URL": "http://noise11.fc2web.com/",
-			"bannerURL": "http://noise11.fc2web.com/bana01.jpg",
 			"name": "Noise+",
 			"administorName": "千鳥美",
 			"id": 45
 		},
 		{
+			isOpen: false,
 			"nameCategory": "o",
 			"URL": "http://www.geocities.jp/atarime622/",
 			"name": "ORANGE×HOME",
@@ -385,6 +409,7 @@ export const sites: Array<TSite> =
 			"id": 46
 		},
 		{
+			isOpen: false,
 			"nameCategory": "r",
 			"URL": "http://www.geocities.co.jp/Bookend-Ryunosuke/9763/",
 			"name": "RED MEMORY",
@@ -392,22 +417,23 @@ export const sites: Array<TSite> =
 			"id": 47
 		},
 		{
+			isOpen: true,
 			"nameCategory": "r",
 			"URL": "http://nad57are.fc2web.com/index.html",
-			"bannerURL": "http://nad57are.fc2web.com/banar/ba.gif",
 			"name": "Red umbrella",
 			"administorName": "崩",
 			"id": 48
 		},
 		{
+			isOpen: false,
 			"nameCategory": "r",
 			"URL": "http://www.geocities.jp/kurusu_tom/",
-			"bannerURL": "http://www.geocities.jp/kurusu_tom/br-bnr.gif",
 			"name": "REQUIEM",
 			"administorName": "来須 吐夢",
 			"id": 49
 		},
 		{
+			isOpen: false,
 			"nameCategory": "r",
 			"URL": "http://89.xmbs.jp/YuEeexxx/",
 			"name": "Rhapsody",
@@ -416,23 +442,24 @@ export const sites: Array<TSite> =
 			"id": 50
 		},
 		{
+			isOpen: false,
 			"nameCategory": "s",
 			"URL": "http://www.geocities.co.jp/Bookend-Akiko/8021/sougou.html",
-			"bannerURL": "http://www.geocities.co.jp/Bookend-Akiko/8021/someway.jpg",
 			"name": "some ways which spread before you",
 			"administorName": "霧咲せいな",
 			"id": 51
 		},
 		{
+			isOpen: true,
 			"nameCategory": "s",
 			"URL": "http://stardust0302.fc2web.com/",
-			"bannerURL": "http://stardust0302.fc2web.com/image/banabattle.jpg",
 			"name": "Star☆Dust",
 			"administorName": "水金 翔",
 			"comment": "読みやすく、を目標にマイペース更新しています。イラスト・質問・お題などもたまに更新しているのでよろしければそちらもどうぞ(^_^)",
 			"id": 52
 		},
 		{
+			isOpen: true,
 			"nameCategory": "s",
 			"URL": "http://shusako.web.fc2.com/",
 			"name": "Sweet House",
@@ -440,6 +467,7 @@ export const sites: Array<TSite> =
 			"id": 53
 		},
 		{
+			isOpen: false,
 			"nameCategory": "t",
 			"URL": "http://www.geocities.jp/tyuson2002/tyuson.index.htm",
 			"name": "tyusonの暗黒世界",
@@ -447,10 +475,19 @@ export const sites: Array<TSite> =
 			"id": 54
 		},
 		{
+			isOpen: true,
 			"nameCategory": "w",
 			"URL": "http://rebwrshp.web.fc2.com/TEST/",
 			"name": "WORSHIP M&K",
 			"administorName": "河井晴奈",
 			"id": 55
+		},
+		{
+			isOpen: true,
+			"nameCategory": "d",
+			"URL": "https://sites.google.com/view/daspara0105",
+			"name": "Das verlorene Paradies",
+			"administorName": "司城誠治＆鈴鹿征治",
+			"id": 56
 		}
 	]

@@ -1,2733 +1,3205 @@
-//流石にclassは予約されててダメだった……
-type TClassInSchool = {
-	name?: string,
-	//"●●人+X人"表記があるので文字列
-	//連載開始前の作品は無い場合がある
-	numberOfMan?: string,
-	numberOfWoman?: string,
-	numberOfStudents?: string
-}
 
-type TSchool = {
-	class: TClassInSchool
-	//都道府県（"S県"とか架空県表記があるのでstring）
+/**
+ * メンバーについて.
+ * 
+ * 学校の場合はクラスに該当する。TransferedMan=転校生男子。
+ * 連載開始前の作品は未公表の場合があるので全部Optional。
+ * 動物突っ込んでるプログラムがかつてあったのでMaleAnimalという項目がある。
+ * 転校生がいることは知らせたいけど、人数は伏せたいケースがあるので「X」人等となるケースがある
+ */
+export type TMembers = {
+	name?: string,
+	numberOfMan?: number,
+	numberOfTransferedMan?: number,
+	numberOfVisitorMan?: number,
+	numberOfMaleAnimal?: number,
+	numberOfWoman?: number,
+	numberOfTransferedWoman?: number | string,
+}
+export type TGroup = {
+	members: TMembers
+	/**
+	 * 都道府県（"S県"とか架空県表記があるのでstring）
+	 */
 	prefecture?: string,
-	//市町村
+	/**
+	 * 市町村（架空の市町村表記があるのでstring）
+	 */
 	municipalities?: string,
+	//学校名表記から解析困難な場合があるので別パラメータ化。特殊カテゴリ系は含まない。
+	categoly?: "私立" | "国立" | "都立" | "府立" | "県立" | "市立" | "町立" | "区立"
+	//都道府県とかにばらして合成できないかと思ったが、
+	//市「立」があったりなかったりと思った以上に困難なため、
+	//現在は都道府県等も含んだ表記になっている
 	name?: string,
 }
 
+type TStatus = "prepare" | "progress" | "suspend" | "finish"
 
-type TStatus = "progress" | "suspend" | "finish"
-
-export type TObr = {
+/**
+ * クラス単位じゃない時があるのでグループという概念にしている。
+ * また2クラス制の時があるので注意。
+ */
+export type TObrInPreparation = {
+	canRead: boolean,
+	id: number,
 	siteId: number
 	name: string,
-	school: TSchool,
-	comment: string,
-	programNumber?: number,
-	suspends?: boolean
-	ends?: boolean,
-	year?: string,
-	//特殊なクラス（フードファイター系とか）
-	//＝学校名が無いケースも多い
-	targetCategory?: string,
-	//完結した時のみこのパラメータがある？
-	numberOfEpisode?: number,
-	//完結してたら当然この3パラメータはない
+	groups: Array<TGroup>,
+	comment?: string,
+	/**
+	 * 2XXX年等にも対応する必要があるのでstring
+	 */
+	year?: number | string,
+	/**
+	 * 第X号にも対応する必要があるのでstring
+	 */
+	programNumber?: number | string,
+	status: Extract<TStatus, "prepare">
+}
+
+export type TFinishedObr = Omit<TObrInPreparation, "status"> & {
+	status: Extract<TStatus, "finish">,
+	numberOfEpisode?: number
+}
+
+export type TProgressObr = Omit<TFinishedObr, "status"> & {
+	status: Exclude<TStatus, "prepare" | "finish">
 	nowChapterName?: string,
-	newestEpisodeNumber?: number,
-	//プログラム開始～プログラム終了の期間は存在しないので注意
-	//プロローグやエピローグが長い場合などは「連載してるけど、残り人数が存在しない」状況が発生しうる
+	/**
+	 * 「15-1」話等変則表記に対応する必要がある.
+	 */
+	newestEpisodeNumber?: number | string,
+	/**
+	 * プログラム開始～プログラム終了の期間は存在しないので注意。
+	 * プロローグやエピローグが長い場合などは「連載してるけど、残り人数が存在しない」状況が発生しうる
+	 */
 	remainingNumber?: number,
 }
+export type TObr = TObrInPreparation | TFinishedObr | TProgressObr
 
 export const obrList: Array<TObr> =
 	[
 		{
+			"canRead": true,
+			"id": 1,
+			"siteId": 1,
 			"name": "musical chairs",
-			"school": {
-				"municipalities": "市",
-				"name": "立逗陽中学校",
-				"class": {
+			"groups": [{
+				"municipalities": "",
+				"categoly": "市立",
+				"name": "市立逗陽中学校",
+				"members": {
 					"name": "3年2組",
-					"numberOfMan": "21",
-					"numberOfWoman": "21",
-					"numberOfStudents": "42"
+					"numberOfMan": 21,
+					"numberOfWoman": 21
 				}
-			},
-			"nowChapterName": "プロローグ",
+			}],
+
+			"status": "progress",
 			"numberOfEpisode": 11,
+			"nowChapterName": "プロローグ",
 			"newestEpisodeNumber": 9,
-			"remainingNumber": 32,
-			"comment": "　",
-			"siteId": 1
+			"remainingNumber": 32
 		},
 		{
+			"canRead": true,
+			"id": 2,
+			"siteId": 1,
 			"name": "Blue Heaven",
-			"school": {
+			"groups": [{
 				"name": "私立大東亜女学園",
-				"class": {
+				"members": {
 					"name": "3年D組",
-					"numberOfMan": "0+1",
-					"numberOfWoman": "38+1",
-					"numberOfStudents": "38+2"
+					"numberOfMan": 0,
+					"numberOfTransferedMan": 1,
+					"numberOfWoman": 38,
+					"numberOfTransferedWoman": 1,
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 94,
-			"comment": "　",
-			"siteId": 1
+			}],
+
+			"status": "finish",
+			"numberOfEpisode": 94
 		},
 		{
+			"canRead": true,
+			"id": 3,
+			"siteId": 2,
 			"name": "絶望的少年少女達",
-			"year": "2002",
-			"school": {
+			"year": 2002,
+			"groups": [{
 				"prefecture": "神奈川県",
 				"municipalities": "横浜市",
-				"name": "青空学園初等部",
-				"class": {
-					"name": "5年Ａ組",
-					"numberOfMan": "20",
-					"numberOfWoman": "20",
-					"numberOfStudents": "40"
+				"name": "神奈川県横浜市青空学園初等部",
+				"members": {
+					"name": "5年A組",
+					"numberOfMan": 20,
+					"numberOfWoman": 20
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 113,
+			}],
 			"comment": "「幼い命の奪い合い」の改稿版",
-			"siteId": 2
+			"status": "finish",
+			"numberOfEpisode": 113
 		},
 		{
+			"canRead": true,
+			"id": 4,
+			"siteId": 2,
 			"name": "嘆きの先",
-			"year": "2003",
-			"school": {
+			"year": 2003,
+			"groups": [{
 				"prefecture": "福岡県",
 				"municipalities": "福岡市",
-				"name": "水々良中学校",
-				"class": {
+				"name": "福岡県福岡市水々良中学校",
+				"members": {
 					"name": "2年E組",
-					"numberOfMan": "15",
-					"numberOfWoman": "17",
-					"numberOfStudents": "32"
+					"numberOfMan": 15,
+					"numberOfWoman": 17
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 53,
+			}],
 			"comment": "「もう一つの夏」の改稿版",
-			"siteId": 2
+			"status": "finish",
+			"numberOfEpisode": 53
 		},
 		{
+			"canRead": true,
+			"id": 5,
+			"siteId": 2,
 			"name": "想い出の終わり方",
-			"year": "2003",
-			"school": {
+			"year": 2003,
+			"groups": [{
 				"prefecture": "山梨県",
-				"name": "住岡中学校",
-				"class": {
+				"name": "山梨県住岡中学校",
+				"members": {
 					"name": "3年5組",
-					"numberOfMan": "21+1",
-					"numberOfWoman": "21+1",
-					"numberOfStudents": "42+2"
+					"numberOfMan": 21,
+					"numberOfTransferedMan": 1,
+					"numberOfWoman": 21,
+					"numberOfTransferedWoman": 1
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 76,
+			}],
 			"comment": "転入生参戦。特殊ルール採用",
-			"siteId": 2
+			"status": "finish",
+			"numberOfEpisode": 76
 		},
 		{
+			"canRead": false,
+			"id": 6,
+			"siteId": 3,
 			"name": "HANA-CHIRU-SATO",
-			"year": "1999",
-			"school": {
+			"year": 1999,
+			"groups": [{
 				"name": "国立陸前帝国大学附属高等学校",
-				"class": {
+				"members": {
 					"name": "2年2組",
-					"numberOfMan": "20",
-					"numberOfWoman": "20",
-					"numberOfStudents": "40"
+					"numberOfMan": 20,
+					"numberOfWoman": 20
 				}
-			},
-			"suspends": true,
+			}],
+			"comment": "高校生対象のプログラム。特殊ルール採用。",
+			"status": "suspend",
+			"numberOfEpisode": 82,
 			"nowChapterName": "終盤戦",
 			"newestEpisodeNumber": 82,
-			"remainingNumber": 8,
-			"comment": "高校生対象のプログラム。特殊ルール採用。",
-			"siteId": 3
+			"remainingNumber": 8
 		},
 		{
-			"name": "TANGLING SEVENｓ",
-			"year": "2003",
-			"school": {
+			"canRead": false,
+			"id": 7,
+			"siteId": 3,
+			"name": "TANGLING SEVENs",
+			"groups": [{
 				"prefecture": "大分県",
 				"municipalities": "大分市",
-				"name": "立七軒家中学校",
-				"class": {
-					"name": "3年７組"
+				"name": "大分県大分市立七軒家中学校",
+				"members": {
+					"name": "3年7組"
 				}
-			},
-			"comment": "　",
-			"siteId": 3
+			}],
+
+			"status": "prepare"
 		},
 		{
+			"canRead": true,
+			"id": 8,
+			"siteId": 4,
 			"name": "何所か空のふもと",
-			"year": "2001",
-			"school": {
+			"year": 2001,
+			"groups": [{
 				"prefecture": "石川県",
 				"municipalities": "前沢市",
-				"name": "立星辰中学校",
-				"class": {
+				"name": "石川県前沢市立星辰中学校",
+				"members": {
 					"name": "3年4組",
-					"numberOfMan": "21",
-					"numberOfWoman": "21",
-					"numberOfStudents": "42"
+					"numberOfMan": 21,
+					"numberOfWoman": 21
 				}
-			},
-			"suspends": true,
+			}],
+			"comment": "バトルロワイアルの映画2と同じペア制を導入。2人1組で生き残りを目指しています。",
+			"status": "suspend",
+			"numberOfEpisode": 30,
 			"nowChapterName": "第3部",
 			"newestEpisodeNumber": 30,
-			"remainingNumber": 25,
-			"comment": "バトルロワイアルの映画2と同じペア制を導入。2人1組で生き残りを目指しています。",
-			"siteId": 4
+			"remainingNumber": 25
 		},
 		{
+			"canRead": true,
+			"id": 9,
+			"siteId": 5,
 			"name": "another program",
-			"year": "2000",
+			"year": 2000,
 			"programNumber": 4,
-			"school": {
+			"groups": [{
 				"prefecture": "広島県",
 				"municipalities": "広島市",
-				"name": "立三津屋中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "広島県広島市立三津屋中学校",
+				"members": {
 					"name": "3年3組",
-					"numberOfMan": "19",
-					"numberOfWoman": "19",
-					"numberOfStudents": "38"
+					"numberOfMan": 19,
+					"numberOfWoman": 19
 				}
-			},
-			"suspends": true,
-			"nowChapterName": "中盤戦",
+			}],
+
+			"status": "suspend",
 			"numberOfEpisode": 47,
+			"nowChapterName": "中盤戦",
 			"newestEpisodeNumber": 46,
-			"remainingNumber": 19,
-			"comment": "　",
-			"siteId": 5
+			"remainingNumber": 19
 		},
 		{
+			"canRead": true,
+			"id": 10,
+			"siteId": 6,
 			"name": "最愛",
-			"school": {
+			"groups": [{
 				"prefecture": "静岡県",
 				"municipalities": "伊豆の国市",
-				"name": "立三ツ葉中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "静岡県伊豆の国市立三ツ葉中学校",
+				"members": {
 					"name": "3年6組",
-					"numberOfMan": "18+1",
-					"numberOfWoman": "17+1",
-					"numberOfStudents": "35+2"
+					"numberOfMan": 18,
+					"numberOfTransferedMan": 1,
+					"numberOfWoman": 17,
+					"numberOfTransferedWoman": 1
 				}
-			},
-			"suspends": true,
-			"nowChapterName": "中盤戦",
-			"numberOfEpisode": 20,
-			"newestEpisodeNumber": 19,
-			"remainingNumber": 28,
+			}],
 			"comment": "通常ルール。時間制限なし。転校生2名参加。",
-			"siteId": 6
+			"status": "suspend",
+			"numberOfEpisode": 20,
+			"nowChapterName": "中盤戦",
+			"newestEpisodeNumber": 19,
+			"remainingNumber": 28
 		},
 		{
+			"canRead": true,
+			"id": 11,
+			"siteId": 7,
 			"name": "Still,",
-			"year": "1996",
-			"school": {
+			"year": 1996,
+			"groups": [{
 				"prefecture": "山形県",
 				"municipalities": "遊佐町",
-				"name": "立花笠中学校",
-				"class": {
+				"categoly": "町立",
+				"name": "山形県遊佐町立花笠中学校",
+				"members": {
 					"name": "3年A組",
-					"numberOfMan": "17",
-					"numberOfWoman": "17",
-					"numberOfStudents": "34"
+					"numberOfMan": 17,
+					"numberOfWoman": 17,
 				}
-			},
-			"nowChapterName": "序盤戦",
+			}],
+
+			"status": "progress",
 			"numberOfEpisode": 25,
+			"nowChapterName": "序盤戦",
 			"newestEpisodeNumber": 23,
-			"remainingNumber": 25,
-			"comment": "　",
-			"siteId": 7
+			"remainingNumber": 25
 		},
 		{
+			"canRead": true,
+			"id": 12,
+			"siteId": 8,
 			"name": "らせん階段",
-			"year": "2006",
+			"year": 2006,
 			"programNumber": 38,
-			"school": {
+			"groups": [{
 				"prefecture": "岐阜県",
 				"municipalities": "板鳥市",
-				"name": "板鳥第六中学校",
-				"class": {
+				"name": "岐阜県板鳥市板鳥第六中学校",
+				"members": {
 					"name": "3年E組",
-					"numberOfMan": "21",
-					"numberOfWoman": "21",
-					"numberOfStudents": "42"
+					"numberOfMan": 21,
+					"numberOfWoman": 21
 				}
-			},
-			"suspends": true,
-			"nowChapterName": "四段目",
-			"numberOfEpisode": 67,
-			"newestEpisodeNumber": 66,
-			"remainingNumber": 25,
+			}],
 			"comment": "一度完結後、改稿中。",
-			"siteId": 8
+			"status": "suspend",
+			"numberOfEpisode": 67,
+			"nowChapterName": "四段目",
+			"newestEpisodeNumber": 66,
+			"remainingNumber": 25
 		},
 		{
+			"canRead": true,
+			"id": 13,
+			"siteId": 8,
 			"name": "生き残る意義",
-			"year": "2000",
+			"year": 2000,
 			"programNumber": 2,
-			"school": {
+			"groups": [{
 				"prefecture": "石川県",
 				"municipalities": "志雄町",
-				"name": "立大井川専門中学校",
-				"class": {
+				"categoly": "町立",
+				"name": "石川県志雄町立大井川専門中学校",
+				"members": {
 					"name": "3年5組",
-					"numberOfMan": "42",
-					"numberOfWoman": "0",
-					"numberOfStudents": "42"
+					"numberOfMan": 42,
+					"numberOfWoman": 0
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 71,
-			"comment": "　",
-			"siteId": 8
+			}],
+
+			"status": "finish",
+			"numberOfEpisode": 71
 		},
 		{
+			"canRead": true,
+			"id": 14,
+			"siteId": 8,
 			"name": "連動",
-			"year": "2003",
+			"year": 2003,
 			"programNumber": 50,
-			"school": {
+			"groups": [{
 				"prefecture": "島根県",
 				"municipalities": "吉田町",
-				"name": "立古川中学校",
-				"class": {
+				"categoly": "町立",
+				"name": "島根県吉田町立古川中学校",
+				"members": {
 					"name": "3年A組",
-					"numberOfMan": "7",
-					"numberOfWoman": "5",
-					"numberOfStudents": "12"
+					"numberOfMan": 7,
+					"numberOfWoman": 5
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 20,
+			}],
 			"comment": "特殊ルール採用",
-			"siteId": 8
+			"status": "finish",
+			"numberOfEpisode": 20
 		},
 		{
+			"canRead": true,
+			"id": 15,
+			"siteId": 8,
 			"name": "剛い男、毅い女",
-			"year": "2008",
+			"year": 2008,
 			"programNumber": 42,
-			"school": {
+			"groups": [{
 				"prefecture": "東京都",
-				"name": "北区立霧ケ峰中学校",
-				"class": {
+				"name": "東京都北区立霧ケ峰中学校",
+				"members": {
 					"name": "3年A組",
-					"numberOfMan": "34",
-					"numberOfWoman": "34",
-					"numberOfStudents": "68"
+					"numberOfMan": 34,
+					"numberOfWoman": 34
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 186,
+			}],
 			"comment": "試合中盤から特殊ルール導入。",
-			"siteId": 8
+			"status": "finish",
+			"numberOfEpisode": 186
 		},
 		{
+			"canRead": true,
+			"id": 16,
+			"siteId": 8,
 			"name": "連動2",
-			"year": "2005",
+			"year": 2005,
 			"programNumber": 50,
-			"school": {
+			"groups": [{
 				"prefecture": "栃木県",
 				"municipalities": "河内市",
-				"name": "立河内西中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "栃木県河内市立河内西中学校",
+				"members": {
 					"name": "3年A組",
-					"numberOfMan": "8",
-					"numberOfWoman": "8",
-					"numberOfStudents": "16"
+					"numberOfMan": 8,
+					"numberOfWoman": 8
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 31,
+			}],
 			"comment": "“連動”の続編。特殊ルールあり",
-			"siteId": 8
+			"status": "finish",
+			"numberOfEpisode": 31
 		},
 		{
+			"canRead": true,
+			"id": 17,
+			"siteId": 8,
 			"name": "Revenge",
-			"year": "2013",
+			"year": 2013,
 			"programNumber": 2,
-			"school": {
+			"groups": [{
 				"prefecture": "千葉県",
 				"municipalities": "水沢市",
-				"name": "立河田中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "千葉県水沢市立河田中学校",
+				"members": {
 					"name": "3年A組",
-					"numberOfMan": "14",
-					"numberOfWoman": "10",
-					"numberOfStudents": "24"
+					"numberOfMan": 14,
+					"numberOfWoman": 10
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 20,
+			}],
 			"comment": "",
-			"siteId": 8
+			"status": "finish",
+			"numberOfEpisode": 20
 		},
 		{
-			"name": "RENZOKU - No.38　聖",
-			"year": "2002",
+			"canRead": true,
+			"id": 18,
+			"siteId": 8,
+			"name": "RENZOKU - No.38 聖",
+			"year": 2002,
 			"programNumber": 38,
-			"school": {
+			"groups": [{
 				"prefecture": "埼玉県",
 				"name": "公立ひばり中学校",
-				"class": {
+				"members": {
 					"name": "3年A組",
-					"numberOfMan": "12+1",
-					"numberOfWoman": "12",
-					"numberOfStudents": "24+1"
+					"numberOfMan": 12,
+					"numberOfTransferedMan": 1,
+					"numberOfWoman": 12,
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 50,
+			}],
 			"comment": "「BATTLE \n\t\tROYALE RENZOKU」 の第38号。",
-			"siteId": 8
+			"status": "finish",
+			"numberOfEpisode": 50
 		},
 		{
+			"canRead": false,
+			"id": 19,
+			"siteId": 9,
 			"name": "ORIGINAL PROGRAM",
 			"year": "20XX",
-			"school": {
+			"groups": [{
 				"name": "成城学園高等部",
-				"class": {
+				"members": {
 					"name": "2年A組",
-					"numberOfMan": "18",
-					"numberOfWoman": "18",
-					"numberOfStudents": "36"
+					"numberOfMan": 18,
+					"numberOfWoman": 18
 				}
-			},
-			"suspends": true,
-			"nowChapterName": "中盤戦",
-			"numberOfEpisode": 42,
-			"newestEpisodeNumber": 41,
-			"remainingNumber": 24,
+			}],
 			"comment": "高校2年生によるプログラム",
-			"siteId": 9
+			"status": "suspend",
+			"numberOfEpisode": 42,
+			"nowChapterName": "中盤戦",
+			"newestEpisodeNumber": 41,
+			"remainingNumber": 24
 		},
 		{
+			"canRead": true,
+			"id": 20,
+			"siteId": 10,
 			"name": "Sacrifice to the future",
-			"year": "1998",
-			"school": {
+			"year": 1998,
+			"groups": [{
 				"name": "大東亜共和国立中学校",
-				"class": {
+				"members": {
 					"name": "3年5組",
-					"numberOfMan": "20",
-					"numberOfWoman": "20",
-					"numberOfStudents": "40"
+					"numberOfMan": 20,
+					"numberOfWoman": 20
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 114,
-			"comment": "　",
-			"siteId": 10
+			}],
+
+			"status": "finish",
+			"numberOfEpisode": 114
 		},
 		{
+			"canRead": true,
+			"id": 21,
+			"siteId": 10,
 			"name": "Finale/Prelude",
-			"year": "1998",
-			"school": {
+			"year": 1998,
+			"groups": [{
 				"name": "大東亜共和国立中学校",
-				"class": {
+				"members": {
 					"name": "3年5組",
-					"numberOfMan": "20",
-					"numberOfWoman": "20",
-					"numberOfStudents": "40"
+					"numberOfMan": 20,
+					"numberOfWoman": 20
 				}
-			},
-			"suspends": true,
+			}],
 			"comment": "「Sacrifice to the future」改稿版",
-			"siteId": 10
+			"status": "suspend",
+			"numberOfEpisode": 3,
+			"nowChapterName": "プロローグ"
 		},
 		{
+			"canRead": true,
+			"id": 22,
+			"siteId": 10,
 			"name": "Depth psychology",
 			"year": "19??",
-			"school": {
+			"groups": [{
 				"name": "大東亜協和国立中学校",
-				"class": {
+				"members": {
 					"name": "3年2組",
-					"numberOfMan": "20",
-					"numberOfWoman": "20",
-					"numberOfStudents": "40"
+					"numberOfMan": 20,
+					"numberOfWoman": 20
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 9,
-			"comment": "　",
-			"siteId": 10
+			}],
+
+			"status": "finish",
+			"numberOfEpisode": 9
 		},
 		{
+			"canRead": true,
+			"id": 23,
+			"siteId": 10,
 			"name": "Tomorrow is another day?",
-			"year": "1997",
-			"targetCategory": "山梨県居八小中学校",
-			"school": {
-				"class": {
-					"numberOfMan": "6",
-					"numberOfWoman": "4",
-					"numberOfStudents": "10"
+			"year": 1997,
+			"groups": [{
+				"prefecture": "山梨県",
+				"name": "山梨県居八小中学校",
+				"members": {
+					"numberOfMan": 6,
+					"numberOfWoman": 4
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 20,
-			"comment": "　",
-			"siteId": 10
+			}],
+
+			"status": "finish",
+			"numberOfEpisode": 20
 		},
 		{
+			"canRead": true,
+			"id": 24,
+			"siteId": 10,
 			"name": "Hellow Good-bye",
-			"year": "1990",
-			"school": {
+			"year": 1990,
+			"groups": [{
 				"prefecture": "愛知県",
-				"name": "立丸山中学校",
-				"class": {
+				"categoly": "県立",
+				"name": "愛知県立丸山中学校",
+				"members": {
 					"name": "三年一組",
-					"numberOfMan": "15",
-					"numberOfWoman": "15",
-					"numberOfStudents": "30"
+					"numberOfMan": 15,
+					"numberOfWoman": 15
 				}
-			},
+			}],
+
+			"status": "suspend",
+			"numberOfEpisode": 48,
 			"nowChapterName": "終盤戦",
 			"newestEpisodeNumber": 48,
-			"remainingNumber": 2,
-			"comment": "　",
-			"siteId": 10
+			"remainingNumber": 2
 		},
 		{
+			"canRead": true,
+			"id": 25,
+			"siteId": 11,
 			"name": "埼玉県草加市立草加南中学校3年3組プログラム",
-			"year": "2001",
+			"year": 2001,
 			"programNumber": 18,
-			"school": {
+			"groups": [{
 				"prefecture": "埼玉県",
 				"municipalities": "草加市",
-				"name": "立草加南中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "埼玉県草加市立草加南中学校",
+				"members": {
 					"name": "3年3組",
-					"numberOfMan": "20",
-					"numberOfWoman": "17",
-					"numberOfStudents": "37"
+					"numberOfMan": 20,
+					"numberOfWoman": 17
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 156,
+			}],
 			"comment": "介入者が存在。",
-			"siteId": 11
+			"status": "finish",
+			"numberOfEpisode": 156
 		},
 		{
+			"canRead": false,
+			"id": 26,
+			"siteId": 12,
 			"name": "それは舞い散る花びらのように",
-			"year": "2003",
+			"year": 2003,
 			"programNumber": 51,
-			"school": {
-				"prefecture": "政府",
-				"name": "機関立政府特別進学学校高等部",
-				"class": {
+			"groups": [{
+				"name": "政府機関立政府特別進学学校高等部",
+				"members": {
 					"name": "3年A組",
-					"numberOfMan": "0",
-					"numberOfWoman": "15+1",
-					"numberOfStudents": "15+1"
+					"numberOfMan": 0,
+					"numberOfWoman": 15,
+					"numberOfTransferedWoman": 1,
 				}
-			},
-			"suspends": true,
-			"nowChapterName": "序盤戦",
-			"numberOfEpisode": 13,
-			"newestEpisodeNumber": 12,
-			"remainingNumber": 16,
+			}],
 			"comment": "対象クラスが特殊で、通常のプログラムとは別に特別プログラムとして実施。",
-			"siteId": 12
+			"status": "suspend",
+			"numberOfEpisode": 13,
+			"nowChapterName": "序盤戦",
+			"newestEpisodeNumber": 12,
+			"remainingNumber": 16
 		},
 		{
+			"canRead": true,
+			"id": 27,
+			"siteId": 13,
 			"name": "nightmarish three days",
-			"school": {
+			"groups": [{
 				"name": "荒磯中学",
-				"class": {
+				"members": {
 					"name": "3年3組",
-					"numberOfMan": "20",
-					"numberOfWoman": "19",
-					"numberOfStudents": "39"
+					"numberOfMan": 20,
+					"numberOfWoman": 19
 				}
-			},
-			"suspends": true,
+			}],
+
+			"status": "suspend",
+			"numberOfEpisode": 64,
 			"newestEpisodeNumber": 64,
-			"remainingNumber": 30,
-			"comment": "　",
-			"siteId": 13
+			"remainingNumber": 30
 		},
 		{
+			"canRead": false,
+			"id": 28,
+			"siteId": 14,
 			"name": "赤色少年 A bloody boy ～Lv1～",
-			"year": "2002",
+			"year": 2002,
 			"programNumber": 1,
-			"school": {
+			"groups": [{
 				"name": "聖自由学園",
-				"class": {
+				"members": {
 					"name": "3年X組",
-					"numberOfMan": "12",
-					"numberOfWoman": "12",
-					"numberOfStudents": "24"
+					"numberOfMan": 12,
+					"numberOfWoman": 12
 				}
-			},
-			"suspends": true,
-			"nowChapterName": "中盤戦",
-			"numberOfEpisode": 61,
-			"newestEpisodeNumber": 15,
-			"remainingNumber": 20,
+			}],
 			"comment": "「BATTLE \n\t\tROYALE RENZOKU」の第1号。死亡者が出ない場合の時間制限短縮",
-			"siteId": 14
+			"status": "suspend",
+			"numberOfEpisode": 61,
+			"nowChapterName": "中盤戦",
+			"newestEpisodeNumber": "15-1",
+			"remainingNumber": 20
 		},
 		{
+			"canRead": true,
+			"id": 29,
+			"siteId": 15,
 			"name": "空を仰げ",
-			"year": "2003",
-			"school": {
+			"year": 2003,
+			"groups": [{
+				"prefecture": "和歌山県",
 				"municipalities": "和歌山市",
-				"name": "立葉峰中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "和歌山市立葉峰中学校",
+				"members": {
 					"name": "3年1組",
-					"numberOfMan": "16",
-					"numberOfWoman": "16",
-					"numberOfStudents": "32"
+					"numberOfMan": 16,
+					"numberOfWoman": 16
 				}
-			},
-			"suspends": true,
+			}],
+
+			"status": "suspend",
+			"numberOfEpisode": 62,
 			"nowChapterName": "終盤戦",
 			"newestEpisodeNumber": 62,
-			"remainingNumber": 6,
-			"comment": "　",
-			"siteId": 15
+			"remainingNumber": 6
 		},
 		{
+			"canRead": true,
+			"id": 30,
+			"siteId": 16,
 			"name": "NOWHERE/NOBODY",
-			"year": "1997",
-			"school": {
+			"year": 1997,
+			"groups": [{
 				"prefecture": "宮城県",
 				"municipalities": "榴ヶ原町",
-				"name": "立榴ヶ原中学校",
-				"class": {
+				"categoly": "町立",
+				"name": "宮城県榴ヶ原町立榴ヶ原中学校",
+				"members": {
 					"name": "3年1組",
-					"numberOfMan": "17",
-					"numberOfWoman": "17",
-					"numberOfStudents": "34"
+					"numberOfMan": 17,
+					"numberOfWoman": 17
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 54,
-			"comment": "　",
-			"siteId": 16
+			}],
+
+			"status": "finish",
+			"numberOfEpisode": 54
 		},
 		{
+			"canRead": true,
+			"id": 31,
+			"siteId": 16,
 			"name": "INSOMNIA",
-			"year": "1994",
-			"school": {
+			"year": 1994,
+			"groups": [{
 				"prefecture": "千葉県",
+				"categoly": "私立",
 				"name": "私立如月学園中等部",
-				"class": {
-					"name": "３年",
-					"numberOfMan": "20",
-					"numberOfWoman": "20",
-					"numberOfStudents": "40"
+				"members": {
+					"name": "3年",
+					"numberOfMan": 20,
+					"numberOfWoman": 20
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 58,
+			}],
 			"comment": "NOWHERE/NOBODYと関連あり",
-			"siteId": 16
+			"status": "finish",
+			"numberOfEpisode": 58
 		},
 		{
+			"canRead": true,
+			"id": 32,
+			"siteId": 16,
 			"name": "生きるための情熱としての殺人",
-			"year": "1999",
-			"school": {
+			"year": 1999,
+			"groups": [{
 				"prefecture": "愛媛県",
 				"municipalities": "久世町",
-				"name": "立久世中学校",
-				"class": {
+				"categoly": "町立",
+				"name": "愛媛県久世町立久世中学校",
+				"members": {
 					"name": "3年A組",
-					"numberOfMan": "22",
-					"numberOfWoman": "22",
-					"numberOfStudents": "44"
+					"numberOfMan": 22,
+					"numberOfWoman": 22
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 78,
+			}],
 			"comment": "NOWHERE/NOBODY、INSOMNIAと関連あり。\n\t\t千草彩子参戦。",
-			"siteId": 16
+			"status": "finish",
+			"numberOfEpisode": 78
 		},
 		{
+			"canRead": true,
+			"id": 33,
+			"siteId": 16,
 			"name": "BORN TO RUN",
-			"year": "2002",
-			"school": {
+			"year": 2002,
+			"groups": [{
 				"prefecture": "東京都",
+				"categoly": "私立",
 				"name": "私立明神中学校",
-				"class": {
+				"members": {
 					"name": "3年C組",
-					"numberOfMan": "8",
-					"numberOfWoman": "8",
-					"numberOfStudents": "16"
+					"numberOfMan": 8,
+					"numberOfWoman": 8
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 53,
+			}],
 			"comment": "全員が特殊能力を所有。",
-			"siteId": 16
+			"status": "finish",
+			"numberOfEpisode": 53
 		},
 		{
+			"canRead": true,
+			"id": 34,
+			"siteId": 16,
 			"name": "絵のない絵本",
-			"year": "2004",
-			"school": {
+			"year": 2004,
+			"groups": [{
 				"prefecture": "千葉県",
 				"name": "私立如月学園中等部",
-				"class": {
+				"members": {
 					"name": "3年A組",
-					"numberOfMan": "24",
-					"numberOfWoman": "23+1",
-					"numberOfStudents": "47+1"
+					"numberOfMan": 24,
+					"numberOfWoman": 23,
+					"numberOfTransferedWoman": 1
 				}
-			},
-			"suspends": true,
-			"nowChapterName": "中盤戦",
+			}],
+
+			"status": "suspend",
 			"numberOfEpisode": 13,
+			"nowChapterName": "中盤戦",
 			"newestEpisodeNumber": 11,
-			"remainingNumber": 44,
-			"comment": "　",
-			"siteId": 16
+			"remainingNumber": 44
 		},
 		{
+			"canRead": true,
+			"id": 35,
+			"siteId": 16,
 			"name": "Memento mori",
-			"year": "2002",
+			"year": 2002,
 			"programNumber": 25,
-			"targetCategory": "静岡県私立影月ノ聖母学園",
-			"school": {
-				"class": {
-					"numberOfMan": "3+1",
-					"numberOfWoman": "3",
-					"numberOfStudents": "6＋1"
+			"groups": [{
+				"prefecture": "静岡県",
+				"categoly": "私立",
+				"name": "静岡県私立影月ノ聖母学園",
+				"members": {
+					"numberOfMan": 3,
+					"numberOfTransferedMan": 1,
+					"numberOfWoman": 3
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 22,
+			}],
 			"comment": "「BATTLE ROYALE RENZOKU」の第25号。\n\t\t",
-			"siteId": 16
+			"status": "finish",
+			"numberOfEpisode": 22
 		},
 		{
+			"canRead": true,
+			"id": 36,
+			"siteId": 16,
 			"name": "FBR",
-			"targetCategory": "フードファイター達",
-			"school": {
-				"class": {
-					"numberOfStudents": "21"
+			"groups": [{
+				"name": "フードファイター達",
+				"members": {
+					"numberOfMan": 15,
+					"numberOfWoman": 6,
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 37,
+			}],
 			"comment": " 某番組のバトロワ風小説。執筆者が最初は桜城で、途中より三木尚雪に変わりました。\n\t\t裏ページ扱いです。 ",
-			"siteId": 16
+			"status": "finish",
+			"numberOfEpisode": 37
 		},
 		{
+			"canRead": true,
+			"id": 37,
+			"siteId": 17,
 			"name": "岐阜県市立飯峯中学校3年A組プログラム",
-			"year": "2002",
-			"school": {
+			"year": 2002,
+			"groups": [{
 				"prefecture": "岐阜県",
-				"municipalities": "市",
-				"name": "立飯峯中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "市立飯峯中学校",
+				"members": {
 					"name": "3年A組",
-					"numberOfMan": "23",
-					"numberOfWoman": "23",
-					"numberOfStudents": "46"
+					"numberOfMan": 23,
+					"numberOfWoman": 23
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 138,
-			"comment": "　",
-			"siteId": 17
+			}],
+
+			"status": "finish",
+			"numberOfEpisode": 138
 		},
 		{
+			"canRead": true,
+			"id": 38,
+			"siteId": 17,
 			"name": "多重地獄の復讐鬼",
-			"year": "2007",
-			"school": {
+			"year": 2007,
+			"groups": [{
 				"prefecture": "兵庫県",
-				"name": "立梅林中学校",
-				"class": {
+				"categoly": "県立",
+				"name": "兵庫県立梅林中学校",
+				"members": {
 					"name": "3年6組",
-					"numberOfMan": "22",
-					"numberOfWoman": "23",
-					"numberOfStudents": "45"
+					"numberOfMan": 22,
+					"numberOfWoman": 23
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 205,
-			"comment": "　",
-			"siteId": 17
+			}],
+
+			"status": "finish",
+			"numberOfEpisode": 205
 		},
 		{
+			"canRead": true,
+			"id": 39,
+			"siteId": 17,
 			"name": "楽園島の門番姫",
-			"year": "2007",
-			"school": {
+			"year": 2007,
+			"groups": [{
 				"prefecture": "千葉県",
-				"name": "私立聖矢中学校",
-				"class": {
+				"categoly": "私立",
+				"name": "千葉県私立聖矢中学校",
+				"members": {
 					"name": "3年3組",
-					"numberOfMan": "24+2",
-					"numberOfWoman": "24+1",
-					"numberOfStudents": "48+3"
+					"numberOfMan": 24,
+					"numberOfTransferedMan": 2,
+					"numberOfWoman": 24,
+					"numberOfTransferedWoman": 1,
 				}
-			},
-			"nowChapterName": "Level-B",
+			}],
+
+			"status": "suspend",
 			"numberOfEpisode": 34,
+			"nowChapterName": "Level-B",
 			"newestEpisodeNumber": 33,
-			"remainingNumber": 38,
-			"comment": "　",
-			"siteId": 17
+			"remainingNumber": 38
 		},
 		{
+			"canRead": false,
+			"id": 40,
+			"siteId": 18,
 			"name": "All for sale",
-			"year": "2009",
-			"school": {
-				"prefecture": "京都",
-				"municipalities": "市",
-				"name": "立××中学校",
-				"class": {
+			"year": 2009,
+			"groups": [{
+				"prefecture": "京都府",
+				"municipalities": "京都市",
+				"categoly": "市立",
+				"name": "京都市立××中学校",
+				"members": {
 					"name": "3年2組",
-					"numberOfMan": "20",
-					"numberOfWoman": "20",
-					"numberOfStudents": "40"
+					"numberOfMan": 20,
+					"numberOfWoman": 20
 				}
-			},
-			"suspends": true,
+			}],
+
+			"status": "suspend",
+			"numberOfEpisode": 28,
 			"nowChapterName": "序盤戦",
 			"newestEpisodeNumber": 28,
-			"remainingNumber": 24,
-			"comment": "　",
-			"siteId": 18
+			"remainingNumber": 24
 		},
 		{
+			"canRead": false,
+			"id": 41,
+			"siteId": 19,
 			"name": "バトルロワイアルペティー",
-			"year": "2005",
-			"school": {
+			"year": 2005,
+			"groups": [{
 				"prefecture": "S県",
-				"municipalities": "立S市",
-				"name": "県立第三高等学校",
-				"class": {
+				"municipalities": "S市",
+				"name": "S県立第三高等学校",
+				"members": {
 					"name": "2年A組",
-					"numberOfMan": "21",
-					"numberOfWoman": "22",
-					"numberOfStudents": "43"
+					"numberOfMan": 21,
+					"numberOfWoman": 22
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 102,
-			"comment": "　",
-			"siteId": 19
+			}],
+
+			"status": "finish",
+			"numberOfEpisode": 102
 		},
 		{
+			"canRead": false,
+			"id": 42,
+			"siteId": 19,
 			"name": "BBロワイアル",
-			"year": "1998",
-			"school": {
+			"year": 1998,
+			"groups": [{
 				"prefecture": "N県",
-				"name": "立相川中学校",
-				"class": {
+				"categoly": "県立",
+				"name": "N県立相川中学校",
+				"members": {
 					"name": "3年3組",
-					"numberOfMan": "20",
-					"numberOfWoman": "19",
-					"numberOfStudents": "39"
+					"numberOfMan": 20,
+					"numberOfWoman": 19
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 93,
-			"comment": "　",
-			"siteId": 19
+			}],
+
+			"status": "finish",
+			"numberOfEpisode": 93
 		},
 		{
+			"canRead": false,
+			"id": 43,
+			"siteId": 19,
 			"name": "小さな殺人者",
-			"year": "1999",
-			"school": {
-				"prefecture": "Ｔ県",
-				"municipalities": "Ｍ町",
-				"name": "高鷺中学校",
-				"class": {
+			"year": 1999,
+			"groups": [{
+				"prefecture": "T県",
+				"municipalities": "M町",
+				"name": "T県M町高鷺中学校",
+				"members": {
 					"name": "3年生",
-					"numberOfMan": "8",
-					"numberOfWoman": "7+1",
-					"numberOfStudents": "15+1"
+					"numberOfMan": 8,
+					"numberOfWoman": 7,
+					"numberOfTransferedWoman": 1
 				}
-			},
-			"suspends": true,
+			}],
+			"comment": "特別参加者1名参戦。",
+			"status": "suspend",
 			"numberOfEpisode": 33,
 			"newestEpisodeNumber": 31,
-			"remainingNumber": 8,
-			"comment": "特別参加者1名参戦。　",
-			"siteId": 19
+			"remainingNumber": 8
 		},
 		{
-			"name": "オリバト１　- 変質 -",
-			"year": "2011",
-			"school": {
+			"canRead": true,
+			"id": 44,
+			"siteId": 20,
+			"name": "オリバト1 - 変質 -",
+			"year": 2011,
+			"groups": [{
 				"prefecture": "兵庫県",
 				"municipalities": "神戸市",
-				"name": "立第五中学",
-				"class": {
+				"categoly": "市立",
+				"name": "兵庫県神戸市立第五中学",
+				"members": {
 					"name": "3年B組",
-					"numberOfMan": "20",
-					"numberOfWoman": "19",
-					"numberOfStudents": "39"
+					"numberOfMan": 20,
+					"numberOfWoman": 19,
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 79,
+			}],
 			"comment": "現在改稿版連載中。（旧版も読めます）",
-			"siteId": 20
+			"status": "finish",
+			"numberOfEpisode": 79
 		},
 		{
-			"name": "オリバト２　- 蘇生 -",
-			"year": "2004",
-			"school": {
+			"canRead": true,
+			"id": 45,
+			"siteId": 20,
+			"name": "オリバト2 - 蘇生 -",
+			"year": 2004,
+			"groups": [{
 				"prefecture": "東京都",
+				"categoly": "私立",
 				"name": "私立ぶどうヶ丘高校",
-				"class": {
+				"members": {
 					"name": "1年2組",
-					"numberOfMan": "8",
-					"numberOfWoman": "9",
-					"numberOfStudents": "17"
+					"numberOfMan": 8,
+					"numberOfWoman": 9
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 85,
+			}],
 			"comment": "フリースクールを対象にしたプログラム。特殊ルール採用・特殊支給品が存在。",
-			"siteId": 20
+			"status": "finish",
+			"numberOfEpisode": 85
 		},
 		{
-			"name": "オリバト３　- 一欠けらの狂気 -",
-			"year": "1980",
-			"school": {
+			"canRead": true,
+			"id": 46,
+			"siteId": 20,
+			"name": "オリバト3 - 一欠けらの狂気 -",
+			"year": 1980,
+			"groups": [{
+				"prefecture": "長野県",
 				"municipalities": "長野市",
-				"name": "立大塚中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "長野市立大塚中学校",
+				"members": {
 					"name": "3年1組",
-					"numberOfMan": "5",
-					"numberOfWoman": "5",
-					"numberOfStudents": "10"
+					"numberOfMan": 5,
+					"numberOfWoman": 5
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 36,
-			"comment": "　",
-			"siteId": 20
+			}],
+
+			"status": "finish",
+			"numberOfEpisode": 36
 		},
 		{
-			"name": "オリバト４　- ダンデライオン -",
-			"year": "2008",
-			"school": {
-				"prefecture": "京都",
-				"municipalities": "府京都市",
-				"name": "立有明中学校",
-				"class": {
+			"canRead": true,
+			"id": 47,
+			"siteId": 20,
+			"name": "オリバト4 - ダンデライオン -",
+			"year": 2008,
+			"groups": [{
+				"prefecture": "京都府",
+				"municipalities": "京都市",
+				"categoly": "市立",
+				"name": "京都府京都市立有明中学校",
+				"members": {
 					"name": "3年A組",
-					"numberOfMan": "15",
-					"numberOfWoman": "13",
-					"numberOfStudents": "28"
+					"numberOfMan": 15,
+					"numberOfWoman": 13
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 115,
+			}],
 			"comment": "特殊ルール採用。",
-			"siteId": 20
+			"status": "finish",
+			"numberOfEpisode": 115
 		},
 		{
+			"canRead": true,
+			"id": 48,
+			"siteId": 21,
 			"name": "出発点。",
-			"year": "2001",
-			"school": {
+			"year": 2001,
+			"groups": [{
 				"prefecture": "滋賀県",
 				"municipalities": "大津市",
-				"name": "立相海中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "滋賀県大津市立相海中学校",
+				"members": {
 					"name": "3年2組",
-					"numberOfMan": "15",
-					"numberOfWoman": "17",
-					"numberOfStudents": "32"
+					"numberOfMan": 15,
+					"numberOfWoman": 17,
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 98,
-			"comment": "　",
-			"siteId": 21
+			}],
+
+			"status": "finish",
+			"numberOfEpisode": 98
 		},
 		{
+			"canRead": true,
+			"id": 49,
+			"siteId": 21,
 			"name": "ヒメイ",
-			"year": "2011",
-			"school": {
+			"year": 2011,
+			"groups": [{
 				"prefecture": "福井県",
 				"municipalities": "福井市",
-				"name": "立桜森中学校",
-				"class": {
+				"name": "福井県福井市立桜森中学校",
+				"members": {
 					"name": "3年A組",
-					"numberOfMan": "18",
-					"numberOfWoman": "18",
-					"numberOfStudents": "36"
+					"numberOfMan": 18,
+					"numberOfWoman": 18,
 				}
-			},
-			"suspends": true,
-			"nowChapterName": "試合開始",
+			}],
+
+			"status": "suspend",
 			"numberOfEpisode": 12,
+			"nowChapterName": "試合開始",
 			"newestEpisodeNumber": 9,
-			"remainingNumber": 36,
-			"comment": "　",
-			"siteId": 21
+			"remainingNumber": 36
 		},
 		{
+			"canRead": true,
+			"id": 50,
+			"siteId": 22,
 			"name": "reason of being[存在理由]",
-			"school": {
+			"groups": [{
 				"prefecture": "千葉県",
 				"municipalities": "高原市",
-				"name": "立高原第五中学校",
-				"class": {
+				"name": "千葉県高原市立高原第五中学校",
+				"members": {
 					"name": "3年A組",
-					"numberOfMan": "17",
-					"numberOfWoman": "15",
-					"numberOfStudents": "32"
+					"numberOfMan": 17,
+					"numberOfWoman": 15,
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 99,
-			"comment": "　",
-			"siteId": 22
+			}],
+
+			"status": "finish",
+			"numberOfEpisode": 99
 		},
 		{
+			"canRead": true,
+			"id": 51,
+			"siteId": 22,
 			"name": "善悪の彼岸",
-			"year": "2007",
-			"school": {
+			"year": 2007,
+			"groups": [{
 				"prefecture": "静岡県",
 				"name": "私立菊花学園高等部",
-				"class": {
+				"members": {
 					"name": "2年虹組第二期",
-					"numberOfMan": "10",
-					"numberOfWoman": "14",
-					"numberOfStudents": "24"
+					"numberOfMan": 10,
+					"numberOfWoman": 14
 				}
-			},
-			"suspends": true,
+			}],
+			"comment": "高校生プログラム",
+			"status": "suspend",
+			"numberOfEpisode": 24,
 			"nowChapterName": "2ndGate",
 			"newestEpisodeNumber": 24,
-			"remainingNumber": 21,
-			"comment": "高校生プログラム",
-			"siteId": 22
+			"remainingNumber": 21
 		},
 		{
+			"canRead": false,
+			"id": 52,
+			"siteId": 23,
 			"name": "\"pure\"dream",
-			"school": {
+			"groups": [{
 				"name": "大東亜女学院中等部",
-				"class": {
+				"members": {
 					"name": "3年2組",
-					"numberOfMan": "0",
-					"numberOfWoman": "42",
-					"numberOfStudents": "42"
+					"numberOfMan": 0,
+					"numberOfWoman": 42
 				}
-			},
-			"suspends": true,
+			}],
+			"comment": "女子校プログラム",
+			"status": "suspend",
+			"numberOfEpisode": 36,
 			"nowChapterName": "第2章",
 			"newestEpisodeNumber": 36,
-			"remainingNumber": 33,
-			"comment": "女子校プログラム",
-			"siteId": 23
+			"remainingNumber": 33
 		},
 		{
+			"canRead": true,
+			"id": 53,
+			"siteId": 24,
 			"name": "終わりの始まり",
-			"year": "2008",
-			"school": {
+			"year": 2008,
+			"groups": [{
 				"prefecture": "神奈川県",
-				"municipalities": "立横浜市",
-				"name": "江田原高等学校",
-				"class": {
+				"municipalities": "横浜市",
+				"categoly": "県立",
+				"name": "神奈川県立横浜市江田原高等学校",
+				"members": {
 					"name": "2年C組",
-					"numberOfMan": "20",
-					"numberOfWoman": "20",
-					"numberOfStudents": "40"
+					"numberOfMan": 20,
+					"numberOfWoman": 20
 				}
-			},
-			"nowChapterName": "中盤戦",
-			"numberOfEpisode": 40,
-			"newestEpisodeNumber": 39,
-			"remainingNumber": 26,
+			}],
 			"comment": " 第69番プログラム、高校生プログラムです。",
-			"siteId": 24
+			"status": "progress",
+			"numberOfEpisode": 40,
+			"nowChapterName": "中盤戦",
+			"newestEpisodeNumber": 39,
+			"remainingNumber": 26
 		},
 		{
+			"canRead": true,
+			"id": 54,
+			"siteId": 25,
 			"name": "湖は朱く染まる",
-			"school": {
+			"groups": [{
 				"name": "水瀬中学校",
-				"class": {
+				"members": {
 					"name": "3年A組",
-					"numberOfMan": "20",
-					"numberOfWoman": "20",
-					"numberOfStudents": "40"
+					"numberOfMan": 20,
+					"numberOfWoman": 20
 				}
-			},
-			"suspends": true,
-			"nowChapterName": "序盤戦",
-			"numberOfEpisode": 29,
-			"newestEpisodeNumber": 13,
-			"remainingNumber": 31,
+			}],
 			"comment": " 元暗殺者の生徒・政府スパイ・反政府組織など、普通じゃない人々多数参戦。",
-			"siteId": 25
+			"status": "suspend",
+			"numberOfEpisode": 29,
+			"nowChapterName": "序盤戦",
+			"newestEpisodeNumber": 13,
+			"remainingNumber": 31
 		},
 		{
+			"canRead": false,
+			"id": 55,
+			"siteId": 26,
 			"name": "（タイトル不明）",
-			"school": {
+			"groups": [{
 				"prefecture": "香川県",
 				"municipalities": "沼木町",
 				"name": "立沼木中学校",
-				"class": {
+				"members": {
 					"name": "3年A組",
-					"numberOfMan": "16+1+1匹",
-					"numberOfWoman": "16+1",
-					"numberOfStudents": "32+2名+1匹）"
+					"numberOfMan": 16,
+					"numberOfTransferedMan": 1,
+					"numberOfMaleAnimal": 1,
+					"numberOfWoman": 16,
+					"numberOfTransferedWoman": 1
 				}
-			},
-			"suspends": true,
+			}],
+			"comment": "当日参加者が男女１名ずつ参戦。途中からは動物まで参戦。",
+			"status": "suspend",
 			"numberOfEpisode": 34,
 			"newestEpisodeNumber": 33,
-			"remainingNumber": 19,
-			"comment": "当日参加者が男女１名ずつ参戦。途中からは動物まで参戦。",
-			"siteId": 26
+			"remainingNumber": 19
 		},
 		{
+			"canRead": false,
+			"id": 56,
+			"siteId": 26,
 			"name": "昨日の友は今日の…… 裏切りの代償\n\t\tReunion The cost of betraying",
-			"school": {
+			"groups": [{
 				"prefecture": "富山県",
 				"name": "桜木A-17特殊中等学校",
-				"class": {
+				"members": {
 					"name": "3年E組",
-					"numberOfMan": "18",
-					"numberOfWoman": "17",
-					"numberOfStudents": "35"
+					"numberOfMan": 18,
+					"numberOfWoman": 17
 				}
-			},
-			"suspends": true,
+			}],
+			"comment": " yasuによる投稿作品。\n\t\t軍系の学校の生徒達によるプログラム。",
+			"status": "suspend",
 			"numberOfEpisode": 3,
 			"newestEpisodeNumber": 2,
-			"remainingNumber": 35,
-			"comment": " yasuによる投稿作品。\n\t\t軍系の学校の生徒達によるプログラム。",
-			"siteId": 26
+			"remainingNumber": 35
 		},
 		{
+			"canRead": true,
+			"id": 57,
+			"siteId": 27,
 			"name": "Demon Child or Holy Mother",
-			"year": "1996",
-			"school": {
+			"year": 1996,
+			"groups": [{
 				"prefecture": "兵庫県",
 				"municipalities": "三田市",
-				"name": "立三田上北中学校",
-				"class": {
+				"name": "兵庫県三田市立三田上北中学校",
+				"members": {
 					"name": "3年4組",
-					"numberOfMan": "16",
-					"numberOfWoman": "16",
-					"numberOfStudents": "32"
+					"numberOfMan": 16,
+					"numberOfWoman": 16,
 				}
-			},
-			"suspends": true,
-			"nowChapterName": "中盤戦",
+			}],
+			"comment": "フルスピードオリバト",
+			"status": "suspend",
 			"numberOfEpisode": 13,
+			"nowChapterName": "中盤戦",
 			"newestEpisodeNumber": 7,
-			"remainingNumber": 22,
-			"comment": " フルスピードオリバト",
-			"siteId": 27
+			"remainingNumber": 22
 		},
 		{
+			"canRead": true,
+			"id": 58,
+			"siteId": 28,
 			"name": "OBR ～Darling is dead～",
-			"school": {
+			"groups": [{
 				"prefecture": "青森県",
 				"municipalities": "広崎市",
 				"name": "宮良儀中学校",
-				"class": {
+				"members": {
 					"name": "3年C組",
-					"numberOfMan": "15+1",
-					"numberOfWoman": "15+1",
-					"numberOfStudents": "30+2"
+					"numberOfMan": 15,
+					"numberOfTransferedMan": 1,
+					"numberOfWoman": 15,
+					"numberOfTransferedWoman": 1,
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 100,
+			}],
 			"comment": "転校生が2名途中参加",
-			"siteId": 28
+			"status": "finish",
+			"numberOfEpisode": 100
 		},
 		{
+			"canRead": true,
+			"id": 59,
+			"siteId": 28,
 			"name": "七人の中学生",
-			"targetCategory": "戦闘実験第68番プログラム特別学級",
-			"school": {
-				"class": {
-					"numberOfMan": "3+1",
-					"numberOfWoman": "2+1",
-					"numberOfStudents": "5+2"
+			"groups": [{
+				"members": {
+					"name": "戦闘実験第68番プログラム特別学級",
+					"numberOfMan": 3,
+					"numberOfTransferedMan": 1,
+					"numberOfWoman": 2,
+					"numberOfTransferedWoman": 1,
 				}
-			},
-			"suspends": true,
-			"nowChapterName": "試合開始前",
-			"numberOfEpisode": 7,
-			"newestEpisodeNumber": 6,
-			"remainingNumber": 7,
+			}],
 			"comment": "転校生が2名参加",
-			"siteId": 28
+			"status": "suspend",
+			"numberOfEpisode": 7,
+			"nowChapterName": "試合開始前",
+			"newestEpisodeNumber": 6,
+			"remainingNumber": 7
 		},
 		{
+			"canRead": true,
+			"id": 60,
+			"siteId": 29,
 			"name": "悪と呼ばれた俺達の正義",
-			"year": "1996",
-			"school": {
+			"year": 1996,
+			"groups": [{
 				"prefecture": "鹿児島県",
 				"municipalities": "伊豆見川町",
-				"name": "立伊豆見川中学校",
-				"class": {
+				"categoly": "町立",
+				"name": "鹿児島県伊豆見川町立伊豆見川中学校",
+				"members": {
 					"name": "3年D組",
-					"numberOfMan": "21",
-					"numberOfWoman": "21",
-					"numberOfStudents": "42"
+					"numberOfMan": 21,
+					"numberOfWoman": 21
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 58,
-			"comment": "　",
-			"siteId": 29
+			}],
+
+			"status": "finish",
+			"numberOfEpisode": 58
 		},
 		{
+			"canRead": true,
+			"id": 61,
+			"siteId": 29,
 			"name": "鮮血で刻まれた真実の痕",
-			"year": "2001",
-			"school": {
+			"year": 2001,
+			"groups": [{
 				"prefecture": "鹿児島県",
 				"name": "伊豆見川学園中等部",
-				"class": {
+				"members": {
 					"name": "3年D組",
-					"numberOfMan": "22+1",
-					"numberOfWoman": "22",
-					"numberOfStudents": "44+1"
+					"numberOfMan": 22,
+					"numberOfTransferedMan": 1,
+					"numberOfWoman": 22,
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 65,
+			}],
 			"comment": "転校生が参戦",
-			"siteId": 29
+			"status": "finish",
+			"numberOfEpisode": 65
 		},
 		{
-			"name": "死の災禍が過ぎる刻\n\t\t",
-			"year": "2011",
-			"school": {
+			"canRead": true,
+			"id": 62,
+			"siteId": 29,
+			"name": "死の災禍が過ぎる刻",
+			"groups": [{
 				"prefecture": "鹿児島県",
+				"categoly": "私立",
 				"name": "私立古泉学園中等部",
-				"class": {
+				"members": {
 					"name": "3年1組",
-					"numberOfMan": "12",
-					"numberOfWoman": "12",
-					"numberOfStudents": "24"
+					"numberOfMan": 12,
+					"numberOfWoman": 12
 				}
-			},
-			"suspends": true,
-			"nowChapterName": "序盤戦",
+			}],
+
+			"status": "suspend",
 			"numberOfEpisode": 5,
+			"nowChapterName": "序盤戦",
 			"newestEpisodeNumber": 2,
-			"remainingNumber": 24,
-			"comment": "　",
-			"siteId": 29
+			"remainingNumber": 24
 		},
 		{
+			"canRead": true,
+			"id": 63,
+			"siteId": 30,
 			"name": "午後のパレード",
 			"year": "200X",
-			"school": {
+			"groups": [{
 				"prefecture": "北海道",
 				"municipalities": "上見市",
-				"name": "立狛楠中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "北海道上見市立狛楠中学校3年B組",
+				"members": {
 					"name": "3年B組",
-					"numberOfMan": "20",
-					"numberOfWoman": "21",
-					"numberOfStudents": "41"
+					"numberOfMan": 20,
+					"numberOfWoman": 21,
 				}
-			},
-			"nowChapterName": "終盤戦",
-			"newestEpisodeNumber": 43,
-			"remainingNumber": 14,
+			}],
 			"comment": "標準ルール。血と暴力の青春をただ書いていく予定です。",
-			"siteId": 30
+			"status": "progress",
+			"numberOfEpisode": 53,
+			"nowChapterName": "決戦",
+			"newestEpisodeNumber": 43,
+			"remainingNumber": 9
 		},
 		{
+			"canRead": true,
+			"id": 64,
+			"siteId": 31,
 			"name": "BATTLE ROYALE ～時の彼方に～",
-			"year": "2004",
-			"school": {
+			"year": 2004,
+			"groups": [{
 				"prefecture": "愛媛県",
 				"municipalities": "山之江市",
-				"name": "立山之江東中学",
-				"class": {
+				"categoly": "市立",
+				"name": "愛媛県山之江市立山之江東中学",
+				"members": {
 					"name": "3年2組",
-					"numberOfMan": "21",
-					"numberOfWoman": "21",
-					"numberOfStudents": "42"
+					"numberOfMan": 21,
+					"numberOfWoman": 21
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 74,
+			}],
 			"comment": "坂持の娘参戦。\n\t\tその他、原作関係者1名参戦。",
-			"siteId": 31
+			"status": "finish",
+			"numberOfEpisode": 74
 		},
 		{
+			"canRead": true,
+			"id": 65,
+			"siteId": 31,
 			"name": "BATTLE ROYALE ～荒波を越えて～",
-			"year": "2008",
-			"school": {
+			"year": 2008,
+			"groups": [{
 				"prefecture": "香川県",
 				"municipalities": "豊原町",
-				"name": "立豊原第二中学",
-				"class": {
+				"categoly": "町立",
+				"name": "香川県豊原町立豊原第二中学",
+				"members": {
 					"name": "3年1組",
-					"numberOfMan": "21",
-					"numberOfWoman": "21",
-					"numberOfStudents": "42"
+					"numberOfMan": 21,
+					"numberOfWoman": 21,
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 86,
+			}],
 			"comment": "前作関係者2名参戦。",
-			"siteId": 31
+			"status": "finish",
+			"numberOfEpisode": 86
 		},
 		{
+			"canRead": true,
+			"id": 66,
+			"siteId": 31,
 			"name": "BATTLE ROYALE 2 ～The Final Game～",
-			"year": "2000",
+			"year": 2000,
 			"programNumber": 12,
-			"school": {
+			"groups": [{
 				"prefecture": "東京都",
-				"name": "立第壱中学校",
-				"class": {
+				"categoly": "都立",
+				"name": "東京都立第壱中学校第壱中学校",
+				"members": {
 					"name": "3年B組",
-					"numberOfMan": "21",
-					"numberOfWoman": "21",
-					"numberOfStudents": "42"
+					"numberOfMan": 21,
+					"numberOfWoman": 21,
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 60,
+			}],
 			"comment": "YAN氏の寄贈作品。\n\t\t原作関係者2名参戦。",
-			"siteId": 31
+			"status": "finish",
+			"numberOfEpisode": 60
 		},
 		{
+			"canRead": true,
+			"id": 67,
+			"siteId": 31,
 			"name": "BATTLE ROYALE ～黒衣の太陽～",
-			"year": "2002",
+			"year": 2002,
 			"programNumber": 32,
-			"school": {
+			"groups": [{
+				"prefecture": "兵庫県",
 				"name": "神戸東第一中学",
-				"class": {
+				"members": {
 					"name": "3年4組",
-					"numberOfMan": "22",
-					"numberOfWoman": "22",
-					"numberOfStudents": "44"
+					"numberOfMan": 22,
+					"numberOfWoman": 22
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 90,
+			}],
 			"comment": "しす氏の投稿作品。",
-			"siteId": 31
+			"status": "finish",
+			"numberOfEpisode": 90
 		},
 		{
+			"canRead": true,
+			"id": 68,
+			"siteId": 31,
 			"name": "BATTLE ROYALE ～死神の花嫁～",
-			"year": "1966",
-			"school": {
+			"year": 1966,
+			"groups": [{
+				"prefecture": "福岡県",
 				"municipalities": "福岡市",
-				"name": "立天神中学",
-				"class": {
+				"name": "福岡市立天神中学",
+				"members": {
 					"name": "3年2組",
-					"numberOfMan": "19",
-					"numberOfWoman": "19",
-					"numberOfStudents": "38"
+					"numberOfMan": 19,
+					"numberOfWoman": 19,
 				}
-			},
-			"suspends": true,
-			"nowChapterName": "中盤戦",
-			"numberOfEpisode": 26,
-			"newestEpisodeNumber": 25,
-			"remainingNumber": 31,
+			}],
 			"comment": "しす氏の投稿作品。",
-			"siteId": 31
+			"status": "suspend",
+			"newestEpisodeNumber": 25,
+			"numberOfEpisode": 26,
+			"nowChapterName": "中盤戦",
+			"remainingNumber": 31
 		},
 		{
+			"canRead": true,
+			"id": 69,
+			"siteId": 31,
 			"name": "BRR ～BATTLE ROYALE REQUIEM～",
-			"year": "1992",
+			"year": 1992,
 			"programNumber": 31,
-			"school": {
+			"groups": [{
 				"prefecture": "山口県",
 				"municipalities": "火香里市",
-				"name": "立火香里第1中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "山口県火香里市立火香里第1中学校校",
+				"members": {
 					"name": "3年4組",
-					"numberOfMan": "21",
-					"numberOfWoman": "21",
-					"numberOfStudents": "42"
+					"numberOfMan": 21,
+					"numberOfWoman": 21,
 				}
-			},
-			"suspends": true,
+			}],
 			"comment": "戦場のポエニスト氏の投稿作品。",
-			"siteId": 31
+			"status": "suspend",
 		},
 		{
+			"canRead": true,
+			"id": 70,
+			"siteId": 31,
 			"name": "BATTLE ROYALE ～LAY DOWN～",
-			"year": "2000",
-			"school": {
+			"year": 2000,
+			"groups": [{
 				"prefecture": "東京都",
 				"municipalities": "三鷹市",
-				"name": "立北原中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "東京都三鷹市立北原中学校",
+				"members": {
 					"name": "3年E組",
-					"numberOfMan": "21",
-					"numberOfWoman": "21",
-					"numberOfStudents": "42"
+					"numberOfMan": 21,
+					"numberOfWoman": 21,
 				}
-			},
-			"suspends": true,
-			"nowChapterName": "中盤戦",
-			"newestEpisodeNumber": 84,
-			"remainingNumber": 29,
+			}],
 			"comment": "ユカリ氏の投稿作品。",
-			"siteId": 31
+			"status": "suspend",
+			"newestEpisodeNumber": 84,
+			"numberOfEpisode": 84,
+			"nowChapterName": "中盤戦",
+			"remainingNumber": 29
 		},
 		{
+			"canRead": true,
+			"id": 71,
+			"siteId": 31,
 			"name": " BATTLE ROYALE ～殺戮遊戯～",
-			"school": {
+			"groups": [{
 				"prefecture": "埼玉県",
-				"name": "立北屋中学校",
-				"class": {
+				"categoly": "県立",
+				"name": "埼玉県立北屋中学校",
+				"members": {
 					"name": "3年A組",
-					"numberOfMan": "22",
-					"numberOfWoman": "20",
-					"numberOfStudents": "42"
+					"numberOfMan": 22,
+					"numberOfWoman": 20
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 86,
+			}],
 			"comment": "杉琴。氏の投稿作品。",
-			"siteId": 31
+			"status": "finish",
+			"numberOfEpisode": 86
 		},
 		{
+			"canRead": true,
+			"id": 72,
+			"siteId": 31,
 			"name": "BATTLE ROYALE ～最後の聖戦～",
-			"year": "2006",
-			"school": {
+			"year": 2006,
+			"groups": [{
 				"prefecture": "岡山県",
 				"municipalities": "大佐町",
-				"name": "立上祭中学校",
-				"class": {
+				"name": "岡山県大佐町立上祭中学校",
+				"categoly": "町立",
+				"members": {
 					"name": "3年",
-					"numberOfMan": "21+1",
-					"numberOfWoman": "21+1",
-					"numberOfStudents": "42+2"
+					"numberOfMan": 21,
+					"numberOfTransferedMan": 1,
+					"numberOfWoman": 21,
+					"numberOfTransferedWoman": 1
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 93,
+			}],
 			"comment": "杉琴。氏の投稿作品。",
-			"siteId": 31
+			"status": "finish",
+			"numberOfEpisode": 93
 		},
 		{
+			"canRead": true,
+			"id": 73,
+			"siteId": 31,
 			"name": "BATTLE ROYALE ～誓いの空～",
-			"year": "1998",
-			"school": {
+			"year": 1998,
+			"groups": [{
 				"prefecture": "山口県",
-				"name": "立殿場中学校",
-				"class": {
+				"categoly": "県立",
+				"name": "山口県立殿場中学校",
+				"members": {
 					"name": "3年1組",
-					"numberOfMan": "10",
-					"numberOfWoman": "7",
-					"numberOfStudents": "17"
+					"numberOfMan": 10,
+					"numberOfWoman": 7
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 47,
+			}],
 			"comment": "杉琴。氏の投稿作品。特殊ルール採用。",
-			"siteId": 31
+			"status": "finish",
+			"numberOfEpisode": 47
 		},
 		{
+			"canRead": true,
+			"id": 74,
+			"siteId": 31,
 			"name": "BATTLE ROYALE ～仮面演舞～",
-			"year": "1995",
-			"school": {
+			"year": 1995,
+			"groups": [{
 				"prefecture": "岡山県",
 				"municipalities": "岡山市",
-				"name": "立央谷東中学校",
-				"class": {
+				"name": "岡山県岡山市立央谷東中学校",
+				"members": {
 					"name": "3年C組",
-					"numberOfMan": "18",
-					"numberOfWoman": "18+1",
-					"numberOfStudents": "36+1"
+					"numberOfMan": 18,
+					"numberOfWoman": 18,
+					"numberOfTransferedWoman": 1,
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 100,
+			}],
 			"comment": "杉琴。氏の投稿作品。転校生1名参戦。",
-			"siteId": 31
+			"status": "finish",
+			"numberOfEpisode": 100
 		},
 		{
+			"canRead": true,
+			"id": 75,
+			"siteId": 31,
 			"name": "BATTLE ROYALE ～The Gatekeeper～",
-			"year": "1999",
-			"school": {
+			"year": 1999,
+			"groups": [{
 				"prefecture": "兵庫県",
 				"municipalities": "神戸市",
-				"name": "立月港中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "兵庫県神戸市立月港中学校",
+				"members": {
 					"name": "3年A組",
-					"numberOfMan": "18",
-					"numberOfWoman": "18",
-					"numberOfStudents": "36"
+					"numberOfMan": 18,
+					"numberOfWoman": 18,
 				}
-			},
-			"nowChapterName": "集約編",
-			"numberOfEpisode": 93,
-			"newestEpisodeNumber": 92,
-			"remainingNumber": 13,
+			}],
 			"comment": "杉琴。氏の投稿作品。",
-			"siteId": 31
+			"status": "suspend",
+			"newestEpisodeNumber": 92,
+			"numberOfEpisode": 93,
+			"nowChapterName": "集約編",
+			"remainingNumber": 13
 		},
 		{
+			"canRead": true,
+			"id": 76,
+			"siteId": 31,
 			"name": "BATTLE ROYALE ～死線の先の終末～",
-			"year": "1994",
-			"school": {
+			"year": 1994,
+			"groups": [{
 				"prefecture": "茨城県",
-				"name": "公立海音寺中学校",
-				"class": {
+				"name": "茨城県公立海音寺中学校",
+				"members": {
 					"name": "3年C組",
-					"numberOfMan": "20",
-					"numberOfWoman": "20",
-					"numberOfStudents": "40"
+					"numberOfMan": 20,
+					"numberOfWoman": 20,
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 76,
+			}],
 			"comment": "コールマン氏の投稿作品。\n\t\t転校生3名参戦。",
-			"siteId": 31
+			"status": "finish",
+			"numberOfEpisode": 76
 		},
 		{
+			"canRead": true,
+			"id": 77,
+			"siteId": 31,
 			"name": "BATTLE ROYALE ～Fighting \n\t\tSpirit～",
-			"year": "2010",
-			"school": {
+			"year": 2010,
+			"groups": [{
+				"categoly": "私立",
 				"name": "私立夕凪学院大学付属第一高等学校",
-				"class": {
+				"members": {
 					"name": "2年1組",
-					"numberOfMan": "16",
-					"numberOfWoman": "16+1",
-					"numberOfStudents": "32+1"
+					"numberOfMan": 16,
+					"numberOfWoman": 16,
+					"numberOfTransferedWoman": 1,
 				}
-			},
-			"suspends": true,
+			}],
 			"comment": "ももあ氏の投稿作品。\n\t\t高校生によるプログラム。特殊ルール採用。特別参加者1名参戦。",
-			"siteId": 31
+			"status": "suspend",
+			"numberOfEpisode": 79,
+			"newestEpisodeNumber": 79
 		},
 		{
+			"canRead": true,
+			"id": 78,
+			"siteId": 31,
 			"name": "BATTLE ROYALE～背徳の瞳～",
-			"year": "1995",
-			"school": {
+			"year": 1995,
+			"groups": [{
 				"prefecture": "埼玉県",
 				"name": "川田中学校",
-				"class": {
+				"members": {
 					"name": "3年2組",
-					"numberOfMan": "1",
-					"numberOfWoman": "1",
-					"numberOfStudents": "2"
+					"numberOfMan": 1,
+					"numberOfWoman": 1
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 18,
+			}],
 			"comment": "みかど氏の投稿作品。\n\t\t事故で他のクラスメイトが死亡。",
-			"siteId": 31
+			"status": "finish",
+			"numberOfEpisode": 18
 		},
 		{
+			"canRead": true,
+			"id": 79,
+			"siteId": 31,
 			"name": "BATTLE ROYALE～Body & Soul～",
-			"year": "1996",
-			"school": {
+			"year": 1996,
+			"groups": [{
 				"prefecture": "栃木県",
-				"name": "立青葉中学校",
-				"class": {
+				"categoly": "県立",
+				"name": "栃木県立青葉中学校3年1組",
+				"members": {
 					"name": "3年1組",
-					"numberOfMan": "12",
-					"numberOfWoman": "12",
-					"numberOfStudents": "24"
+					"numberOfMan": 12,
+					"numberOfWoman": 12
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 54,
+			}],
 			"comment": "みかど氏の投稿作品。\n\t\t特殊ルール採用。",
-			"siteId": 31
+			"status": "finish",
+			"numberOfEpisode": 54
 		},
 		{
+			"canRead": true,
+			"id": 80,
+			"siteId": 31,
 			"name": "BATTLE ROYALE III ～狂詩曲～（完全版）",
-			"school": {
+			"groups": [{
 				"name": "北崎中学校",
-				"class": {
+				"members": {
 					"name": "3年A組",
-					"numberOfMan": "21",
-					"numberOfWoman": "21",
-					"numberOfStudents": "42"
+					"numberOfMan": 21,
+					"numberOfWoman": 21
 				}
-			},
-			"suspends": true,
+			}],
 			"comment": "KKK氏の投稿作品。",
-			"siteId": 31
+			"status": "suspend",
+			"numberOfEpisode": 24,
+			"nowChapterName": "第3楽章",
+			"newestEpisodeNumber": 1
 		},
 		{
+			"canRead": true,
+			"id": 81,
+			"siteId": 31,
 			"name": "BATTLE ROYALE\t～Destiny Island～",
-			"year": "1989",
-			"school": {
+			"year": 1989,
+			"groups": [{
 				"prefecture": "長野県",
 				"municipalities": "山王寺町",
-				"name": "町立第二中学校",
-				"class": {
+				"categoly": "町立",
+				"name": "長野県山王寺町町立第二中学校",
+				"members": {
 					"name": "3年C組"
 				}
-			},
-			"suspends": true,
+			}],
 			"comment": "昴氏＆紅月氏の投稿作品。",
-			"siteId": 31
+			"status": "suspend",
+			"numberOfEpisode": 1,
+			"newestEpisodeNumber": 1
 		},
 		{
+			"canRead": true,
+			"id": 82,
+			"siteId": 31,
 			"name": "BATTLE ROYALE\t～過去から現在へ～",
-			"year": "1989",
-			"school": {
+			"year": 1989,
+			"groups": [{
 				"name": "立代第二中学校",
-				"class": {
+				"members": {
 					"name": "2年A組",
-					"numberOfMan": "22",
-					"numberOfWoman": "20",
-					"numberOfStudents": "42"
+					"numberOfMan": 22,
+					"numberOfWoman": 20
 				}
-			},
-			"suspends": true,
-			"nowChapterName": "中盤戦",
-			"numberOfEpisode": 46,
-			"newestEpisodeNumber": 39,
-			"remainingNumber": 20,
+			}],
 			"comment": "タイムカプセル氏の投稿作品。",
-			"siteId": 31
+			"status": "suspend",
+			"newestEpisodeNumber": 39,
+			"numberOfEpisode": 46,
+			"nowChapterName": "中盤戦",
+			"remainingNumber": 20
 		},
 		{
+			"canRead": true,
+			"id": 83,
+			"siteId": 31,
 			"name": "BATTLE ROYALE\t～終わりに続く階段～",
-			"year": "1993",
-			"school": {
+			"year": 1993,
+			"groups": [{
 				"prefecture": "神奈川県",
-				"name": "立神奈川国際中等部",
-				"class": {
+				"categoly": "県立",
+				"name": "神奈川県立神奈川国際中等部",
+				"members": {
 					"name": "3年2組",
-					"numberOfMan": "4",
-					"numberOfWoman": "3",
-					"numberOfStudents": "7"
+					"numberOfMan": 4,
+					"numberOfWoman": 3
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 26,
+			}],
 			"comment": "テル氏の投稿作品。",
-			"siteId": 31
+			"status": "finish",
+			"numberOfEpisode": 26
 		},
 		{
+			"canRead": true,
+			"id": 84,
+			"siteId": 31,
 			"name": "\n\t\t\tBATTLE ROYALE\n\t\t\t～終焉の日にあなたは何を思う～\n\t\t",
-			"year": "2003",
-			"school": {
+			"year": 2003,
+			"groups": [{
 				"prefecture": "京都",
-				"name": "府立鴨見中学校",
-				"class": {
+				"categoly": "府立",
+				"name": "京都府立鴨見中学校",
+				"members": {
 					"name": "3年C組",
-					"numberOfMan": "18+1",
-					"numberOfWoman": "18+2",
-					"numberOfStudents": "36+3"
+					"numberOfMan": 18,
+					"numberOfTransferedMan": 1,
+					"numberOfWoman": 18,
+					"numberOfTransferedWoman": 2,
 				}
-			},
-			"suspends": true,
-			"newestEpisodeNumber": 11,
-			"remainingNumber": 31,
+			}],
 			"comment": "テル氏の投稿作品。",
-			"siteId": 31
+			"status": "suspend",
+			"numberOfEpisode": 11,
+			"newestEpisodeNumber": 11,
+			"remainingNumber": 31
 		},
 		{
+			"canRead": false,
+			"id": 85,
+			"siteId": 32,
 			"name": "Wish――ただ、あなたの傍にいたかった。",
-			"year": "2005",
-			"school": {
+			"groups": [{
 				"prefecture": "神奈川県",
 				"name": "私立星蘭高等学校",
-				"class": {
+				"members": {
 					"name": "3年1組",
-					"numberOfMan": "12",
-					"numberOfWoman": "12+1",
-					"numberOfStudents": "24+1"
+					"numberOfMan": 12,
+					"numberOfWoman": 12,
+					"numberOfTransferedWoman": 1,
 				}
-			},
-			"suspends": true,
-			"nowChapterName": "中盤戦",
+			}],
+
+			"status": "suspend",
 			"newestEpisodeNumber": 34,
-			"remainingNumber": 17,
-			"comment": "　",
-			"siteId": 32
-		},
-		{
-			"name": "～Link～",
-			"year": "1995",
-			"programNumber": 10,
-			"school": {
-				"prefecture": "福岡県",
-				"name": "立沼川第一中学校",
-				"class": {
-					"name": "3年1組",
-					"numberOfMan": "21",
-					"numberOfWoman": "17",
-					"numberOfStudents": "38"
-				}
-			},
-			"ends": true,
-			"numberOfEpisode": 135,
-			"comment": "　",
-			"siteId": 33
-		},
-		{
-			"name": "～Real～",
-			"year": "1993",
-			"programNumber": 43,
-			"school": {
-				"name": "私立青奉中学校",
-				"class": {
-					"name": "3年1組（特進クラス）",
-					"numberOfMan": "17",
-					"numberOfWoman": "17",
-					"numberOfStudents": "34"
-				}
-			},
+			"numberOfEpisode": 34,
 			"nowChapterName": "中盤戦",
-			"numberOfEpisode": 79,
-			"newestEpisodeNumber": 78,
-			"remainingNumber": 15,
-			"comment": "～Link～と若干の関連性あり ",
-			"siteId": 33
+			"remainingNumber": 17
 		},
 		{
+			"canRead": true,
+			"id": 86,
+			"siteId": 33,
+			"name": "～Link～",
+			"year": 1995,
+			"programNumber": 10,
+			"groups": [{
+				"prefecture": "福岡県",
+				"categoly": "県立",
+				"name": "福岡県立沼川第一中学校",
+				"members": {
+					"name": "3年1組",
+					"numberOfMan": 21,
+					"numberOfWoman": 17
+				}
+			}],
+
+			"status": "finish",
+			"numberOfEpisode": 135
+		},
+		{
+			"canRead": true,
+			"id": 87,
+			"siteId": 33,
+			"name": "～Real～",
+			"year": 1993,
+			"programNumber": 43,
+			"groups": [{
+				"categoly": "私立",
+				"name": "私立青奉中学校",
+				"members": {
+					"name": "3年1組（特進クラス）",
+					"numberOfMan": 17,
+					"numberOfWoman": 17
+				}
+			}],
+			"comment": "～Link～と若干の関連性あり ",
+			"status": "finish",
+			"numberOfEpisode": 134,
+		},
+		{
+			"canRead": false,
+			"id": 88,
+			"siteId": 34,
 			"name": "（タイトル不明）",
-			"school": {
+			"groups": [{
 				"prefecture": "大阪府",
 				"municipalities": "茨木市",
-				"name": "立南陵中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "大阪府茨木市立南陵中学校",
+				"members": {
 					"name": "3年2組",
-					"numberOfMan": "20",
-					"numberOfWoman": "20",
-					"numberOfStudents": "40"
+					"numberOfMan": 20,
+					"numberOfWoman": 20,
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 40,
-			"comment": "　",
-			"siteId": 34
+			}],
+
+			"status": "finish",
+			"numberOfEpisode": 40
 		},
 		{
+			"canRead": true,
+			"id": 89,
+			"siteId": 35,
 			"name": "nothing",
-			"year": "2001",
-			"school": {
+			"year": 2001,
+			"groups": [{
 				"prefecture": "埼玉県",
-				"name": "丹羽中学校",
-				"class": {
+				"name": "埼玉県丹羽中学校",
+				"members": {
 					"name": "3年4組",
-					"numberOfMan": "19",
-					"numberOfWoman": "19",
-					"numberOfStudents": "38"
+					"numberOfMan": 19,
+					"numberOfWoman": 19,
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 115,
-			"comment": "　",
-			"siteId": 35
+			}],
+
+			"status": "finish",
+			"numberOfEpisode": 115
 		},
 		{
+			"canRead": true,
+			"id": 90,
+			"siteId": 35,
 			"name": "\"F\"",
-			"school": {
+			"groups": [{
 				"municipalities": "H市",
-				"name": "立Y中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "	H市立Y中学校",
+				"members": {
 					"name": "3年",
-					"numberOfMan": "8",
-					"numberOfWoman": "10",
-					"numberOfStudents": "18"
+					"numberOfMan": 8,
+					"numberOfWoman": 10,
 				}
-			},
-			"comment": "　",
-			"siteId": 35
+			}],
+
+			"status": "suspend",
+			"numberOfEpisode": 4,
+			"newestEpisodeNumber": 4
 		},
 		{
+			"canRead": true,
+			"id": 91,
+			"siteId": 35,
 			"name": "愁眠",
-			"school": {
+			"groups": [{
 				"prefecture": "静岡県",
 				"municipalities": "浜松市",
-				"name": "立第五中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "静岡県浜松市立第五中学校",
+				"members": {
 					"name": "3年2組",
-					"numberOfMan": "15",
-					"numberOfWoman": "15",
-					"numberOfStudents": "30"
+					"numberOfMan": 15,
+					"numberOfWoman": 15,
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 19,
+			}],
 			"comment": "短編。",
-			"siteId": 35
+			"status": "finish",
+			"numberOfEpisode": 19
 		},
 		{
+			"canRead": true,
+			"id": 92,
+			"siteId": 36,
 			"name": "Where has everyone gone?",
-			"school": {
+			"groups": [{
 				"prefecture": "千葉県",
-				"name": "稲毛区立園生緑地中学校",
-				"class": {
+				"categoly": "区立",
+				"name": "千葉県稲毛区立園生緑地中学校",
+				"members": {
 					"name": "3年4組",
-					"numberOfMan": "20",
-					"numberOfWoman": "20",
-					"numberOfStudents": "40"
+					"numberOfMan": 20,
+					"numberOfWoman": 20,
 				}
-			},
-			"suspends": true,
-			"nowChapterName": "第1部",
+			}],
+
+			"status": "suspend",
 			"numberOfEpisode": 20,
+			"nowChapterName": "第1部",
 			"newestEpisodeNumber": 18,
-			"remainingNumber": 26,
-			"comment": "　",
-			"siteId": 36
+			"remainingNumber": 26
 		},
 		{
+			"canRead": true,
+			"id": 93,
+			"siteId": 36,
 			"name": "ENDLESS WHITE",
-			"year": "2002",
+			year: 2002,
 			"programNumber": 5,
-			"school": {
+			"groups": [{
 				"prefecture": "群馬県",
 				"municipalities": "沼田市",
-				"name": "立奥田東中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "群馬県沼田市立奥田東中学校",
+				"members": {
 					"name": "3年1組",
-					"numberOfMan": "11+2",
-					"numberOfWoman": "11",
-					"numberOfStudents": "22"
+					"numberOfMan": 11,
+					"numberOfTransferedMan": 2,
+					"numberOfWoman": 11,
 				}
-			},
-			"suspends": true,
-			"nowChapterName": "Stage0",
-			"numberOfEpisode": 4,
-			"newestEpisodeNumber": 2,
-			"remainingNumber": 22,
+			}],
 			"comment": "「BATTLE ROYALE RENZOKU」の第5号。転校生2人参戦。",
-			"siteId": 36
+			"status": "suspend",
+			"numberOfEpisode": 4,
+			"nowChapterName": "Stage0",
+			"newestEpisodeNumber": 2,
+			"remainingNumber": 22
 		},
 		{
+			"canRead": true,
+			"id": 94,
+			"siteId": 37,
 			"name": "悠久の輪舞曲",
-			"year": "2002",
-			"school": {
+			year: 2002,
+			"groups": [{
 				"prefecture": "愛媛県",
-				"name": "立私立金森中学校",
-				"class": {
+				"categoly": "県立",
+				"name": "愛媛県立私立金森中学校",
+				"members": {
 					"name": "3年A組",
-					"numberOfMan": "20",
-					"numberOfWoman": "20",
-					"numberOfStudents": "40"
+					"numberOfMan": 20,
+					"numberOfWoman": 20
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 81,
+			}],
 			"comment": "黒羽と俊の合同作品です。",
-			"siteId": 37
+			"status": "finish",
+			"numberOfEpisode": 81
 		},
 		{
+			"canRead": true,
+			"id": 95,
+			"siteId": 37,
 			"name": "正義のヒーロー★悪のヒロイン",
-			"year": "2003",
-			"school": {
+			year: 2003,
+			"groups": [{
 				"prefecture": "大阪府",
 				"municipalities": "東山市",
-				"name": "立第五中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "大阪府東山市立第五中学校",
+				"members": {
 					"name": "3年2組",
-					"numberOfMan": "9-1",
-					"numberOfWoman": "9",
-					"numberOfStudents": "18-1"
+					"numberOfMan": 9,
+					numberOfVisitorMan: 1,
+					"numberOfWoman": 9,
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 53,
+			}],
 			"comment": "黒羽個人作品です。",
-			"siteId": 37
+			"status": "finish",
+			"numberOfEpisode": 53
 		},
 		{
+			"canRead": true,
+			"id": 96,
+			"siteId": 37,
 			"name": "Target 21",
-			"school": {
+			"groups": [{
 				"prefecture": "和歌山県",
 				"name": "桜ノ宮中学校",
-				"class": {
+				"members": {
 					"name": "3年3組",
-					"numberOfMan": "10",
-					"numberOfWoman": "11",
-					"numberOfStudents": "21"
+					"numberOfMan": 10,
+					"numberOfWoman": 11
 				}
-			},
-			"suspends": true,
+			}],
+			"comment": "黒羽個人作品です。",
+			"status": "suspend",
 			"numberOfEpisode": 26,
 			"newestEpisodeNumber": 25,
-			"remainingNumber": 16,
-			"comment": "黒羽個人作品です。",
-			"siteId": 37
+			"remainingNumber": 16
 		},
 		{
+			"canRead": true,
+			"id": 97,
+			"siteId": 38,
 			"name": "UNLIMITED DARK",
-			"year": "1998",
-			"programNumber": 1,
-			"school": {
+			"groups": [{
 				"prefecture": "大阪府",
 				"municipalities": "茨木市",
+				"categoly": "私立",
 				"name": "私立関西追手陵学園",
-				"class": {
+				"members": {
 					"name": "3年8組",
-					"numberOfMan": "12",
-					"numberOfWoman": "10",
-					"numberOfStudents": "22"
+					"numberOfMan": 12,
+					"numberOfWoman": 10
 				}
-			},
+			}],
+			"comment": "特殊ルール採用。",
+			"status": "suspend",
+			"programNumber": 1,
+			"numberOfEpisode": 10,
 			"nowChapterName": "第1部",
 			"newestEpisodeNumber": 10,
-			"remainingNumber": 21,
-			"comment": "特殊ルール採用。",
-			"siteId": 38
+			"remainingNumber": 21
 		},
 		{
+			"canRead": true,
+			"id": 98,
+			"siteId": 39,
 			"name": "Love＆Destroy",
-			"year": "2005",
-			"school": {
+			year: 2005,
+			"groups": [{
 				"prefecture": "新潟県",
 				"name": "私立舞原中学校",
-				"class": {
+				"members": {
 					"name": "3年3組",
-					"numberOfMan": "19",
-					"numberOfWoman": "19",
-					"numberOfStudents": "38"
+					"numberOfMan": 19,
+					"numberOfWoman": 19,
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 103,
-			"comment": "　",
-			"siteId": 39
+			}],
+
+			"status": "finish",
+			"numberOfEpisode": 103
 		},
 		{
+			"canRead": true,
+			"id": 99,
+			"siteId": 39,
 			"name": "Underworld Dreams",
-			"school": {
+			year: 1995,
+			"groups": [{
 				"prefecture": "新潟県",
 				"municipalities": "静海市",
-				"name": "立静海中学校",
-				"class": {
+				categoly: "市立",
+				"name": "新潟県静海市立静海中学校",
+				"members": {
 					"name": "3年1組",
-					"numberOfMan": "18",
-					"numberOfWoman": "18",
-					"numberOfStudents": "36"
+					"numberOfMan": 18,
+					"numberOfWoman": 18,
 				}
-			},
-			"nowChapterName": "chapter5",
-			"numberOfEpisode": 99,
-			"newestEpisodeNumber": 93,
-			"remainingNumber": 9,
+			}],
 			"comment": "Love＆Destroyと関連あり",
-			"siteId": 39
+			"status": "suspend",
+			"numberOfEpisode": 99,
+			"nowChapterName": "chapter5",
+			"newestEpisodeNumber": 93,
+			"remainingNumber": 9
 		},
 		{
+			"canRead": true,
+			"id": 100,
+			"siteId": 40,
 			"name": "オリジナルバトルロワイアル",
-			"school": {
+			"groups": [{
 				"prefecture": "大阪府",
-				"name": "立東山中学校",
-				"class": {
+				"categoly": "府立",
+				"name": "大阪府立東山中学校",
+				"members": {
 					"name": "3年1組",
-					"numberOfMan": "20",
-					"numberOfWoman": "20",
-					"numberOfStudents": "40"
+					"numberOfMan": 20,
+					"numberOfWoman": 20
 				}
-			},
-			"suspends": true,
+			}],
+
+			"status": "suspend",
+			"numberOfEpisode": 51,
 			"nowChapterName": "中盤戦",
 			"newestEpisodeNumber": 51,
-			"remainingNumber": 22,
-			"comment": "　",
-			"siteId": 40
+			"remainingNumber": 22
 		},
 		{
+			"canRead": true,
+			"id": 101,
+			"siteId": 41,
 			"name": "Last Message",
-			"year": "1998",
+			year: 1998,
 			"programNumber": 28,
-			"school": {
+			"groups": [{
 				"prefecture": "島根県",
+				"categoly": "私立",
 				"name": "私立扇賀中学校",
-				"class": {
+				"members": {
 					"name": "3年G組",
-					"numberOfMan": "20",
-					"numberOfWoman": "20",
-					"numberOfStudents": "40"
+					"numberOfMan": 20,
+					"numberOfWoman": 20,
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 111,
-			"comment": "　",
-			"siteId": 41
+			}],
+
+			"status": "finish",
+			"numberOfEpisode": 111
 		},
 		{
+			"canRead": true,
+			"id": 102,
+			"siteId": 41,
 			"name": "約束の橋",
-			"year": "1999",
+			year: 1999,
 			"programNumber": 36,
-			"school": {
+			"groups": [{
 				"prefecture": "香川県",
 				"municipalities": "峰湘町",
-				"name": "立峰湘中学校",
-				"class": {
+				"categoly": "町立",
+				"name": "香川県峰湘町立峰湘中学校",
+				"members": {
 					"name": "3年4組",
-					"numberOfMan": "20",
-					"numberOfWoman": "20",
-					"numberOfStudents": "40"
+					"numberOfMan": 20,
+					"numberOfWoman": 20,
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 162,
+			}],
 			"comment": "笹川の従弟参戦。桐山の義弟参戦。",
-			"siteId": 41
+			"status": "finish",
+			"numberOfEpisode": 162
 		},
 		{
+			"canRead": true,
+			"id": 103,
+			"siteId": 41,
 			"name": "光と影の迷宮",
-			"year": "2000",
+			year: 2000,
 			"programNumber": 40,
-			"school": {
+			"groups": [{
 				"prefecture": "神奈川県",
 				"municipalities": "横浜市",
-				"name": "立御厨中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "神奈川県横浜市立御厨中学校",
+				"members": {
 					"name": "3年3組",
-					"numberOfMan": "12+2",
-					"numberOfWoman": "12+2",
-					"numberOfStudents": "24+4"
+					"numberOfMan": 12,
+					numberOfTransferedMan: 2,
+					"numberOfWoman": 12,
+					numberOfTransferedWoman: 2,
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 100,
+			}],
 			"comment": "第72番プログラムルール採用。特別参加者が4名参戦",
-			"siteId": 41
+			"status": "finish",
+			"numberOfEpisode": 100
 		},
 		{
+			"canRead": true,
+			"id": 104,
+			"siteId": 41,
 			"name": "Graduation",
-			"year": "2001",
+			year: 2001,
 			"programNumber": 50,
-			"school": {
+			"groups": [{
 				"prefecture": "東京都",
-				"name": "港区立皇中学校",
-				"class": {
+				categoly: "区立",
+				"name": "東京都港区立皇中学校",
+				"members": {
 					"name": "3年5組",
-					"numberOfMan": "20",
-					"numberOfWoman": "20",
-					"numberOfStudents": "40"
+					"numberOfMan": 20,
+					"numberOfWoman": 20
 				}
-			},
+			}],
+			"comment": "原作、前作関係者登場。",
+			"status": "suspend",
+			"numberOfEpisode": 75,
 			"nowChapterName": "中盤戦前半",
 			"newestEpisodeNumber": 75,
-			"remainingNumber": 26,
-			"comment": "原作、前作関係者登場。",
-			"siteId": 41
+			"remainingNumber": 26
 		},
 		{
+			"canRead": true,
+			"id": 105,
+			"siteId": 41,
 			"name": "Box☆Royale",
-			"year": "200X",
-			"targetCategory": "歴代作品選抜生徒",
-			"school": {
-				"class": {
-					"numberOfMan": "8",
-					"numberOfWoman": "8",
-					"numberOfStudents": "16"
+			year: "200X",
+			"groups": [{
+				"name": "歴代作品選抜生徒",
+				"members": {
+					"numberOfMan": 8,
+					"numberOfWoman": 8,
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 20,
-			"comment": "　",
-			"siteId": 41
+			}],
+
+			"status": "finish",
+			"numberOfEpisode": 20
 		},
 		{
-			"name": "Battle Royale Dragoon ",
-			"year": "2000",
-			"targetCategory": "（歴代作品選抜生徒＋α）",
-			"school": {
+			"canRead": true,
+			"id": 106,
+			"siteId": 41,
+			"name": "Battle Royale Dragoon",
+			year: 2000,
+			programNumber: "X",
+			"groups": [{
 				"prefecture": "神奈川県",
 				"municipalities": "横浜市",
-				"name": "立龍宮中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "神奈川県横浜市立龍宮中学校（歴代作品選抜生徒＋α）",
+				"members": {
 					"name": "3年B組",
-					"numberOfMan": "（全24中男子6名",
-					"numberOfWoman": "6",
-					"numberOfStudents": "12"
+					"numberOfMan": 6,
+					"numberOfWoman": 6,
 				}
-			},
+			}],
 			"comment": " 戦闘実験第101番”B･R･D”採用。某龍騎の世界観をオマージュしております。",
-			"siteId": 41
+			"status": "suspend",
+			"numberOfEpisode": 19,
+			"nowChapterName": "第一段階",
+			"newestEpisodeNumber": 19
 		},
 		{
-			"name": " Woods Without Sound",
-			"year": "2003",
-			"school": {
+			"canRead": true,
+			"id": 107,
+			"siteId": 42,
+			"name": "Woods Without Sound",
+			year: 2003,
+			"groups": [{
 				"prefecture": "千葉県",
 				"municipalities": "千葉市",
-				"name": "立双林中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "千葉県千葉市立双林中学校",
+				"members": {
 					"name": "3年1組",
-					"numberOfMan": "23",
-					"numberOfWoman": "22",
-					"numberOfStudents": "45"
+					"numberOfMan": 23,
+					"numberOfWoman": 22,
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 85,
-			"comment": "　",
-			"siteId": 42
+			}],
+
+			"status": "finish",
+			"numberOfEpisode": 85
 		},
 		{
+			"canRead": true,
+			"id": 108,
+			"siteId": 42,
 			"name": "Voice",
-			"year": "1995",
-			"school": {
+			year: 1995,
+			"groups": [{
 				"prefecture": "埼玉県",
 				"municipalities": "与野市",
-				"name": "立与野北中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "埼玉県与野市立与野北中学校",
+				"members": {
 					"name": "3年3組",
-					"numberOfMan": "18",
-					"numberOfWoman": "18",
-					"numberOfStudents": "36"
+					"numberOfMan": 18,
+					"numberOfWoman": 18
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 94,
-			"comment": "　",
-			"siteId": 42
+			}],
+
+			"status": "finish",
+			"numberOfEpisode": 94
 		},
 		{
+			"canRead": true,
+			"id": 109,
+			"siteId": 42,
 			"name": "Innervisions",
-			"year": "1998",
-			"school": {
+			year: 1998,
+			"groups": [{
 				"prefecture": "神奈川県",
 				"municipalities": "逗子市",
-				"name": "私立昭栄学園中学校",
-				"class": {
+				categoly: "私立",
+				"name": "神奈川県逗子市私立昭栄学園中学校",
+				"members": {
 					"name": "3年A組",
-					"numberOfMan": "7",
-					"numberOfWoman": "13",
-					"numberOfStudents": "20"
+					"numberOfMan": 7,
+					"numberOfWoman": 13
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 64,
-			"comment": "　",
-			"siteId": 42
+			}],
+
+			"status": "finish",
+			"numberOfEpisode": 64
 		},
 		{
+			"canRead": true,
+			"id": 110,
+			"siteId": 42,
 			"name": "Human Being",
-			"year": "2013",
-			"school": {
+			year: 2013,
+			"groups": [{
 				"prefecture": "三重県",
 				"municipalities": "四日市",
-				"name": "市立日永中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "三重県四日市市立日永中学校",
+				"members": {
 					"name": "3年2組",
-					"numberOfMan": "18",
-					"numberOfWoman": "18",
-					"numberOfStudents": "36"
+					"numberOfMan": 18,
+					"numberOfWoman": 18
 				}
-			},
-			"nowChapterName": "中盤戦",
+			}],
+
+			"status": "suspend",
 			"numberOfEpisode": 70,
+			"nowChapterName": "中盤戦",
 			"newestEpisodeNumber": 65,
-			"remainingNumber": 13,
-			"comment": "　",
-			"siteId": 42
+			"remainingNumber": 13
 		},
 		{
+			"canRead": false,
+			"id": 111,
+			"siteId": 43,
 			"name": "Wither brossom",
-			"year": "2002",
-			"school": {
+			year: 2002,
+			"groups": [{
 				"prefecture": "愛知県",
 				"municipalities": "七瀬町",
-				"name": "立旭中学校",
-				"class": {
+				"categoly": "町立",
+				"name": "愛知県七瀬町立旭中学校",
+				"members": {
 					"name": "3年5組",
-					"numberOfMan": "18",
-					"numberOfWoman": "17",
-					"numberOfStudents": "35"
+					"numberOfMan": 18,
+					"numberOfWoman": 17
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 90,
-			"comment": "　",
-			"siteId": 43
+			}],
+
+			"status": "finish",
+			"numberOfEpisode": 90
 		},
 		{
+			"canRead": true,
+			"id": 112,
+			"siteId": 43,
 			"name": "ソラアワセ",
-			"year": "2005",
-			"school": {
+			year: 2005,
+			"groups": [{
 				"prefecture": "愛知県",
 				"name": "第二竜神中学校",
-				"class": {
+				"members": {
 					"name": "3年C組",
-					"numberOfMan": "12",
-					"numberOfWoman": "11",
-					"numberOfStudents": "23"
+					"numberOfMan": 12,
+					"numberOfWoman": 11
 				}
-			},
+			}],
+
+			"status": "suspend",
 			"numberOfEpisode": 35,
 			"newestEpisodeNumber": 34,
-			"remainingNumber": 16,
-			"comment": "　",
-			"siteId": 43
+			"remainingNumber": 16
 		},
 		{
+			"canRead": true,
+			"id": 113,
+			"siteId": 44,
 			"name": "翼のない天使",
-			"year": "1998",
+			year: 1998,
 			"programNumber": 1,
-			"school": {
+			"groups": [{
 				"prefecture": "山梨県",
-				"name": "私立西橋高等学校",
-				"class": {
+				"categoly": "私立",
+				"name": "山梨県私立西橋高等学校",
+				"members": {
 					"name": "2年E組",
-					"numberOfMan": "23",
-					"numberOfWoman": "23",
-					"numberOfStudents": "46"
+					"numberOfMan": 23,
+					"numberOfWoman": 23
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 87,
+			}],
 			"comment": "高校生プログラムです。これから始まるきっかけの物語となります。",
-			"siteId": 44
+			"status": "finish",
+			"numberOfEpisode": 87
 		},
 		{
+			"canRead": true,
+			"id": 114,
+			"siteId": 44,
 			"name": "運命の歯車",
-			"year": "2000",
-			"programNumber": 3,
-			"school": {
+			year: 2000,
+			"groups": [{
 				"prefecture": "広島県",
-				"name": "私立湾洋高等学校",
-				"class": {
+				categoly: "私立",
+				"name": "広島県私立湾洋高等学校",
+				"members": {
 					"name": "2年C組",
-					"numberOfMan": "22",
-					"numberOfWoman": "18",
-					"numberOfStudents": "40"
+					"numberOfMan": 22,
+					"numberOfWoman": 18
 				}
-			},
-			"nowChapterName": "中盤戦",
+			}],
+
+			"status": "suspend",
+			"programNumber": 3,
 			"numberOfEpisode": 81,
+			"nowChapterName": "中盤戦",
 			"newestEpisodeNumber": 80,
-			"remainingNumber": 25,
-			"comment": "　",
-			"siteId": 44
+			"remainingNumber": 25
 		},
 		{
+			"canRead": true,
+			"id": 115,
+			"siteId": 45,
 			"name": "Send my thought",
-			"year": "2003",
-			"school": {
+			year: 2003,
+			"groups": [{
 				"prefecture": "愛知県",
 				"municipalities": "竹花市",
-				"name": "立桜立中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "愛知県竹花市立桜立中学校",
+				"members": {
 					"name": "3年1組",
-					"numberOfMan": "21",
-					"numberOfWoman": "21",
-					"numberOfStudents": "42"
+					"numberOfMan": 21,
+					"numberOfWoman": 21
 				}
-			},
+			}],
+
+			"status": "suspend",
+			"numberOfEpisode": 47,
 			"nowChapterName": "序盤戦",
 			"newestEpisodeNumber": 47,
-			"remainingNumber": 29,
-			"comment": "　",
-			"siteId": 45
+			"remainingNumber": 29
 		},
 		{
+			"canRead": false,
+			"id": 116,
+			"siteId": 46,
 			"name": "一人一命",
-			"school": {
+			"groups": [{
 				"name": "星宮学園",
-				"class": {
+				"members": {
 					"name": "3年2組",
-					"numberOfMan": "14",
-					"numberOfWoman": "10",
-					"numberOfStudents": "24"
+					"numberOfMan": 14,
+					"numberOfWoman": 10
 				}
-			},
-			"suspends": true,
+			}],
+
+			"status": "suspend",
 			"numberOfEpisode": 15,
 			"newestEpisodeNumber": 16,
-			"remainingNumber": 18,
-			"comment": "　",
-			"siteId": 46
+			"remainingNumber": 18
 		},
 		{
+			"canRead": false,
+			"id": 117,
+			"siteId": 47,
 			"name": "1999年度第1号プログラム",
-			"year": "1999",
+			year: 1999,
 			"programNumber": 1,
-			"school": {
+			"groups": [{
 				"prefecture": "東京都",
+				"categoly": "区立",
 				"name": "世田谷区立弦沢中学校",
-				"class": {
+				"members": {
 					"name": "3年A組",
-					"numberOfMan": "12+1",
-					"numberOfWoman": "12",
-					"numberOfStudents": "24+1"
+					"numberOfMan": 12,
+					numberOfTransferedMan: 1,
+					"numberOfWoman": 12
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 46,
+			}],
 			"comment": " 乱入者あり。特殊ルール採用。",
-			"siteId": 47
+			"status": "finish",
+			"numberOfEpisode": 46
 		},
 		{
+			"canRead": false,
+			"id": 118,
+			"siteId": 47,
 			"name": "1998年度第1号プログラム",
-			"year": "1998",
+			year: 1998,
 			"programNumber": 1,
-			"school": {
+			"groups": [{
 				"prefecture": "神奈川県",
 				"municipalities": "横浜市",
-				"name": "私立駒巻中学校",
-				"class": {
+				"name": "神奈川県横浜市私立駒巻中学校",
+				"members": {
 					"name": "3年B組",
-					"numberOfMan": "21",
-					"numberOfWoman": "21",
-					"numberOfStudents": "42"
+					"numberOfMan": 21,
+					"numberOfWoman": 21
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 80,
-			"comment": " \n\t\t特殊ルール採用。1999年度第1号プログラムと関連あり。 \n\t\t",
-			"siteId": 47
+			}],
+			"comment": "特殊ルール採用。1999年度第1号プログラムと関連あり。",
+			"status": "finish",
+			"numberOfEpisode": 80
 		},
 		{
+			"canRead": false,
+			"id": 119,
+			"siteId": 47,
 			"name": "1998年度第4号プログラム",
-			"year": "1998",
+			year: 1998,
 			"programNumber": 4,
-			"school": {
+			"groups": [{
 				"name": "大東亜大学付属第二中学校",
-				"class": {
+				"members": {
 					"name": "3年C組",
-					"numberOfMan": "44",
-					"numberOfWoman": "0",
-					"numberOfStudents": "44"
+					"numberOfMan": 44,
+					"numberOfWoman": 0
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 65,
+			}],
 			"comment": "上記2作と関連あり。男子校プログラム。",
-			"siteId": 47
+			"status": "finish",
+			"numberOfEpisode": 65
 		},
 		{
+			"canRead": true,
+			"id": 120,
+			"siteId": 47,
 			"name": "2015年度第42号プログラム",
-			"year": "2015",
+			year: 2015,
 			"programNumber": 42,
-			"school": {
+			"groups": [{
 				"prefecture": "香川県",
 				"municipalities": "城岩町",
-				"name": "立城岩中学校",
-				"class": {
-					"name": "3年B組",
-					"numberOfMan": "《総合計：6432名",
-					"numberOfWoman": "32）》",
-					"numberOfStudents": "32"
+				"name": "香川県城岩町立城岩中学校",
+				"members": {
+					"name": "3年A組",
+					"numberOfMan": 32,
+					"numberOfWoman": 32
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 108,
+			}, {
+				"prefecture": "香川県",
+				"municipalities": "城岩町",
+				"name": "香川県城岩町立城岩中学校",
+				"members": {
+					"name": "3年B組",
+					"numberOfMan": 32,
+					"numberOfWoman": 32
+				}
+			}],
 			"comment": "2クラス共同プログラム。上記3作と関連あり。",
-			"siteId": 47
+			"status": "finish",
+			"numberOfEpisode": 108
 		},
 		{
+			"canRead": true,
+			"id": 121,
+			"siteId": 47,
 			"name": "Unlucky Class",
-			"school": {
+			"groups": [{
 				"prefecture": "埼玉県",
 				"municipalities": "所沢市",
-				"name": "立大芸東中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "埼玉県所沢市立大芸東中学校",
+				"members": {
 					"name": "3年A組",
-					"numberOfMan": "12",
-					"numberOfWoman": "0",
-					"numberOfStudents": "12"
+					"numberOfMan": 12,
+					"numberOfWoman": 0
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 14,
+			}],
 			"comment": "少人数プログラム。拉致する前に事故により、クラスの大半が既に死亡している状況。特殊ルール採用。",
-			"siteId": 47
+			"status": "finish",
+			"numberOfEpisode": 14
 		},
 		{
+			"canRead": true,
+			"id": 122,
+			"siteId": 47,
 			"name": "Murder Instructor",
-			"school": {
+			"groups": [{
 				"prefecture": "秋田県",
 				"municipalities": "秋田市",
-				"name": "立あきた中学校",
-				"class": {
+				categoly: "市立",
+				"name": "秋田県秋田市立あきた中学校",
+				"members": {
 					"name": "3年",
-					"numberOfMan": "9",
-					"numberOfWoman": "6",
-					"numberOfStudents": "15"
+					"numberOfMan": 9,
+					"numberOfWoman": 6,
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 14,
+			}],
 			"comment": "教師視点プログラム",
-			"siteId": 47
+			"status": "finish",
+			"numberOfEpisode": 14
 		},
 		{
+			"canRead": true,
+			"id": 123,
+			"siteId": 47,
 			"name": " Half",
-			"school": {
+			"groups": [{
 				"name": "N大芸術学部文芸学科",
-				"class": {
+				"members": {
 					"name": "2年生",
-					"numberOfMan": "91",
-					"numberOfWoman": "61",
-					"numberOfStudents": "152"
+					"numberOfMan": 91,
+					"numberOfWoman": 61,
 				}
-			},
-			"suspends": true,
-			"nowChapterName": "中盤戦",
-			"numberOfEpisode": 55,
-			"newestEpisodeNumber": 53,
-			"remainingNumber": 93,
+			}],
 			"comment": " 特殊ルール採用。大学生によるプログラム。",
-			"siteId": 47
-		},
-		{
-			"name": "A reason of existence",
-			"year": "2002",
-			"programNumber": 35,
-			"targetCategory": "沖縄県城市立城中学校",
-			"school": {
-				"class": {
-					"numberOfMan": "20",
-					"numberOfWoman": "20",
-					"numberOfStudents": "40"
-				}
-			},
+			"status": "suspend",
+			"numberOfEpisode": 55,
 			"nowChapterName": "中盤戦",
-			"numberOfEpisode": 36,
-			"newestEpisodeNumber": 35,
-			"remainingNumber": 27,
-			"comment": "　",
-			"siteId": 48
+			"newestEpisodeNumber": 53,
+			"remainingNumber": 93
 		},
 		{
-			"name": "Reality or a nightmare",
-			"year": "2010",
-			"school": {
-				"class": {
-					"numberOfStudents": "17",
-					"numberOfMan": "8",
-					"numberOfWoman": "9"
+			"canRead": true,
+			"id": 124,
+			"siteId": 48,
+			"name": "A reason of existence",
+			year: 2002,
+			"programNumber": 35,
+			"groups": [{
+				prefecture: "沖縄県",
+				municipalities: "城市",
+				categoly: "市立",
+				name: "沖縄県城市立城中学校",
+				"members": {
+					"numberOfMan": 20,
+					"numberOfWoman": 20
 				}
-			},
-			"suspends": true,
+			}],
+
+			"status": "suspend",
+			"numberOfEpisode": 36,
+			"nowChapterName": "中盤戦",
+			"newestEpisodeNumber": 35,
+			"remainingNumber": 27
+		},
+		{
+			"canRead": false,
+			"id": 125,
+			"siteId": 49,
+			"name": "Reality or a nightmare",
+			year: 2010,
+			"groups": [{
+				"members": {
+					"numberOfMan": 8,
+					"numberOfWoman": 9
+				}
+			}],
+			"comment": "千草彩子参戦。",
+			"status": "suspend",
 			"numberOfEpisode": 66,
 			"newestEpisodeNumber": 65,
-			"remainingNumber": 12,
-			"comment": "千草彩子参戦。",
-			"siteId": 49
+			"remainingNumber": 12
 		},
 		{
+			"canRead": false,
+			"id": 126,
+			"siteId": 50,
 			"name": "Sincerely -エリカの餞-",
-			"year": "2010",
-			"school": {
+			year: 2010,
+			"groups": [{
 				"prefecture": "＊＊県",
-				"name": "私立宍銀学園中等部",
-				"class": {
+				"categoly": "私立",
+				"name": "＊＊県私立宍銀学園中等部",
+				"members": {
 					"name": "3年B組",
-					"numberOfMan": "22",
-					"numberOfWoman": "22",
-					"numberOfStudents": "44"
+					"numberOfMan": 22,
+					"numberOfWoman": 22
 				}
-			},
-			"suspends": true,
+			}],
+
+			"status": "suspend",
+			"numberOfEpisode": 100,
 			"nowChapterName": "中盤戦",
 			"newestEpisodeNumber": 100,
-			"remainingNumber": 27,
-			"comment": "　",
-			"siteId": 50
+			"remainingNumber": 27
 		},
 		{
-			"name": "NEW　BATTLE",
-			"year": "1996",
+			"canRead": false,
+			"id": 127,
+			"siteId": 51,
+			"name": "NEW BATTLE",
+			year: 1996,
 			"programNumber": 7,
-			"school": {
+			"groups": [{
 				"prefecture": "北海道",
 				"municipalities": "函館市",
-				"name": "立柳第一中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "北海道函館市立柳第一中学校",
+				"members": {
 					"name": "3年5組",
-					"numberOfMan": "21",
-					"numberOfWoman": "21",
-					"numberOfStudents": "42"
+					"numberOfMan": 21,
+					"numberOfWoman": 21,
 				}
-			},
-			"suspends": true,
+			}],
+			"comment": "一度完結しましたが、改稿版進行中です。",
+			"status": "suspend",
+			"numberOfEpisode": 11,
 			"nowChapterName": "中盤戦",
 			"newestEpisodeNumber": 11,
-			"remainingNumber": 38,
-			"comment": "一度完結しましたが、改稿版進行中です。",
-			"siteId": 51
+			"remainingNumber": 38
 		},
 		{
+			"canRead": false,
+			"id": 128,
+			"siteId": 51,
 			"name": "Dead&Alive",
-			"school": {
+			"groups": [{
 				"prefecture": "神奈川県",
 				"municipalities": "横浜市",
-				"name": "立横浜女学院",
-				"class": {
+				categoly: "市立",
+				"name": "神奈川県横浜市横浜女学院",
+				"members": {
 					"name": "3年C組",
-					"numberOfMan": "0",
-					"numberOfWoman": "33+2",
-					"numberOfStudents": "33+2"
+					"numberOfMan": 0,
+					"numberOfWoman": 33,
+					numberOfTransferedWoman: 2,
 				}
-			},
+			}],
 			"comment": "女子校プログラム。サウンドノベルゲームなのでDLが必要。現在DL不可。",
-			"siteId": 51
+			"status": "prepare"
 		},
 		{
-			"name": "閉ざされた扉　先のない道",
-			"year": "2000",
-			"school": {
-				"class": {
-					"numberOfStudents": "30+5",
-					"numberOfMan": "0",
-					"numberOfWoman": "30+5"
+			"canRead": false,
+			"id": 129,
+			"siteId": 51,
+			"name": "閉ざされた扉 先のない道",
+			year: 2000,
+			"groups": [{
+				"members": {
+					"numberOfMan": 0,
+					"numberOfWoman": 30,
+					numberOfTransferedWoman: 5,
 				}
-			},
-			"suspends": true,
+			}],
+			"comment": "特別参加者参戦。特殊ルール採用。",
+			"status": "suspend",
+			"numberOfEpisode": 44,
 			"nowChapterName": "終盤戦",
 			"newestEpisodeNumber": 44,
-			"remainingNumber": 16,
-			"comment": "特別参加者参戦。特殊ルール採用。",
-			"siteId": 51
+			"remainingNumber": 16
 		},
 		{
+			"canRead": false,
+			"id": 130,
+			"siteId": 51,
 			"name": "Consecutive program",
-			"year": "2002",
+			year: 2002,
 			"programNumber": 11,
-			"school": {
+			"groups": [{
 				"prefecture": "神奈川県",
 				"municipalities": "横浜市",
-				"name": "立泉沢中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "神奈川県横浜市立泉沢中学校",
+				"members": {
 					"name": "3年B組",
-					"numberOfMan": "14",
-					"numberOfWoman": "15",
-					"numberOfStudents": "29"
+					"numberOfMan": 14,
+					"numberOfWoman": 15
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 50,
+			}],
 			"comment": "「BATTLE ROYALE RENZOKU」の第11号。",
-			"siteId": 51
+			"status": "finish",
+			"numberOfEpisode": 50
 		},
 		{
-			"name": "ENDLESS NIGHTMARE 1～悪夢の始まり～ ",
-			"year": "1998",
-			"school": {
+			"canRead": true,
+			"id": 131,
+			"siteId": 52,
+			"name": "ENDLESS NIGHTMARE 1～悪夢の始まり～",
+			year: 1998,
+			"groups": [{
 				"prefecture": "千葉県",
 				"municipalities": "船海市",
-				"name": "立船海第二中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "千葉県船海市立船海第二中学校",
+				"members": {
 					"name": "3年5組",
-					"numberOfMan": "19",
-					"numberOfWoman": "21",
-					"numberOfStudents": "40"
+					"numberOfMan": 19,
+					"numberOfWoman": 21,
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 79,
-			"comment": "　",
-			"siteId": 52
+			}],
+
+			"status": "finish",
+			"numberOfEpisode": 79
 		},
 		{
-			"name": "ENDLESS NIGHTMARE 2～醒めない夢～ ",
-			"year": "2001",
-			"school": {
+			"canRead": true,
+			"id": 132,
+			"siteId": 52,
+			"name": "ENDLESS NIGHTMARE 2～醒めない夢～",
+			year: 2001,
+			"groups": [{
 				"prefecture": "千葉県",
 				"municipalities": "船海市",
-				"name": "立船海第一中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "千葉県船海市立船海第一中学校",
+				"members": {
 					"name": "3年3組",
-					"numberOfMan": "18",
-					"numberOfWoman": "22",
-					"numberOfStudents": "40"
+					"numberOfMan": 18,
+					"numberOfWoman": 22
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 77,
+			}],
 			"comment": "上記の「EN1」の続編。特殊ルール採用。時間切れの制限が12時間へと強化。",
-			"siteId": 52
+			"status": "finish",
+			"numberOfEpisode": 77
 		},
 		{
+			"canRead": true,
+			"id": 133,
+			"siteId": 52,
 			"name": "ENDLESS NIGHTMARE 3～悪夢の終わり～ ",
-			"year": "2001",
-			"school": {
+			year: 2001,
+			"groups": [{
 				"prefecture": "群馬県",
 				"municipalities": "桐生市",
-				"name": "立巴ヶ丘中学校",
-				"class": {
+				"categoly": "市立",
+				"name": "群馬県桐生市立巴ヶ丘中学校",
+				"members": {
 					"name": "3年2組",
-					"numberOfMan": "20",
-					"numberOfWoman": "20+α",
-					"numberOfStudents": "42"
+					"numberOfMan": 20,
+					"numberOfWoman": 20,
+					numberOfTransferedWoman: "α",
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 128,
+			}],
 			"comment": "EN1の続編。FCシリーズとの関連あり。特殊ルール採用。",
-			"siteId": 52
+			"status": "finish",
+			"numberOfEpisode": 128
 		},
 		{
-			"name": "FATED CHILDREN 1　～はじまりの唄～ ",
-			"year": "1995",
-			"school": {
+			"canRead": true,
+			"id": 134,
+			"siteId": 52,
+			"name": "FATED CHILDREN 1 ～はじまりの唄～",
+			year: 1995,
+			"groups": [{
 				"prefecture": "神奈川県",
-				"name": "平沢私立菊谷中学校",
-				"class": {
+				"categoly": "私立",
+				"name": "神奈川県平沢私立菊谷中学校",
+				"members": {
 					"name": "3年A組",
-					"numberOfMan": "20",
-					"numberOfWoman": "20",
-					"numberOfStudents": "40"
+					"numberOfMan": 20,
+					"numberOfWoman": 20
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 64,
-			"comment": "　",
-			"siteId": 52
+			}],
+
+			"status": "finish",
+			"numberOfEpisode": 64
 		},
 		{
-			"name": "FATED CHILDREN 2　～トモダチ～",
-			"year": "2002",
-			"school": {
+			"canRead": true,
+			"id": 135,
+			"siteId": 52,
+			"name": "FATED CHILDREN 2 ～トモダチ～",
+			year: 2002,
+			"groups": [{
 				"prefecture": "茨城県",
 				"municipalities": "北浦市",
-				"name": "立桜崎中学校",
-				"class": {
+				"name": "茨城県北浦市立桜崎中学校",
+				"members": {
 					"name": "3年1組",
-					"numberOfMan": "22",
-					"numberOfWoman": "18",
-					"numberOfStudents": "40"
+					"numberOfMan": 22,
+					"numberOfWoman": 18
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 94,
+			}],
 			"comment": " 特殊ルール採用。",
-			"siteId": 52
+			"status": "finish",
+			"numberOfEpisode": 94
 		},
 		{
-			"name": "FATED CHILDREN 3　～護るべきヒト～",
-			"year": "2000",
-			"school": {
+			"canRead": true,
+			"id": 136,
+			"siteId": 52,
+			"name": "FATED CHILDREN 3 ～護るべきヒト～",
+			year: 2000,
+			"groups": [{
 				"prefecture": "神奈川県",
 				"municipalities": "四宮市",
-				"name": "立四宮中学校",
-				"class": {
+				categoly: "市立",
+				"name": "神奈川県四宮市立四宮中学校",
+				"members": {
 					"name": "3年4組",
-					"numberOfMan": "20",
-					"numberOfWoman": "20",
-					"numberOfStudents": "40"
+					"numberOfMan": 20,
+					"numberOfWoman": 20
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 100,
+			}],
 			"comment": " 転校生参戦。",
-			"siteId": 52
+			"status": "finish",
+			"numberOfEpisode": 100
 		},
 		{
-			"name": "FATED CHILDREN 4　～誰が為に生きる～",
-			"year": "1996",
-			"school": {
+			"canRead": true,
+			"id": 137,
+			"siteId": 52,
+			"name": "FATED CHILDREN 4 ～誰が為に生きる～",
+			year: 1996,
+			"groups": [{
 				"prefecture": "静岡県",
 				"municipalities": "清水市",
-				"name": "春日宮中学校",
-				"class": {
+				"name": "静岡県清水市春日宮中学校",
+				"members": {
 					"name": "3年C組",
-					"numberOfMan": "20",
-					"numberOfWoman": "20",
-					"numberOfStudents": "40"
+					"numberOfMan": 20,
+					"numberOfWoman": 20
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 95,
+			}],
 			"comment": " 特殊ルール採用。",
-			"siteId": 52
+			"status": "finish",
+			"numberOfEpisode": 95
 		},
 		{
+			"canRead": true,
+			"id": 138,
+			"siteId": 52,
 			"name": "月に叢雲、花に風",
-			"year": "2012",
-			"school": {
+			year: 2012,
+			"groups": [{
 				"prefecture": "東京都",
+				categoly: "私立",
 				"name": "私立帝東学院中等部",
-				"class": {
+				"members": {
 					"name": "3年A組",
-					"numberOfMan": "20",
-					"numberOfWoman": "20",
-					"numberOfStudents": "40"
+					"numberOfMan": 20,
+					"numberOfWoman": 20
 				}
-			},
-			"nowChapterName": "終盤戦",
-			"newestEpisodeNumber": 91,
-			"remainingNumber": 4,
+			}],
 			"comment": "特殊ルール採用。",
-			"siteId": 52
+			"status": "finish",
+			"numberOfEpisode": 102,
 		},
 		{
+			"canRead": true,
+			"id": 139,
+			"siteId": 52,
 			"name": "FBR",
-			"year": "200X",
-			"school": {
-				"class": {
-					"numberOfMan": "20",
-					"numberOfWoman": "20",
-					"numberOfStudents": "40"
+			year: "200X",
+			"groups": [{
+				"members": {
+					"numberOfMan": 20,
+					"numberOfWoman": 20
 				}
-			},
-			"newestEpisodeNumber": 21,
-			"remainingNumber": 30,
+			}],
 			"comment": " \n\t\t上記「EN1&2」「FC1&2」のキャラクターを使った番外編。フードロワイアル。",
-			"siteId": 52
+			"status": "progress",
+			"numberOfEpisode": 22,
+			"newestEpisodeNumber": 22,
+			"remainingNumber": 28
 		},
 		{
+			"canRead": true,
+			"id": 140,
+			"siteId": 53,
 			"name": "ORIGINAL BATTLE ROYALE－Gradini－",
-			"year": "2008",
-			"school": {
+			year: 2008,
+			"groups": [{
 				"prefecture": "北海道",
 				"name": "美空中央高等学校",
-				"class": {
+				"members": {
 					"name": "3年3組",
-					"numberOfMan": "20",
-					"numberOfWoman": "20",
-					"numberOfStudents": "40"
+					"numberOfMan": 20,
+					"numberOfWoman": 20
 				}
-			},
-			"nowChapterName": "序盤戦",
+			}],
+
+			"status": "suspend",
 			"numberOfEpisode": 42,
+			"nowChapterName": "序盤戦",
 			"newestEpisodeNumber": 41,
-			"remainingNumber": 36,
-			"comment": "　",
-			"siteId": 53
+			"remainingNumber": 36
 		},
 		{
+			"canRead": false,
+			"id": 141,
+			"siteId": 54,
 			"name": "The GAME",
-			"school": {
+			"groups": [{
 				"name": "山城学園高等学校",
-				"class": {
+				"members": {
 					"name": "2年A組",
-					"numberOfMan": "21",
-					"numberOfWoman": "21",
-					"numberOfStudents": "42"
+					"numberOfMan": 21,
+					"numberOfWoman": 21,
 				}
-			},
-			"ends": true,
-			"numberOfEpisode": 150,
+			}],
 			"comment": "高名な進学校を舞台にした高校生版の物語です。大東亜の世界観などが微妙にアレンジされています。国外逃亡していた中川典子が、教師役として登場します。",
-			"siteId": 54
+			"status": "finish",
+			"numberOfEpisode": 150
 		},
 		{
-			"name": "～崩壊 The Collapse～ ",
-			"year": "2002",
+			"canRead": true,
+			"id": 142,
+			"siteId": 55,
+			"name": "～崩壊 The Collapse～",
+			year: 2002,
 			"programNumber": 13,
-			"school": {
+			"groups": [{
 				"name": "私立紫苑女学館中学校",
-				"class": {
+				"categoly": "私立",
+				"members": {
 					"name": "3年D組",
-					"numberOfMan": "0",
-					"numberOfWoman": "43",
-					"numberOfStudents": "43"
+					"numberOfMan": 0,
+					"numberOfWoman": 43
 				}
-			},
-			"nowChapterName": "LEVEL4",
+			}],
+			"status": "suspend",
 			"numberOfEpisode": 143,
-			"newestEpisodeNumber": 142,
-			"comment": "　",
-			"siteId": 55
+			"nowChapterName": "LEVEL4",
+			"newestEpisodeNumber": 142
+		},
+		{
+			"canRead": true,
+			"id": 143,
+			"siteId": 56,
+			"name": "狂乱の宴",
+			year: 2001,
+			"groups": [{
+				prefecture: "山口県",
+				municipalities: "山口市",
+				categoly: "市立",
+				"name": "山口県山口市立第三中学校",
+				"members": {
+					"name": "3年2組",
+					"numberOfMan": 21,
+					"numberOfWoman": 21
+				}
+			}],
+			"status": "finish",
+			"numberOfEpisode": 96
+		},
+		{
+			"canRead": true,
+			"id": 144,
+			"siteId": 56,
+			"name": "死の舞踏",
+			year: 2001,
+			"groups": [{
+				prefecture: "山口県",
+				municipalities: "山口市",
+				categoly: "市立",
+				"name": "山口県山口市立第三中学校",
+				"members": {
+					"name": "3年2組",
+					"numberOfMan": 21,
+					"numberOfWoman": 21
+				}
+			}],
+			"status": "finish",
+			"numberOfEpisode": 120,
+			comment: "「狂乱の宴」とは舞台は同じだけど展開が違うifバトです"
+		},
+		{
+			"canRead": true,
+			"id": 145,
+			"siteId": 56,
+			"name": "tear",
+			year: 2006,
+			programNumber: 9,
+			"groups": [{
+				prefecture: "広島県",
+				municipalities: "広島市",
+				categoly: "市立",
+				"name": "広島県広島市立三朝西中学校",
+				"members": {
+					"name": "3年1組",
+					"numberOfMan": 3,
+					numberOfTransferedMan: 2,
+					"numberOfWoman": 4
+				}
+			}],
+			"status": "finish",
+			"numberOfEpisode": 40,
+			comment: "小人数、特殊ルールあり"
+		},
+		{
+			"canRead": true,
+			"id": 146,
+			"siteId": 33,
+			"name": "～Patriotism～",
+			"groups": [{
+				"name": "国立大東亜大学附属統和中学校",
+				"categoly": "国立",
+				"members": {
+					"name": "3年3組",
+					"numberOfMan": 20,
+					"numberOfWoman": 20
+				}
+			}],
+			"status": "progress",
+			"numberOfEpisode": 20,
+			"nowChapterName": "序盤戦",
+			"newestEpisodeNumber": 19,
+			"remainingNumber": 36
+		},
+		{
+			"canRead": true,
+			"id": 147,
+			"siteId": 52,
+			"name": "偽りの守護星",
+			"groups": [{
+				prefecture: "東京都",
+				municipalities: "小金井市",
+				"categoly": "市立",
+				"name": "東京都小金井市立椿中学校",
+				"members": {
+					"name": "3年3組",
+					"numberOfMan": 20,
+					"numberOfWoman": 20
+				}
+			}],
+			"status": "progress",
+			"numberOfEpisode": 41,
+			"nowChapterName": "中盤戦",
+			"newestEpisodeNumber": 41,
+			"remainingNumber": 33
 		}
 	]
