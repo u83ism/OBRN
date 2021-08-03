@@ -1,7 +1,7 @@
 import React from "react"
 import ReactDOM from "react-dom";
 import { TSiteWithObrList, findObrList } from "./entity/Finder";
-import { obrList, TObr } from "./entity/Obr";
+import { TFinishedObr, obrList, TObr } from "./entity/Obr";
 import { sites } from "./entity/Site";
 import { SiteRow } from "./component/SiteRow";
 import { ObrRow } from "./component/ObrRow";
@@ -33,6 +33,7 @@ const Table = () => {
 				...obrRows
 			]
 		})
+		.flat()
 
 	return <table className="bordered">
 		<TableHeader></TableHeader>

@@ -1,5 +1,5 @@
 import { TSite, sites } from "./Site";
-import { TObr, obrList } from "./Obr";
+import { TFinishedObr, obrList, TObr } from "./Obr";
 
 export type TSiteWithObrList = {
 	site: TSite,
@@ -10,7 +10,7 @@ export type TSiteWithObrList = {
  * サイト→OBRの検索（1:n）.
  */
 export const findObrList = (site: TSite): TSiteWithObrList => {
-	const list = obrList.filter((obr: TObr) => obr.siteId === site.id)
+	const list = obrList.filter(obr => obr.siteId === site.id)
 	return {
 		site: site,
 		obrList: list
@@ -23,6 +23,6 @@ export const findObrList = (site: TSite): TSiteWithObrList => {
  * @param obr 
  * @returns 
  */
-export const findSite = (obr: TObr): TSite | undefined => {
+export const findSite = (obr: TFinishedObr): TSite | undefined => {
 	return sites.find((site: TSite) => site.id === obr.siteId)
 }

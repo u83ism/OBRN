@@ -19,7 +19,7 @@ const getBanner = (siteData: TSite): JSX.Element => {
 }
 
 export const SiteRow = (site: TSite): JSX.Element => {
-	const nameElement = isNullOrUndefined(site.bannerURL) ? getBanner(site) : getVirtualBanner(site)
+	const nameElement = isNullOrUndefined(site.bannerURL) ? getVirtualBanner(site) : getBanner(site)
 	const comment = site.comment ?? ""
 
 	return (

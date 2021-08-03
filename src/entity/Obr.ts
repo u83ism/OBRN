@@ -14,7 +14,7 @@ export type TMembers = {
 	numberOfVisitorMan?: number,
 	numberOfMaleAnimal?: number,
 	numberOfWoman?: number,
-	numberOfTransferedWoman?: number | string,
+	numberOfTransferedWoman?: number,
 }
 export type TGroup = {
 	members: TMembers
@@ -34,25 +34,25 @@ export type TGroup = {
 	name?: string,
 }
 
-type TStatus = "prepare" | "progress" | "suspend" | "finish"
+export type TStatus = "prepare" | "progress" | "suspend" | "finish"
 
-/**
- * クラス単位じゃない時があるのでグループという概念にしている。
- * また2クラス制の時があるので注意。
- */
 export type TObrInPreparation = {
 	canRead: boolean,
 	id: number,
 	siteId: number
 	name: string,
+	/**
+	 * クラス単位じゃない時（優勝者選抜、フードファイター等）があるので抽象化してグループという概念にしている。
+	 * 2クラス制の時があるので配列で持つ.
+	 */
 	groups: Array<TGroup>,
 	comment?: string,
 	/**
-	 * 2XXX年等にも対応する必要があるのでstring
+	 * "2XXX"年等にも対応する必要があるのでstring
 	 */
 	year?: number | string,
 	/**
-	 * 第X号にも対応する必要があるのでstring
+	 * "第X号"にも対応する必要があるのでstring
 	 */
 	programNumber?: number | string,
 	status: Extract<TStatus, "prepare">
@@ -64,7 +64,7 @@ export type TFinishedObr = Omit<TObrInPreparation, "status"> & {
 }
 
 export type TProgressObr = Omit<TFinishedObr, "status"> & {
-	status: Exclude<TStatus, "prepare" | "finish">
+	status: Extract<TStatus, "progress">
 	nowChapterName?: string,
 	/**
 	 * 「15-1」話等変則表記に対応する必要がある.
@@ -76,7 +76,11 @@ export type TProgressObr = Omit<TFinishedObr, "status"> & {
 	 */
 	remainingNumber?: number,
 }
-export type TObr = TObrInPreparation | TFinishedObr | TProgressObr
+
+export type TSuspendedObr = Omit<TProgressObr, "status"> & { status: Extract<TStatus, "suspend"> }
+
+
+export type TObr = TObrInPreparation | TFinishedObr | TProgressObr | TSuspendedObr
 
 export const obrList: Array<TObr> =
 	[
@@ -2909,8 +2913,9 @@ export const obrList: Array<TObr> =
 				"members": {
 					"name": "3年2組",
 					"numberOfMan": 20,
+					numberOfTransferedMan: 1,
 					"numberOfWoman": 20,
-					numberOfTransferedWoman: "α",
+					numberOfTransferedWoman: 1,
 				}
 			}],
 			"comment": "EN1の続編。FCシリーズとの関連あり。特殊ルール採用。",
