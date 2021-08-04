@@ -271,7 +271,6 @@ export const sites: Array<TSite> =
 			"isOpen": true,
 			"nameCategory": "wa",
 			"URL": "http://www3.starcat.ne.jp/%7Ekusu/",
-			"bannerURL": "http://www3.starcat.ne.jp/%7Ekusu/contents/banner.gif",
 			"name": "若紫文庫",
 			"administorName": "美奈子",
 			"id": 31
@@ -359,7 +358,6 @@ export const sites: Array<TSite> =
 			isOpen: true,
 			"nameCategory": "l",
 			"URL": "https://wishstar1208.web.fc2.com/",
-			"bannerURL": "https://wishstar1208.web.fc2.com/brhpbanner017.jpg",
 			"name": "Last Message",
 			"administorName": "みかど",
 			"comment": "オリバト関係雑記（考察含み）や管理人ゲームもあります。",

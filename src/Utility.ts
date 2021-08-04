@@ -1,4 +1,6 @@
+import { TStatistics } from "./entity/type"
 import { TGroup, TObr, TStatus } from "./entity/Obr"
+import { TSite } from "./entity/Site"
 
 /**
  * NullもしくはUndefinedである.
@@ -57,17 +59,22 @@ export const isFinalChapter = (obr: TObr): boolean => {
 	if (isKeyWord) { return true }
 
 	//残り人数が全体人数の1/3を割っている時に終盤戦と判断する
-	obr.groups.map((group: TGroup) => {
-		const members = group.members
-		getNumber(members.numberOfMan) + getNumber(members.numberOfTransferedMan) +
-			getNumber(members.numberOfMaleAnimal) - getNumber(members.numberOfVisitorMan) +
-			getNumber(members.numberOfWoman) + getNumber(members.numberOfTransferedWoman)
-
-
-
-	})
+	// obr.groups.map((group: TGroup) => {
+	// 	const members = group.members
+	// 	getNumber(members.numberOfMan) + getNumber(members.numberOfTransferedMan) +
+	// 		getNumber(members.numberOfMaleAnimal) - getNumber(members.numberOfVisitorMan) +
+	// 		getNumber(members.numberOfWoman) + getNumber(members.numberOfTransferedWoman)
+	// })
 
 	return true
 }
 
+export const getStatistics = (sites: Array<TSite>, obrList: Array<TObr>): TStatistics => {
+	const numberOfActiveSite = sites.filter((site: TSite) => site.isOpen).length
+	const numberOfActiveObr = obrList.filter((obr: TObr) => obr.canRead).length
 
+	return {
+		numberOfActiveSite: numberOfActiveSite,
+		numberOfActiveObr: numberOfActiveObr,
+	}
+}

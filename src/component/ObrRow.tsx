@@ -28,13 +28,14 @@ const getNumberOfMemberText = (members: TMembers): string => {
 }
 
 const getGroupsLines = (groups: Array<TGroup>) => {
-	return groups.map((group: TGroup): JSX.Element => {
+	// groupもmapで回してるんでkeyが必要になるので注意
+	return groups.map((group: TGroup, index: number): JSX.Element => {
 		const members = group?.members
 		return (
-			<div>
-				{group?.prefecture}{group?.municipalities}{group?.name}{members?.name}
+			<div key={index}>
+				{group?.prefecture}{group?.municipalities}{group?.name}{members?.name}<br />
 				{getNumberOfMemberText(members)}
-			</div>
+			</div >
 		)
 	})
 }
@@ -42,7 +43,7 @@ const getGroupsLines = (groups: Array<TGroup>) => {
 const getObrCell = (obr: TObr): JSX.Element => {
 	return (
 		<td>
-			<div>{obr?.year}{obr?.programNumber}</div>
+			<div>{obr?.year}年第{obr?.programNumber}号</div>
 			{getGroupsLines(obr.groups)}
 		</td>
 	)
@@ -76,9 +77,11 @@ const getProgressInfoCell = (obr: TObr): JSX.Element => {
 
 
 export const ObrRow = (obr: TObr): JSX.Element => {
+	const disabledClassName = obr.canRead ? "" : "disabled"//style.cssで定義
+
 	return (
-		<tr className="obrdata">
-			<td>{obr.name}</td>
+		<tr className={`obrdata ${disabledClassName}`}>
+			<td >{obr.name}</td>
 			{getObrCell(obr)}
 			{getProgressInfoCell(obr)}
 			<td>{obr.comment}</td>

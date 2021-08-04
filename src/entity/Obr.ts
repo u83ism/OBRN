@@ -1183,7 +1183,7 @@ export const obrList: Array<TObr> =
 			"remainingNumber": 33
 		},
 		{
-			"canRead": true,
+			"canRead": false,
 			"id": 53,
 			"siteId": 24,
 			"name": "終わりの始まり",
@@ -2183,7 +2183,7 @@ export const obrList: Array<TObr> =
 			"remainingNumber": 9
 		},
 		{
-			"canRead": true,
+			"canRead": false,
 			"id": 100,
 			"siteId": 40,
 			"name": "オリジナルバトルロワイアル",
@@ -2221,7 +2221,6 @@ export const obrList: Array<TObr> =
 					"numberOfWoman": 20,
 				}
 			}],
-
 			"status": "finish",
 			"numberOfEpisode": 111
 		},
@@ -2445,7 +2444,7 @@ export const obrList: Array<TObr> =
 			"numberOfEpisode": 90
 		},
 		{
-			"canRead": true,
+			"canRead": false,
 			"id": 112,
 			"siteId": 43,
 			"name": "ソラアワセ",

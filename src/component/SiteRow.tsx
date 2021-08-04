@@ -21,9 +21,11 @@ const getBanner = (siteData: TSite): JSX.Element => {
 export const SiteRow = (site: TSite): JSX.Element => {
 	const nameElement = isNullOrUndefined(site.bannerURL) ? getVirtualBanner(site) : getBanner(site)
 	const comment = site.comment ?? ""
+	const disabledClassName = site.isOpen ? "" : "disabled"//style.cssで定義
+
 
 	return (
-		<tr className="sitedata">
+		<tr className={`sitedata ${disabledClassName}`}>
 			<td>
 				{nameElement}
 			</td>

@@ -1,7 +1,7 @@
 {
   "name": "obrn",
-  "version": "1.0.1",
-  "description": "オリバトDB＆リンク集",
+  "version": "2.0.0",
+  "description": "オリジナルバトルロワイアル（オリバト）に関するDB＆リンク集",
   "main": "index.js",
   "scripts": {
     "build": "webpack",
