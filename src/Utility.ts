@@ -1,4 +1,3 @@
-import { TStatistics } from "./entity/type"
 import { TGroup, TObr, TStatus } from "./entity/Obr"
 import { TSite } from "./entity/Site"
 
@@ -67,14 +66,4 @@ export const isFinalChapter = (obr: TObr): boolean => {
 	// })
 
 	return true
-}
-
-export const getStatistics = (sites: Array<TSite>, obrList: Array<TObr>): TStatistics => {
-	const numberOfActiveSite = sites.filter((site: TSite) => site.isOpen).length
-	const numberOfActiveObr = obrList.filter((obr: TObr) => obr.canRead).length
-
-	return {
-		numberOfActiveSite: numberOfActiveSite,
-		numberOfActiveObr: numberOfActiveObr,
-	}
 }
