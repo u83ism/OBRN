@@ -1,10 +1,10 @@
 import React from "react"
 
-export const TableHeader = (): JSX.Element => {
+export const TableHeader = ({ numberOfObr }: { numberOfObr: number }): JSX.Element => {
 	return (
 		<thead>
 			<tr>
-				<th colSpan={4}>更新サイト（対象期間：2016年4月18日～2016年7月23日／五十音順）</th>
+				<th colSpan={4}>{numberOfObr}作品登録中</th>
 			</tr>
 		</thead>
 	)
