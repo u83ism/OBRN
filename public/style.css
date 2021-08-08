@@ -9,7 +9,7 @@ html {
 }
 
 body {
-	background : url(kabe.gif) fixed ;
+	background : url(./img/kabe.gif) fixed ;
 }
 /*Chromeのremバグ対策*/
 body > div {
@@ -53,6 +53,10 @@ table {
 /* 全部隠しておきJSで表示 */
 table[data-bunrui] {
 	display:none;
+}
+
+img {
+	border: 0;
 }
 
 .bordered {
@@ -241,7 +245,7 @@ ul {
 }
 
 .menu li {
-	width : 14% ;
+	width : 16% ;
 	height: 50px;height: 5.0rem;
 	line-height: 50px ;line-height: 5.0rem;
 	float : left ;
@@ -249,8 +253,8 @@ ul {
 	margin : 0 ;
 	text-align : center ;
 }
-.menu > li:nth-of-type(1),.menu > li:nth-of-type(2){
-	width:15%;
+.menu > li:nth-of-type(1),.menu > li:nth-of-type(2), .menu > li:nth-of-type(3),.menu > li:nth-of-type(4){
+	width:17%;
 }
 
 .menu li a {
@@ -315,12 +319,11 @@ ul {
 }
 /* ここまでメニューのツールバー関係 */
 
-
-.stop { color : #FF0000 ; }
+.suspend,.stop { color : #FF0000 ; }
 
 .last { font-weight : bold ; }
 
-.end { color : #009900 ;
+.finish,.end { color : #009900 ;
 		font-size: 18px;font-size: 1.8rem !important;
 		font-weight : bold ;
 }

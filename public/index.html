@@ -6,14 +6,14 @@
 	<title>Original Battle Royale Network</title>
 	<meta name="Keywords" content="オリバト,BATTLE ROYALE,バトルロワイアル,BR,オリジナル">
 	<meta name="Description" content="バトルロワイアル（著：高見広春）の1.5次創作ジャンル「オリジナルバトルロワイアル」（通称オリバト）専門リンク集です。">
-	<link rel="shortcut icon" href="favicon.ico" type="image/vnd.microsoft.icon">
+	<link rel="shortcut icon" href="./img/favicon.ico" type="image/vnd.microsoft.icon">
 	<link rel="stylesheet" href="style.css" type="text/css">
 	<link rel="stylesheet" href="style2.css" type="text/css">
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap" rel="stylesheet">
-
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="effect.js"></script>
+	<script type="text/javascript" src="dist/main.js" defer></script>
 </head>
 
 <body>
@@ -22,7 +22,6 @@
 			<!-- JSでメニュー挿入 -->
 		</nav>
 	</header>
-
 	<div class="container">
 		<h1 class="title"><span style="color:#FF9900;">O</span>riginal <span style="color:#FF9900;">B</span>attle <span
 				style="color:#FF9900;">R</span>oyale <span style="color:#FF9900;">N</span>etwork</h1>
@@ -33,103 +32,64 @@
 		<table class="bordered">
 			<thead>
 				<tr>
-					<th colspan="4">データベース一括更新日：2016年7月24日</th>
+					<th colspan="4">データベース一括更新日：2021年8月8日</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td>2021年5月22日 9：00</td>
+					<td>2021年8月8日 15:00</td>
 					<td width="75%">
-						<p>言いたいことが3つあります。</p>
-						<p>1つ、さくらから退会したのですが、何も考えず掲示板を丸ごと削除してしまい、2016年以降の申請等が一切把握できなくなってしまいました。</p>
-						<p>2つ、このため再度
-						<ul>
+						箇条書きでお届けします。
+						<ol>
+							<li><strong>5年ぶりにデータ更新しました。</strong></li>
+							<li>全サイトデータ及び作品データをテキスト→プログラムで扱えるようにテキストからオブジェクトに変換</li>
 							<li>
-								Twitter:<a href="https://twitter.com/u83unlimited">@u83unlimited</a>
+								<storong>トップページの↓の表だけ</storong>TypeScript + Reactで旧レイアウトを再現
 							</li>
-							<li>
-								メールアドレス:<a href="mailto:u83ism@gmail.com">u83ism@gmail.com</a><br>
-								（u83ism@king-postman.comも生きてますが廃止予定なのでこっちでお願いします。）
-							</li>
-						</ul>
-						まで連絡下さい。お手数おかけして申し訳ありません。
+							<li>データ化（データ整形）で体力使い果たしたので、とりあえず生きてるサイトだけ↓にずらっと並べてます。</li>
+							<li><strong>50音順ページや完結作品ページは古いデータのままです</strong></li>
+							<li>あと細かい所ですが、HTTPS化されてないサイトの画像バナーリンクを撤去（そもそも表示できない）</li>
+						</ol>
+						とまぁ、こんなわけで内部的にデータは最新になりましたが、中途半端な状態なので以下Todoリストです。
+						<ol>
+							<li>更新,完結等のフィルタ機能の実装←react-router入れる</li>
+							<li>CSSフレームワーク(styledComponents/Material-UI)導入</li>
+							<li>データをDB(firestore)に移行</li>
+							<li>ユーザー認証導入(Firebase Authentication)。ウェブサイトからサービスへ</li>
+							<li>登録フォーム実装</li>
+							<li>作品統計情報の提供</li>
+							<li>SSG実装？（更新頻度的にSSRじゃなくてSSGでいける可能性高い）</li>
+						</ol>
+						転職を見据えた技術研鑽という意味合いが強いので頑張ります💪
 						</p>
-						<p>3つ、<strong>……特にありません。</strong>💰💴💵💶💷💸</p>
+						あとは登録作品に関するニュース<strong>（5年分）</strong>も箇条書きで。
+						<ol>
+							<li>
+								<strong class="finish">🎉水金 翔さんが9作目「月に叢雲、花に風」を完結！</strong>
+							</li>
+							<li>
+								<span class="new">⚡水金 翔さんが10作目「偽りの守護星」を連載中！</span>
+							</li>
+							<li>
+								<strong class="finish">🎉透さんが2作目「～Real～」を完結！</strong>
+							</li>
+							<li>
+								<span class="new">⚡透さんが3作目「～Patriotism～」を連載中！</span>
+							</li>
+							<li>
+								<strong class="new">🔥司城誠治さん＆鈴鹿征治さんの「Das verlorene Paradies」が復活したので再登録しました。</strong>
+							</li>
+							司城誠治さん＆鈴鹿征治さん、連絡から2年以上待たせてすいませんでした……
+							</li>
+						</ol>
 					</td>
 				</tr>
 			</tbody>
 		</table>
 
-		<table class="bordered">
-			<thead>
-				<tr>
-					<th colspan="4">更新サイト（対象期間：2016年4月18日～2016年7月23日／五十音順）</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr class="sitedata">
-					<td><a href="http://id55.fm-p.jp/532/reitouapple/" target="_blank"><img
-								src="http://id55.fm-p.jp/data/532/reitouapple/pri/6.jpg" alt="冷凍りんごは歯が折れる " width="200"
-								height="40" border="0"></a></td>
-					<td>はまぐり</td>
-					<td colspan="2">無節操ジャンルサイトですので、OBRのみのURLは<a
-							href="http://id55.fm-p.jp/532/reitouapple/index.php?module=viewbk&action=ptop&stid=5">こちら</a>になります
-					</td>
-				</tr>
-				<tr class="obrdata">
-					<td>午後のパレード</td>
-					<td>200X年度<br>
-						北海道上見市立狛楠中学校3年B組 <br>
-						（男子20名/女子21名/計41名）</td>
-					<td class="new last">進行中<br>
-						43話/終盤戦<br>
-						【残り14人】</td>
-					<td>標準ルール。血と暴力の青春をただ書いていく予定です。</td>
-				</tr>
-				<tr class="sitedata">
-					<td><a href="http://1995anotherworld.web.fc2.com/" target="_blank" class="letter">another world</a>
-					</td>
-					<td>透</td>
-					<td colspan="2">サブタイトルに沿うように話を展開しています。</td>
-				</tr>
-				<tr class="obrdata">
-					<td>～Real～</td>
-					<td>
-						1993年度第43号<br>
-						私立青奉中学校3年1組（特進クラス）<br>
-						（男子17名/女子17名/計34名）
-					</td>
-					<td class="new">
-						進行中<br>
-						78話（79話）/中盤戦<br>
-						【残り15人】
-					</td>
-					<td>～Link～と若干の関連性あり </td>
-				</tr>
-				<tr class="sitedata">
-					<td><a href="http://stardust0302.fc2web.com/" target="_blank"><img
-								src="http://stardust0302.fc2web.com/image/banabattle.jpg" alt="Star☆Dust"
-								border="0"></a></td>
-					<td>水金 翔</td>
-					<td colspan="2">読みやすく、を目標にマイペース更新しています。イラスト・質問・お題などもたまに更新しているのでよろしければそちらもどうぞ(^_^)</td>
-				</tr>
-				<tr class="obrdata">
-					<td>月に叢雲、花に風</td>
-					<td>
-						2012年度<br>
-						東京都私立帝東学院中等部3年A組<br>
-						（男子20名/女子20名/計40名）
-					</td>
-					<td class="last new">
-						進行中<br>
-						91話/終盤戦<br>
-						【残り4人】
-					</td>
-					<td>特殊ルール採用。</td>
-				</tr>
-			</tbody>
-		</table>
-
+		<div id="root">
+			<!-- reactで出力 -->
+		</div>
 	</div>
 </body>
 
