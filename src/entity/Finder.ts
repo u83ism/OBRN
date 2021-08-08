@@ -1,5 +1,6 @@
+import { TFinishedObr, TObr } from "./type";
 import { TSite, sites } from "./Site";
-import { TFinishedObr, obrList, TObr } from "./Obr";
+import { obrList } from "./Obr";
 
 export type TSiteWithObrList = {
 	site: TSite,

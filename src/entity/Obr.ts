@@ -1,86 +1,5 @@
 
-/**
- * メンバーについて.
- * 
- * 学校の場合はクラスに該当する。TransferedMan=転校生男子。
- * 連載開始前の作品は未公表の場合があるので全部Optional。
- * 動物突っ込んでるプログラムがかつてあったのでMaleAnimalという項目がある。
- * 転校生がいることは知らせたいけど、人数は伏せたいケースがあるので「X」人等となるケースがある
- */
-export type TMembers = {
-	name?: string,
-	numberOfMan?: number,
-	numberOfTransferedMan?: number,
-	numberOfVisitorMan?: number,
-	numberOfMaleAnimal?: number,
-	numberOfWoman?: number,
-	numberOfTransferedWoman?: number,
-}
-export type TGroup = {
-	members: TMembers
-	/**
-	 * 都道府県（"S県"とか架空県表記があるのでstring）
-	 */
-	prefecture?: string,
-	/**
-	 * 市町村（架空の市町村表記があるのでstring）
-	 */
-	municipalities?: string,
-	//学校名表記から解析困難な場合があるので別パラメータ化。特殊カテゴリ系は含まない。
-	categoly?: "私立" | "国立" | "都立" | "府立" | "県立" | "市立" | "町立" | "区立"
-	//都道府県とかにばらして合成できないかと思ったが、
-	//市「立」があったりなかったりと思った以上に困難なため、
-	//現在は都道府県等も含んだ表記になっている
-	name?: string,
-}
-
-export type TStatus = "prepare" | "progress" | "suspend" | "finish"
-
-export type TObrInPreparation = {
-	canRead: boolean,
-	id: number,
-	siteId: number
-	name: string,
-	/**
-	 * クラス単位じゃない時（優勝者選抜、フードファイター等）があるので抽象化してグループという概念にしている。
-	 * 2クラス制の時があるので配列で持つ.
-	 */
-	groups: Array<TGroup>,
-	comment?: string,
-	/**
-	 * "2XXX"年等にも対応する必要があるのでstring
-	 */
-	year?: number | string,
-	/**
-	 * "第X号"にも対応する必要があるのでstring
-	 */
-	programNumber?: number | string,
-	status: Extract<TStatus, "prepare">
-}
-
-export type TFinishedObr = Omit<TObrInPreparation, "status"> & {
-	status: Extract<TStatus, "finish">,
-	numberOfEpisode?: number
-}
-
-export type TProgressObr = Omit<TFinishedObr, "status"> & {
-	status: Extract<TStatus, "progress">
-	nowChapterName?: string,
-	/**
-	 * 「15-1」話等変則表記に対応する必要がある.
-	 */
-	newestEpisodeNumber?: number | string,
-	/**
-	 * プログラム開始～プログラム終了の期間は存在しないので注意。
-	 * プロローグやエピローグが長い場合などは「連載してるけど、残り人数が存在しない」状況が発生しうる
-	 */
-	remainingNumber?: number,
-}
-
-export type TSuspendedObr = Omit<TProgressObr, "status"> & { status: Extract<TStatus, "suspend"> }
-
-
-export type TObr = TObrInPreparation | TFinishedObr | TProgressObr | TSuspendedObr
+import { TObr } from "./type";
 
 export const obrList: Array<TObr> =
 	[
@@ -101,10 +20,10 @@ export const obrList: Array<TObr> =
 			}],
 
 			"status": "progress",
-			"numberOfEpisode": 11,
-			"nowChapterName": "プロローグ",
-			"newestEpisodeNumber": 9,
-			"remainingNumber": 32
+			"numberOfEpisode": 19,
+			"nowChapterName": "中盤戦",
+			"newestEpisodeNumber": 17,
+			"remainingNumber": 29
 		},
 		{
 			"canRead": true,
@@ -212,6 +131,7 @@ export const obrList: Array<TObr> =
 			"id": 7,
 			"siteId": 3,
 			"name": "TANGLING SEVENs",
+			year: 2003,
 			"groups": [{
 				"prefecture": "大分県",
 				"municipalities": "大分市",
@@ -220,7 +140,6 @@ export const obrList: Array<TObr> =
 					"name": "3年7組"
 				}
 			}],
-
 			"status": "prepare"
 		},
 		{
@@ -528,6 +447,7 @@ export const obrList: Array<TObr> =
 			}],
 			"comment": "「Sacrifice to the future」改稿版",
 			"status": "suspend",
+			newestEpisodeNumber: 3,
 			"numberOfEpisode": 3,
 			"nowChapterName": "プロローグ"
 		},
@@ -992,7 +912,7 @@ export const obrList: Array<TObr> =
 			"status": "suspend",
 			"numberOfEpisode": 33,
 			"newestEpisodeNumber": 31,
-			"remainingNumber": 8
+			"remainingNumber": "8+1"
 		},
 		{
 			"canRead": true,
@@ -1024,7 +944,7 @@ export const obrList: Array<TObr> =
 			"groups": [{
 				"prefecture": "東京都",
 				"categoly": "私立",
-				"name": "私立ぶどうヶ丘高校",
+				"name": "東京都私立ぶどうヶ丘高校",
 				"members": {
 					"name": "1年2組",
 					"numberOfMan": 8,
@@ -1148,7 +1068,7 @@ export const obrList: Array<TObr> =
 			"year": 2007,
 			"groups": [{
 				"prefecture": "静岡県",
-				"name": "私立菊花学園高等部",
+				"name": "静岡県私立菊花学園高等部",
 				"members": {
 					"name": "2年虹組第二期",
 					"numberOfMan": 10,
@@ -1200,7 +1120,7 @@ export const obrList: Array<TObr> =
 				}
 			}],
 			"comment": " 第69番プログラム、高校生プログラムです。",
-			"status": "progress",
+			"status": "suspend",
 			"numberOfEpisode": 40,
 			"nowChapterName": "中盤戦",
 			"newestEpisodeNumber": 39,
@@ -1234,7 +1154,8 @@ export const obrList: Array<TObr> =
 			"groups": [{
 				"prefecture": "香川県",
 				"municipalities": "沼木町",
-				"name": "立沼木中学校",
+				categoly: "町立",
+				"name": "香川県沼木町立沼木中学校",
 				"members": {
 					"name": "3年A組",
 					"numberOfMan": 16,
@@ -1248,7 +1169,7 @@ export const obrList: Array<TObr> =
 			"status": "suspend",
 			"numberOfEpisode": 34,
 			"newestEpisodeNumber": 33,
-			"remainingNumber": 19
+			"remainingNumber": "19+1匹"
 		},
 		{
 			"canRead": false,
@@ -1257,7 +1178,7 @@ export const obrList: Array<TObr> =
 			"name": "昨日の友は今日の…… 裏切りの代償\n\t\tReunion The cost of betraying",
 			"groups": [{
 				"prefecture": "富山県",
-				"name": "桜木A-17特殊中等学校",
+				"name": "富山県桜木A-17特殊中等学校",
 				"members": {
 					"name": "3年E組",
 					"numberOfMan": 18,
@@ -1381,10 +1302,11 @@ export const obrList: Array<TObr> =
 			"id": 62,
 			"siteId": 29,
 			"name": "死の災禍が過ぎる刻",
+			year: 2011,
 			"groups": [{
 				"prefecture": "鹿児島県",
 				"categoly": "私立",
-				"name": "私立古泉学園中等部",
+				"name": "鹿児島県私立古泉学園中等部",
 				"members": {
 					"name": "3年1組",
 					"numberOfMan": 12,
@@ -1417,9 +1339,9 @@ export const obrList: Array<TObr> =
 			}],
 			"comment": "標準ルール。血と暴力の青春をただ書いていく予定です。",
 			"status": "progress",
-			"numberOfEpisode": 53,
+			"numberOfEpisode": 54,
 			"nowChapterName": "決戦",
-			"newestEpisodeNumber": 43,
+			"newestEpisodeNumber": 53,
 			"remainingNumber": 9
 		},
 		{
@@ -1474,7 +1396,7 @@ export const obrList: Array<TObr> =
 			"groups": [{
 				"prefecture": "東京都",
 				"categoly": "都立",
-				"name": "東京都立第壱中学校第壱中学校",
+				"name": "東京都立第壱中学校",
 				"members": {
 					"name": "3年B組",
 					"numberOfMan": 21,
@@ -1539,7 +1461,7 @@ export const obrList: Array<TObr> =
 				"prefecture": "山口県",
 				"municipalities": "火香里市",
 				"categoly": "市立",
-				"name": "山口県火香里市立火香里第1中学校校",
+				"name": "山口県火香里市立火香里第1中学校",
 				"members": {
 					"name": "3年4組",
 					"numberOfMan": 21,
@@ -1728,7 +1650,7 @@ export const obrList: Array<TObr> =
 			"year": 1995,
 			"groups": [{
 				"prefecture": "埼玉県",
-				"name": "川田中学校",
+				"name": "埼玉県川田中学校",
 				"members": {
 					"name": "3年2組",
 					"numberOfMan": 1,
@@ -1748,7 +1670,7 @@ export const obrList: Array<TObr> =
 			"groups": [{
 				"prefecture": "栃木県",
 				"categoly": "県立",
-				"name": "栃木県立青葉中学校3年1組",
+				"name": "栃木県立青葉中学校",
 				"members": {
 					"name": "3年1組",
 					"numberOfMan": 12,
@@ -1868,9 +1790,11 @@ export const obrList: Array<TObr> =
 			"id": 85,
 			"siteId": 32,
 			"name": "Wish――ただ、あなたの傍にいたかった。",
+			year: 2005,
 			"groups": [{
 				"prefecture": "神奈川県",
-				"name": "私立星蘭高等学校",
+				categoly: "私立",
+				"name": "神奈川県私立星蘭高等学校",
 				"members": {
 					"name": "3年1組",
 					"numberOfMan": 12,
@@ -2102,7 +2026,7 @@ export const obrList: Array<TObr> =
 			"name": "Target 21",
 			"groups": [{
 				"prefecture": "和歌山県",
-				"name": "桜ノ宮中学校",
+				"name": "和歌山県桜ノ宮中学校",
 				"members": {
 					"name": "3年3組",
 					"numberOfMan": 10,
@@ -2120,6 +2044,7 @@ export const obrList: Array<TObr> =
 			"id": 97,
 			"siteId": 38,
 			"name": "UNLIMITED DARK",
+			year: 1998,
 			"groups": [{
 				"prefecture": "大阪府",
 				"municipalities": "茨木市",
@@ -2147,7 +2072,8 @@ export const obrList: Array<TObr> =
 			year: 2005,
 			"groups": [{
 				"prefecture": "新潟県",
-				"name": "私立舞原中学校",
+				categoly: "私立",
+				"name": "新潟県私立舞原中学校",
 				"members": {
 					"name": "3年3組",
 					"numberOfMan": 19,
@@ -2214,7 +2140,7 @@ export const obrList: Array<TObr> =
 			"groups": [{
 				"prefecture": "島根県",
 				"categoly": "私立",
-				"name": "私立扇賀中学校",
+				"name": "島根県私立扇賀中学校",
 				"members": {
 					"name": "3年G組",
 					"numberOfMan": 20,
@@ -2289,10 +2215,10 @@ export const obrList: Array<TObr> =
 			}],
 			"comment": "原作、前作関係者登場。",
 			"status": "suspend",
-			"numberOfEpisode": 75,
-			"nowChapterName": "中盤戦前半",
-			"newestEpisodeNumber": 75,
-			"remainingNumber": 26
+			"numberOfEpisode": 41,
+			"nowChapterName": "序盤戦",
+			"newestEpisodeNumber": 41,
+			"remainingNumber": 34
 		},
 		{
 			"canRead": true,
@@ -2300,6 +2226,7 @@ export const obrList: Array<TObr> =
 			"siteId": 41,
 			"name": "Box☆Royale",
 			year: "200X",
+			programNumber: "X",
 			"groups": [{
 				"name": "歴代作品選抜生徒",
 				"members": {
@@ -2562,7 +2489,7 @@ export const obrList: Array<TObr> =
 			"groups": [{
 				"prefecture": "東京都",
 				"categoly": "区立",
-				"name": "世田谷区立弦沢中学校",
+				"name": "東京都世田谷区立弦沢中学校",
 				"members": {
 					"name": "3年A組",
 					"numberOfMan": 12,
@@ -2615,7 +2542,7 @@ export const obrList: Array<TObr> =
 			"numberOfEpisode": 65
 		},
 		{
-			"canRead": true,
+			"canRead": false,
 			"id": 120,
 			"siteId": 47,
 			"name": "2015年度第42号プログラム",
@@ -2627,8 +2554,8 @@ export const obrList: Array<TObr> =
 				"name": "香川県城岩町立城岩中学校",
 				"members": {
 					"name": "3年A組",
-					"numberOfMan": 32,
-					"numberOfWoman": 32
+					"numberOfMan": 16,
+					"numberOfWoman": 16
 				}
 			}, {
 				"prefecture": "香川県",
@@ -2636,8 +2563,8 @@ export const obrList: Array<TObr> =
 				"name": "香川県城岩町立城岩中学校",
 				"members": {
 					"name": "3年B組",
-					"numberOfMan": 32,
-					"numberOfWoman": 32
+					"numberOfMan": 16,
+					"numberOfWoman": 16
 				}
 			}],
 			"comment": "2クラス共同プログラム。上記3作と関連あり。",
@@ -2645,7 +2572,7 @@ export const obrList: Array<TObr> =
 			"numberOfEpisode": 108
 		},
 		{
-			"canRead": true,
+			"canRead": false,
 			"id": 121,
 			"siteId": 47,
 			"name": "Unlucky Class",
@@ -2665,7 +2592,7 @@ export const obrList: Array<TObr> =
 			"numberOfEpisode": 14
 		},
 		{
-			"canRead": true,
+			"canRead": false,
 			"id": 122,
 			"siteId": 47,
 			"name": "Murder Instructor",
@@ -2685,7 +2612,7 @@ export const obrList: Array<TObr> =
 			"numberOfEpisode": 14
 		},
 		{
-			"canRead": true,
+			"canRead": false,
 			"id": 123,
 			"siteId": 47,
 			"name": " Half",
@@ -2735,6 +2662,10 @@ export const obrList: Array<TObr> =
 			"name": "Reality or a nightmare",
 			year: 2010,
 			"groups": [{
+				prefecture: "愛知県",
+				municipalities: "名古屋市",
+				categoly: "市立",
+				"name": "愛知県名古屋市立名古屋城第2中学校3年",
 				"members": {
 					"numberOfMan": 8,
 					"numberOfWoman": 9
@@ -2821,6 +2752,10 @@ export const obrList: Array<TObr> =
 			"name": "閉ざされた扉 先のない道",
 			year: 2000,
 			"groups": [{
+				prefecture: "愛知県",
+				municipalities: "名古屋市",
+				categoly: "私立",
+				name: "愛知県名古屋市私立藤生女学院3年D組",
 				"members": {
 					"numberOfMan": 0,
 					"numberOfWoman": 30,
@@ -3029,6 +2964,7 @@ export const obrList: Array<TObr> =
 			"name": "FBR",
 			year: "200X",
 			"groups": [{
+				name: "EN1&2,FC1&2キャラクター選抜",
 				"members": {
 					"numberOfMan": 20,
 					"numberOfWoman": 20
@@ -3098,7 +3034,8 @@ export const obrList: Array<TObr> =
 			"status": "suspend",
 			"numberOfEpisode": 143,
 			"nowChapterName": "LEVEL4",
-			"newestEpisodeNumber": 142
+			"newestEpisodeNumber": 142,
+			"remainingNumber": 1
 		},
 		{
 			"canRead": true,
@@ -3189,6 +3126,7 @@ export const obrList: Array<TObr> =
 			"id": 147,
 			"siteId": 52,
 			"name": "偽りの守護星",
+			year: 2009,
 			"groups": [{
 				prefecture: "東京都",
 				municipalities: "小金井市",

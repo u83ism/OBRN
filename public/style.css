@@ -319,11 +319,11 @@ ul {
 }
 /* ここまでメニューのツールバー関係 */
 
-.stop { color : #FF0000 ; }
+.suspend,.stop { color : #FF0000 ; }
 
 .last { font-weight : bold ; }
 
-.end { color : #009900 ;
+.finish,.end { color : #009900 ;
 		font-size: 18px;font-size: 1.8rem !important;
 		font-weight : bold ;
 }

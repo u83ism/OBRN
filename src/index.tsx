@@ -1,7 +1,8 @@
 import React from "react"
 import ReactDOM from "react-dom";
 import { TSiteWithObrList, findObrList } from "./entity/Finder";
-import { TObr, obrList } from "./entity/Obr";
+import { TObr } from "./entity/type"
+import { obrList } from "./entity/Obr";
 import { sites } from "./entity/Site";
 import { SiteRow } from "./component/SiteRow";
 import { ObrRow } from "./component/ObrRow";
@@ -14,7 +15,6 @@ const Table = () => {
 	}
 	const activeSitesWithObrList = getSitesWithObrList()
 		.filter((siteWithObrList: TSiteWithObrList) => siteWithObrList.site.isOpen)
-
 
 	const numberOfActiveObr = obrList.filter((obr: TObr) => obr.canRead).length
 

@@ -1,5 +1,4 @@
-import { TGroup, TObr, TStatus } from "./entity/Obr"
-import { TSite } from "./entity/Site"
+import { TObr } from "./entity/type"
 
 /**
  * NullもしくはUndefinedである.
