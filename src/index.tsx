@@ -12,10 +12,7 @@ import { TableHeader } from "./component/TableHeader";
 
 const TitleLogo = (): JSX.Element => {
 	return <h1 className="title">
-		<span style={{ 'color': '#FF9900' }}>O</span>riginal
-		<span style={{ 'color': '#FF9900' }}>B</span>attle
-		<span style={{ 'color': '#FF9900' }}>R</span>oyale
-		<span style={{ 'color': '#FF9900' }}>N</span > etwork
+		<span style={{ 'color': '#FF9900' }}>O</span>riginal <span style={{ 'color': '#FF9900' }}>B</span>attle <span style={{ 'color': '#FF9900' }}>R</span>oyale <span style={{ 'color': '#FF9900' }}>N</span >etwork
 	</h1>
 }
 
@@ -126,7 +123,10 @@ const Table = (): JSX.Element => {
 
 const RootComponent: JSX.Element =
 	<div>
-		<TitleLogo />, <HelloText />, <InformationTable />, <Table />
+		<TitleLogo />
+		<HelloText />
+		<InformationTable />
+		<Table />
 	</div>
 
 ReactDOM.render(RootComponent, document.getElementById("root"));
