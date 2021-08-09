@@ -1,6 +1,7 @@
 import React from "react";
 import { TGroup, TMembers, TObr, TStatus } from "../entity/type";
-import { isNullOrUndefined, getNumber } from "../Utility";
+import { isNullOrUndefined } from "../Utility";
+import { getNumber } from "../entity/Analyzer";
 
 const getOptionalParameterText = (number: number | undefined, isAnimal: boolean, isPositive: boolean): string => {
 	if (typeof number === "string") { return number }
