@@ -1,3 +1,6 @@
+import { getObrWithSiteAndAuthor } from "./entity/Analyzer"
+import { TObr, TSite } from "./entity/Type"
+
 /**
  * NullもしくはUndefinedである.
  * 

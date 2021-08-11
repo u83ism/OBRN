@@ -1,4 +1,4 @@
-import { TObr } from "./type";
+import { TObr } from "./Type";
 
 
 export const obrList: Array<TObr> = [

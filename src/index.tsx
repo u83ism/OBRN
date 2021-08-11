@@ -1,14 +1,12 @@
 import React from "react"
 import ReactDOM from "react-dom";
-import { TSiteWithObrList, findObrList } from "./entity/Finder";
-import { TObr } from "./entity/type"
-import { obrList } from "./entity/Obr";
-import { sites } from "./entity/Site";
-import { SiteRow } from "./component/SiteRow";
+import { TObr, TObrWithAuthorAndSite, } from "./entity/Type"
+import { getObrWithAuthorAndSite } from "./entity/Analyzer";
+import { obrList } from "./entity/ObrList";
+import { sites } from "./entity/Sites";
+import { authors } from "./entity/Authors";
 import { ObrRow } from "./component/ObrRow";
 import { TableHeader } from "./component/TableHeader";
-
-
 
 const TitleLogo = (): JSX.Element => {
 	return <h1 className="title">
@@ -24,7 +22,6 @@ const HelloText = (): JSX.Element => {
 		</p >
 	)
 }
-
 
 const InformationTable = (): JSX.Element => {
 	return (
@@ -90,33 +87,20 @@ const InformationTable = (): JSX.Element => {
 
 
 
-const Table = (): JSX.Element => {
-	const getSitesWithObrList = (): Array<TSiteWithObrList> => {
-		return sites.map(site => findObrList(site))
-	}
-	const activeSitesWithObrList = getSitesWithObrList()
-		.filter((siteWithObrList: TSiteWithObrList) => siteWithObrList.site.isOpen)
+const ObrTable = (): JSX.Element => {
+	//サイトデータと作者データを結合してアクティブな奴だけ抽出
+	const activeObrList = getObrWithAuthorAndSite(obrList, sites, authors)
+		.filter((data: TObrWithAuthorAndSite) => data.canRead)
 
-	const numberOfActiveObr = obrList.filter((obr: TObr) => obr.canRead).length
+	const numberOfActiveObr = activeObrList.length
 
-	const siteRows = activeSitesWithObrList
-		.map((siteWithObrList): Array<JSX.Element> => {
-			const obrRows = siteWithObrList.obrList.map(
-				(obr: TObr): JSX.Element => <ObrRow {...obr} key={`obrId-${obr.id}`}></ObrRow>
-			)
-
-			return [
-				<SiteRow {...siteWithObrList.site} key={`siteId-${siteWithObrList.site.id}`}></SiteRow>,
-				...obrRows
-			]
-		})
-		.flat()
+	const rows = activeObrList.map((data: TObrWithAuthorAndSite): JSX.Element => <ObrRow {...data} key={`obrId-${data.id}`}></ObrRow>)
 
 	return (
 		<table key={"obrTable"} className="bordered">
 			<TableHeader {...{ numberOfObr: numberOfActiveObr }}></TableHeader>
 			<tbody>
-				{siteRows}
+				{rows}
 			</tbody>
 		</table>)
 }
@@ -126,7 +110,8 @@ const RootComponent: JSX.Element =
 		<TitleLogo />
 		<HelloText />
 		<InformationTable />
-		<Table />
+		<ObrTable />
 	</div>
+
 
 ReactDOM.render(RootComponent, document.getElementById("root"));

@@ -1,4 +1,4 @@
-import { TAuthor } from "./type";
+import { TAuthor } from "./Type";
 
 export const authors: Array<TAuthor> = [
 	{

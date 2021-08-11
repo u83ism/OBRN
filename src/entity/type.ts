@@ -37,8 +37,10 @@ export type TGroup = {
 export type TStatus = "prepare" | "progress" | "suspend" | "finish"
 
 export type TObrInPreparation = {
+	status: Extract<TStatus, "prepare">
 	canRead: boolean,
 	id: number,
+	authorId: number,
 	siteId: number
 	name: string,
 	/**
@@ -55,7 +57,6 @@ export type TObrInPreparation = {
 	 * "第X号"にも対応する必要があるのでstring
 	 */
 	programNumber?: number | string,
-	status: Extract<TStatus, "prepare">
 }
 
 export type TFinishedObr = Omit<TObrInPreparation, "status"> & {
@@ -81,3 +82,24 @@ export type TProgressObr = Omit<TFinishedObr, "status"> & {
 export type TSuspendedObr = Omit<TProgressObr, "status"> & { status: Extract<TStatus, "suspend"> }
 
 export type TObr = TObrInPreparation | TFinishedObr | TProgressObr | TSuspendedObr
+
+export type TSite = {
+	isOpen: boolean,
+	id: number,
+	nameCategory: string,
+	URL: string,
+	name: string,
+	comment?: string,
+	bannerURL?: string
+}
+
+export type TAuthor = {
+	id: number,
+	name: string
+}
+
+export type TObrWithAuthorAndSite = Omit<TObr, "authorId" | "siteId"> &
+{
+	author: TAuthor,
+	site: TSite,
+}

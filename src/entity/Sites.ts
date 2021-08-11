@@ -1,4 +1,4 @@
-import { TSite } from "./type";
+import { TSite } from "./Type";
 
 export const sites: Array<TSite> = [
 	{
