@@ -34,10 +34,10 @@ export type TGroup = {
 	name?: string,
 }
 
-export type TStatus = "prepare" | "progress" | "suspend" | "finish"
+export type TStatuses = "prepare" | "progress" | "suspend" | "finish"
 
-export type TObrInPreparation = {
-	status: Extract<TStatus, "prepare">
+type TObrBase = {
+	status: TStatuses,//制約用の型
 	canRead: boolean,
 	id: number,
 	authorId: number,
@@ -59,13 +59,13 @@ export type TObrInPreparation = {
 	programNumber?: number | string,
 }
 
-export type TFinishedObr = Omit<TObrInPreparation, "status"> & {
-	status: Extract<TStatus, "finish">,
-	numberOfEpisode?: number
-}
+export type TObrInPreparation = TObrBase & { status: "prepare" }
 
-export type TProgressObr = Omit<TFinishedObr, "status"> & {
-	status: Extract<TStatus, "progress">
+type TFinishedObrDiff = { numberOfEpisode?: number }
+
+export type TFinishedObr = TObrBase & TFinishedObrDiff & { status: "finish" }
+
+type TProgressObrDiff = TFinishedObrDiff & {
 	nowChapterName?: string,
 	/**
 	 * 「15-1」話等変則表記に対応する必要がある.
@@ -78,8 +78,8 @@ export type TProgressObr = Omit<TFinishedObr, "status"> & {
 	 */
 	remainingNumber?: number | string,
 }
-
-export type TSuspendedObr = Omit<TProgressObr, "status"> & { status: Extract<TStatus, "suspend"> }
+export type TProgressObr = TObrBase & TProgressObrDiff & { status: "progress" }
+export type TSuspendedObr = TObrBase & TProgressObrDiff & { status: "suspend" }
 
 export type TObr = TObrInPreparation | TFinishedObr | TProgressObr | TSuspendedObr
 
@@ -98,7 +98,7 @@ export type TAuthor = {
 	name: string
 }
 
-export type TObrWithAuthorAndSite = Omit<TObr, "authorId" | "siteId"> &
+export type TObrWithAuthorAndSite = TObr &
 {
 	author: TAuthor,
 	site: TSite,

@@ -38,37 +38,15 @@ export const isFinalChapter = (obr: TObr): boolean => {
 	return true
 }
 
-/**
- * サイト→OBRの検索（1:n）.
- */
-export const findObrList = (site: TSite, obrList: Array<TObr>): TObrWithAuthorAndSite => {
-	const list = obrList.filter(obr => obr.siteId === site.id)
-	return {
-		site: site,
-		obrList: list
-	}
-}
-
-/**
- * OBR→サイトの検索(1:1)
- * 
- * @param obr 
- * @returns 
- */
-export const findSite = (obr: TFinishedObr, sites: Array<TSite>): TSite | undefined => {
-	return sites.find((site: TSite) => site.id === obr.siteId)
-}
-
 export const getObrWithAuthorAndSite = (obrList: Array<TObr>, sites: Array<TSite>, authors: Array<TAuthor>): Array<TObrWithAuthorAndSite> => {
 	return obrList.map((obr): TObrWithAuthorAndSite => {
-		const { siteId, authorId, ...data } = obr
 		const site = sites.find(site => site.id === obr.siteId)
 		if (site === undefined) { throw new Error("作品と紐づけするサイトが存在しません") }
 		const author = authors.find(author => author.id === obr.authorId)
 		if (author === undefined) { throw new Error("作品と紐づけする作者が存在しません") }
 
 		return {
-			...data,
+			...obr,
 			site: site,
 			author: author,
 		}
