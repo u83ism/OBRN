@@ -4,7 +4,7 @@ export const TableHeader = ({ numberOfObr }: { numberOfObr: number }): JSX.Eleme
 	return (
 		<thead>
 			<tr>
-				<th colSpan={4}>{numberOfObr}作品登録中</th>
+				<th colSpan={6}>{numberOfObr}作品登録中</th>
 			</tr>
 		</thead>
 	)

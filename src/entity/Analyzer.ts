@@ -1,4 +1,4 @@
-import { TObr, TGroup } from "./type"
+import { TFinishedObr, TObr, TGroup, TSite, TAuthor, TObrWithAuthorAndSite } from "./Type";
 
 export const getNumber = (number: number | undefined): number => {
 	//別関数に切り出してると型の絞り込みが効かず、返り値にundefined残ったままになるので、
@@ -36,4 +36,19 @@ export const isFinalChapter = (obr: TObr): boolean => {
 
 
 	return true
+}
+
+export const getObrWithAuthorAndSite = (obrList: Array<TObr>, sites: Array<TSite>, authors: Array<TAuthor>): Array<TObrWithAuthorAndSite> => {
+	return obrList.map((obr): TObrWithAuthorAndSite => {
+		const site = sites.find(site => site.id === obr.siteId)
+		if (site === undefined) { throw new Error("作品と紐づけするサイトが存在しません") }
+		const author = authors.find(author => author.id === obr.authorId)
+		if (author === undefined) { throw new Error("作品と紐づけする作者が存在しません") }
+
+		return {
+			...obr,
+			site: site,
+			author: author,
+		}
+	})
 }

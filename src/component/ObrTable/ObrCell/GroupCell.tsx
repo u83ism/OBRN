@@ -1,7 +1,8 @@
-import React from "react";
-import { TGroup, TMembers, TObr, TStatus } from "../entity/type";
-import { isNullOrUndefined } from "../Utility";
-import { getNumber } from "../entity/Analyzer";
+import React from "react"
+import { TObr, TGroup, TMembers } from "../../../entity/Type";
+import { getNumber } from "../../../entity/Analyzer";
+import { isNullOrUndefined } from "../../../Utility";
+
 
 const getOptionalParameterText = (number: number | undefined, isAnimal: boolean, isPositive: boolean): string => {
 	if (typeof number === "string") { return number }
@@ -46,8 +47,7 @@ const getGroupsLines = (groups: Array<TGroup>) => {
 	})
 }
 
-
-const getObrCell = (obr: TObr): JSX.Element => {
+export const GroupCell = (obr: Omit<TObr, "siteId" | "authorId">): JSX.Element => {
 	const yearText = (typeof obr.year !== "undefined") ? `${obr.year}年度` : ""
 	const programNumberText = (typeof obr.programNumber !== "undefined") ? `第${obr.programNumber}号` : ""
 	const yearAndProgramNumberText = yearText + programNumberText
@@ -79,56 +79,3 @@ const getObrCell = (obr: TObr): JSX.Element => {
 	)
 }
 
-const getProgressInfoCell = (obr: TObr): JSX.Element => {
-	let element: JSX.Element
-	if (obr.status === "prepare") {
-		element = (<td>準備中</td>)
-	} else if (obr.status === "progress" || obr.status === "suspend") {
-		const statusAndText: Record<"progress" | "suspend", string> = {
-			"progress": "進行中",
-			"suspend": "休筆中"
-		}
-		const className = obr.status === "suspend" ? obr.status : ""
-
-		const newestEpisodeNumberText = obr?.newestEpisodeNumber ? `${obr.newestEpisodeNumber}話` : ""
-		const numberOfEpisodeText = (obr.newestEpisodeNumber !== obr.numberOfEpisode) ? `(${obr.numberOfEpisode}話)` : ""
-
-		const getRemainingNumberText = (number: number | string): string => {
-			if (typeof number === "number" && number <= 1) {
-				return `【残り${number}人/プログラム終了】`
-			} else {
-				return `【残り${number}人】`
-			}
-		}
-		const remainingNumberText = obr?.remainingNumber ? getRemainingNumberText(obr.remainingNumber) : ""
-
-		const chapterNameText = obr?.nowChapterName ? `/${obr.nowChapterName}` : ""
-
-		element = (
-			<td className={className}>
-				<div>{statusAndText[obr.status]}</div>
-				<div>{newestEpisodeNumberText}{numberOfEpisodeText}{chapterNameText}</div>
-				<div>{remainingNumberText}</div>
-			</td>)
-	} else if (obr.status === "finish") {
-		element = (<td className={obr.status}>完結(全{obr.numberOfEpisode}話)</td>)
-	} else {
-		const _exhaustiveCheck: never = obr;
-		throw new Error("")
-	}
-	return element
-}
-
-
-export const ObrRow = (obr: TObr): JSX.Element => {
-	const disabledClassName = obr.canRead ? "" : "disabled"//style.cssで定義
-
-	return (
-		<tr className={`obrdata ${disabledClassName}`}>
-			<td >{obr.name}</td>
-			{getObrCell(obr)}
-			{getProgressInfoCell(obr)}
-			<td>{obr.comment}</td>
-		</tr>
-	)
-}

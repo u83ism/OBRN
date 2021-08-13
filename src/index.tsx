@@ -1,12 +1,15 @@
 import React from "react"
 import ReactDOM from "react-dom";
-import { TSiteWithObrList, findObrList } from "./entity/Finder";
-import { TObr } from "./entity/type"
-import { obrList } from "./entity/Obr";
-import { sites } from "./entity/Site";
-import { SiteRow } from "./component/SiteRow";
-import { ObrRow } from "./component/ObrRow";
-import { TableHeader } from "./component/TableHeader";
+import { TObrWithAuthorAndSite, } from "./entity/Type"
+import { getObrWithAuthorAndSite } from "./entity/Analyzer";
+import { obrList } from "./entity/ObrList";
+import { sites } from "./entity/Sites";
+import { authors } from "./entity/Authors";
+import { ObrTable } from "./component/ObrTable";
+
+//サイトデータと作者データを結合してアクティブな奴だけ抽出
+const activeObrList = getObrWithAuthorAndSite(obrList, sites, authors)
+	.filter((data: TObrWithAuthorAndSite) => data.canRead)
 
 
 
@@ -25,7 +28,6 @@ const HelloText = (): JSX.Element => {
 	)
 }
 
-
 const InformationTable = (): JSX.Element => {
 	return (
 		<table key={"informationTable"} className="bordered">
@@ -35,6 +37,20 @@ const InformationTable = (): JSX.Element => {
 				</tr>
 			</thead>
 			<tbody>
+				<tr>
+					<td>2021年8月13日 21:40</td>
+					<td width="75%">
+						<p>
+							レイアウトを若干変更しました。テーブルレイアウトのままなので若干見辛いと思いますが、しばしご勘弁を。
+						</p>
+						<p>
+							このレイアウト変更には意図があります。
+							これまで「1サイトに作品がぶら下がっている」というサイトを軸にした構造だったのですが、
+							2021年現在、自作のウェブサイトを持たず、投稿サイトに投稿するスタイルが主流となっていると考え、作品を軸にすることにしました。
+							またレイアウトも1作品ごとのカード（ブロック）レイアウトに変えるつもりです。
+						</p>
+					</td>
+				</tr>
 				<tr>
 					<td>2021年8月8日 15:20</td>
 					<td width="75%">
@@ -88,45 +104,13 @@ const InformationTable = (): JSX.Element => {
 	)
 }
 
-
-
-const Table = (): JSX.Element => {
-	const getSitesWithObrList = (): Array<TSiteWithObrList> => {
-		return sites.map(site => findObrList(site))
-	}
-	const activeSitesWithObrList = getSitesWithObrList()
-		.filter((siteWithObrList: TSiteWithObrList) => siteWithObrList.site.isOpen)
-
-	const numberOfActiveObr = obrList.filter((obr: TObr) => obr.canRead).length
-
-	const siteRows = activeSitesWithObrList
-		.map((siteWithObrList): Array<JSX.Element> => {
-			const obrRows = siteWithObrList.obrList.map(
-				(obr: TObr): JSX.Element => <ObrRow {...obr} key={`obrId-${obr.id}`}></ObrRow>
-			)
-
-			return [
-				<SiteRow {...siteWithObrList.site} key={`siteId-${siteWithObrList.site.id}`}></SiteRow>,
-				...obrRows
-			]
-		})
-		.flat()
-
-	return (
-		<table key={"obrTable"} className="bordered">
-			<TableHeader {...{ numberOfObr: numberOfActiveObr }}></TableHeader>
-			<tbody>
-				{siteRows}
-			</tbody>
-		</table>)
-}
-
 const RootComponent: JSX.Element =
 	<div>
 		<TitleLogo />
 		<HelloText />
 		<InformationTable />
-		<Table />
+		<ObrTable {...{ list: activeObrList }} />
 	</div>
+
 
 ReactDOM.render(RootComponent, document.getElementById("root"));
