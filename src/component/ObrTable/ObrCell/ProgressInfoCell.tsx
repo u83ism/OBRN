@@ -1,7 +1,7 @@
 import React from "react";
-import { TObr } from "../../entity/Type";
+import { TObr, TObrWithAuthorAndSite } from "../../../entity/Type";
 
-export const ProgressInfoCell = (obr: Omit<TObr, "siteId" | "authorId">): JSX.Element => {
+export const ProgressInfoCell = (obr: TObrWithAuthorAndSite): JSX.Element => {
 	let element: JSX.Element
 	if (obr.status === "prepare") {
 		element = (<td>準備中</td>)

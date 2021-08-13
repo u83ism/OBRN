@@ -1,9 +1,8 @@
-import React from "react";
-import { TGroup, TMembers, TObr, TObrWithAuthorAndSite, TStatus } from "../entity/Type";
-import { isNullOrUndefined } from "../Utility";
-import { getNumber } from "../entity/Analyzer";
-import { ProgressInfoCell } from "./ObrDataCell/ProgressInfoCell";
-import { GroupCell } from "./ObrDataCell/GroupCell";
+import React from "react"
+import { TObr, TGroup, TMembers } from "../../../entity/Type";
+import { getNumber } from "../../../entity/Analyzer";
+import { isNullOrUndefined } from "../../../Utility";
+
 
 const getOptionalParameterText = (number: number | undefined, isAnimal: boolean, isPositive: boolean): string => {
 	if (typeof number === "string") { return number }
@@ -48,15 +47,35 @@ const getGroupsLines = (groups: Array<TGroup>) => {
 	})
 }
 
-export const ObrRow = (data: TObrWithAuthorAndSite): JSX.Element => {
-	const disabledClassName = data.canRead ? "" : "disabled"//style.cssで定義
+export const GroupCell = (obr: Omit<TObr, "siteId" | "authorId">): JSX.Element => {
+	const yearText = (typeof obr.year !== "undefined") ? `${obr.year}年度` : ""
+	const programNumberText = (typeof obr.programNumber !== "undefined") ? `第${obr.programNumber}号` : ""
+	const yearAndProgramNumberText = yearText + programNumberText
+
+	let totalNumberText: string = ""
+	if (obr.groups.length > 1) {
+		const totalNumberOfMan = obr.groups.map(
+			(group: TGroup): number => getNumber(group.members.numberOfMan)
+		).reduce((previous, current) => previous + current)
+
+		const totalNumberOfWoman = obr.groups.map(
+			(group: TGroup): number => getNumber(group.members.numberOfWoman)
+		).reduce((previous, current) => previous + current)
+
+		const totalNumberOfStudent = totalNumberOfMan + totalNumberOfWoman
+
+		totalNumberText = `
+		[総合計:男子${totalNumberOfMan}名/女子${totalNumberOfWoman}名/計${totalNumberOfStudent}名]
+		`
+	}
+
 
 	return (
-		<tr className={`obrdata ${disabledClassName}`}>
-			<td >{data.name}</td>
-			<GroupCell {...data} />
-			<ProgressInfoCell {...data} />
-			<td>{data.comment}</td>
-		</tr>
+		<td>
+			<div>{yearAndProgramNumberText}</div>
+			{getGroupsLines(obr.groups)}
+			<div>{totalNumberText}</div>
+		</td>
 	)
 }
+

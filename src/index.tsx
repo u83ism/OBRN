@@ -1,12 +1,17 @@
 import React from "react"
 import ReactDOM from "react-dom";
-import { TObr, TObrWithAuthorAndSite, } from "./entity/Type"
+import { TObrWithAuthorAndSite, } from "./entity/Type"
 import { getObrWithAuthorAndSite } from "./entity/Analyzer";
 import { obrList } from "./entity/ObrList";
 import { sites } from "./entity/Sites";
 import { authors } from "./entity/Authors";
-import { ObrRow } from "./component/ObrRow";
-import { TableHeader } from "./component/TableHeader";
+import { ObrTable } from "./component/ObrTable";
+
+//サイトデータと作者データを結合してアクティブな奴だけ抽出
+const activeObrList = getObrWithAuthorAndSite(obrList, sites, authors)
+	.filter((data: TObrWithAuthorAndSite) => data.canRead)
+
+
 
 const TitleLogo = (): JSX.Element => {
 	return <h1 className="title">
@@ -85,32 +90,12 @@ const InformationTable = (): JSX.Element => {
 	)
 }
 
-
-
-const ObrTable = (): JSX.Element => {
-	//サイトデータと作者データを結合してアクティブな奴だけ抽出
-	const activeObrList = getObrWithAuthorAndSite(obrList, sites, authors)
-		.filter((data: TObrWithAuthorAndSite) => data.canRead)
-
-	const numberOfActiveObr = activeObrList.length
-
-	const rows = activeObrList.map((data: TObrWithAuthorAndSite): JSX.Element => <ObrRow {...data} key={`obrId-${data.id}`}></ObrRow>)
-
-	return (
-		<table key={"obrTable"} className="bordered">
-			<TableHeader {...{ numberOfObr: numberOfActiveObr }}></TableHeader>
-			<tbody>
-				{rows}
-			</tbody>
-		</table>)
-}
-
 const RootComponent: JSX.Element =
 	<div>
 		<TitleLogo />
 		<HelloText />
 		<InformationTable />
-		<ObrTable />
+		<ObrTable {...{ list: activeObrList }} />
 	</div>
 
 

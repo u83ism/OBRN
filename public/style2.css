@@ -28,42 +28,17 @@
 		font-size: 14px;font-size: 1.4rem;
 }
 
-.sitedata .letter {
-		text-decoration: none;
-		display: table-cell;
-		width: 200px;
-		height: 40px;
-		padding: 10px;
-		-webkit-box-sizing: border-box;
-		   -moz-box-sizing: border-box;
-		        box-sizing: border-box;
-		vertical-align: middle;
-		text-align: center;
-		color : white ; /* 仮に白 */
-		background-color: black ; /* 仮に黒 */
-}
-
 .obrdata td { 
 		font-size: 14px;font-size: 1.4rem;
 }
 
-.obrdata td:nth-of-type(1){
-		width : 30%;
-		color : #FF9900 ;
-		font-weight : bold ;
+.obrdata td:nth-of-type(2) {
+		width : 20% ;
+}
+.obrdata td:nth-of-type(4) {
+		width : 15% ;
 }
 
-.obrdata td:nth-of-type(2){
-		width : 30%;
-}
-
-.obrdata td:nth-of-type(3){
-		width : 15%;
-}
-
-.obrdata td:nth-of-type(4){
-		width : 25%;
-}
 
 .disabled td{
 	background-color: #e0e0e0;

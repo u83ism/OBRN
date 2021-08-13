@@ -8,7 +8,7 @@ $(function () {
 		appendHtml += '<ul class="menu">';
 		appendHtml += '<li><a href="index.html">トップ</a></li>';
 		appendHtml += '<li><a href="info.html">インフォメーション</a></li>';
-		appendHtml += '<li><a href="awa.html">あ～わ行</a>';
+		appendHtml += '<li><a href="awa.html">あ～わ行（旧データ）</a>';
 		appendHtml += '	<ul class="sub1">';
 		appendHtml += '		<li><a href="awa.html?data-bunrui=aa">あ</a></li>';
 		appendHtml += '		<li><a href="awa.html?data-bunrui=ka">か</a></li>';
@@ -22,7 +22,7 @@ $(function () {
 		appendHtml += '		<li><a href="awa.html?data-bunrui=wa">わ</a></li>';
 		appendHtml += '	</ul>';
 		appendHtml += '</li>';
-		appendHtml += '<li><a href="az.html">A～Z＆記号</a>';
+		appendHtml += '<li><a href="az.html">A～Z＆記号（旧データ）</a>';
 		appendHtml += '	<ul class="sub2">';
 		appendHtml += '		<li><a href="az.html?data-bunrui=a">A</a></li>';
 		appendHtml += '		<li><a href="az.html?data-bunrui=b">B</a></li>';
@@ -53,7 +53,7 @@ $(function () {
 		appendHtml += '		<li><a>記号</a></li>';
 		appendHtml += '	</ul>';
 		appendHtml += '</li>';
-		appendHtml += '<li><a href="end.html">完結作品一覧</a></li>';
+		appendHtml += '<li><a href="end.html">完結作品一覧（旧データ）</a></li>';
 		appendHtml += '<li><a href="event.html">企画</a></li>';
 		appendHtml += '</ul>';
 
