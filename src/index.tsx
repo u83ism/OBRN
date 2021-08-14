@@ -1,9 +1,8 @@
-import React, { useState } from "react"
+import React, { useMemo, useState } from "react"
 import ReactDOM from "react-dom";
 import { TitleLogo } from "./component/TitleLogo";
 import { HelloText } from "./component/HelloText";
 import { InformationTable } from "./component/InformationTable";
-
 import { TObrWithAuthorAndSite, } from "./entity/Type"
 import { getObrWithAuthorAndSite } from "./entity/Analyzer";
 import { obrList } from "./entity/ObrList";
@@ -12,21 +11,27 @@ import { authors } from "./entity/Authors";
 import { ObrTable } from "./component/ObrTable";
 import { ControlPanel } from "./component/ControlPanel";
 
+
 //サイトデータと作者データを結合してアクティブな奴だけ抽出
-const activeObrList = getObrWithAuthorAndSite(obrList, sites, authors)
-	.filter((data: TObrWithAuthorAndSite) => data.canRead)
+const obrListWithDetails = getObrWithAuthorAndSite(obrList, sites, authors)
+const activeObrListWithDetails = obrListWithDetails.filter((data: TObrWithAuthorAndSite) => data.canRead)
 
 const App = (): JSX.Element => {
-	const [count, setCount] = useState(0);
+	const [enableFilter, setEnableFilter] = useState(true)
+	const updateFilter = () => { setEnableFilter(!enableFilter) }
+	const filteredObrListWithDetails = useMemo(() => {
+		return (enableFilter) ?
+			obrListWithDetails.filter((data: TObrWithAuthorAndSite) => data.canRead) : obrListWithDetails
+	}, [enableFilter])
+
 
 	return (
 		<div>
-			hookテスト:{count}
 			<TitleLogo />
 			<HelloText />
 			<InformationTable />
-			<ControlPanel />
-			<ObrTable {...{ list: activeObrList }} />
+			<ControlPanel func={updateFilter} />
+			<ObrTable {...{ list: filteredObrListWithDetails }} />
 		</div>
 	)
 }

@@ -1,14 +1,13 @@
 import React from "react"
 
-const handleSort = () => {
-	console.info(`クリックされました`)
+type Props = {
+	func: Function
 }
 
-
-export const ControlPanel = (): JSX.Element => {
+export const ControlPanel = (props: Props) => {
 	return <div>
-		<button onClick={handleSort}>フィルターなし</button>
-		<button onClick={handleSort}>連載中</button>
-		<button onClick={handleSort}>完結済</button>
+		<button onClick={(event) => props.func()} >フィルターなし</button>
+		<button>読める作品のみ</button>
+		<button>読めない作品のみ</button>
 	</div>
 }
