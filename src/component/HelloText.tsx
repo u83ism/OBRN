@@ -1,7 +1,6 @@
-import React from "react"
+import React, { memo } from "react"
 
-
-export const HelloText = (): JSX.Element => {
+const getHelloText = (): JSX.Element => {
 	return (
 		<p>
 			いらっしゃいませ。<br />
@@ -9,3 +8,5 @@ export const HelloText = (): JSX.Element => {
 		</p >
 	)
 }
+
+export const HelloText = memo(getHelloText)

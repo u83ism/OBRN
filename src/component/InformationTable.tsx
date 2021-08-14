@@ -1,6 +1,6 @@
-import React from "react"
+import React, { memo } from "react"
 
-export const InformationTable = (): JSX.Element => {
+const getInformationTable = (): JSX.Element => {
 	return (
 		<table key={"informationTable"} className="bordered">
 			<thead>
@@ -75,3 +75,5 @@ export const InformationTable = (): JSX.Element => {
 		</table >
 	)
 }
+
+export const InformationTable = memo(getInformationTable)
