@@ -1,4 +1,3 @@
-
 /**
  * メンバーについて.
  * 
@@ -34,10 +33,10 @@ export type TGroup = {
 	name?: string,
 }
 
-export type TStatuses = "prepare" | "progress" | "suspend" | "finish"
+export type TStateOfProgress = "prepare" | "progress" | "suspend" | "finish"
 
 type TObrBase = {
-	status: TStatuses,//制約用の型
+	status: TStateOfProgress,//制約用の型
 	canRead: boolean,
 	id: number,
 	authorId: number,

@@ -2,7 +2,7 @@ import React, { memo } from "react"
 
 const getInformationTable = (): JSX.Element => {
 	return (
-		<table key={"informationTable"} className="bordered">
+		<table key={"informationTable"} className="bordered miniTable">
 			<thead>
 				<tr>
 					<th colSpan={4}>データベース一括更新日：2021年8月8日</th>

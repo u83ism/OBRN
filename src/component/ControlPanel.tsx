@@ -1,13 +1,23 @@
 import React from "react"
+import { FilterType } from "../entity/FilterType"
+import { AvailabilityArea } from "./ControlPanel/AvailabilityArea"
+import { StateOfProgressArea } from "./ControlPanel/StateOfProgressArea"
 
 type Props = {
-	func: Function
+	status: FilterType,
+	updateFunc: Function,
 }
 
-export const ControlPanel = (props: Props) => {
-	return <div>
-		<button onClick={(event) => props.func()} >フィルターなし</button>
-		<button>読める作品のみ</button>
-		<button>読めない作品のみ</button>
-	</div>
+export const ControlPanel = ({ status, updateFunc }: Props) => {
+	const passInput = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+		event.currentTarget.
+			updateFunc()
+	}
+
+	return (
+		<table key={"ControlPanel"} className="bordered miniTable">
+			<AvailabilityArea {...status.availability} />
+			<StateOfProgressArea {...status.stateOfProgress} />
+		</table>
+	)
 }

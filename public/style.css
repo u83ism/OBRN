@@ -46,6 +46,14 @@ table {
 			width: 100% ;
 			margin-bottom: 80px;margin-bottom: 8.0rem;
 }
+
+.miniTable {
+	width: 75%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
 /* 全部隠しておきJSで表示 */
 table[data-bunrui] {
 	display:none;
@@ -56,8 +64,6 @@ img {
 }
 
 .bordered {
-			border-spacing: 0;
-			width: 100% ;
 			border: solid #CCCCCC 1px;
 			-moz-border-radius: 3px;
 			-webkit-border-radius: 3px;

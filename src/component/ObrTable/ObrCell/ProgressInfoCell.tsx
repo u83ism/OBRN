@@ -1,15 +1,12 @@
 import React from "react";
-import { TObr, TObrWithAuthorAndSite } from "../../../entity/Type";
+import { TObrWithAuthorAndSite } from "../../../entity/Type";
+import { stateOfProgressAndTextMap } from "../../../entity/WordDictionary";
 
 export const ProgressInfoCell = (obr: TObrWithAuthorAndSite): JSX.Element => {
 	let element: JSX.Element
 	if (obr.status === "prepare") {
 		element = (<td>準備中</td>)
 	} else if (obr.status === "progress" || obr.status === "suspend") {
-		const statusAndText: Record<"progress" | "suspend", string> = {
-			"progress": "進行中",
-			"suspend": "休筆中"
-		}
 		const className = obr.status === "suspend" ? obr.status : ""
 
 		const newestEpisodeNumberText = obr?.newestEpisodeNumber ? `${obr.newestEpisodeNumber}話` : ""
@@ -28,7 +25,7 @@ export const ProgressInfoCell = (obr: TObrWithAuthorAndSite): JSX.Element => {
 
 		element = (
 			<td className={className}>
-				<div>{statusAndText[obr.status]}</div>
+				<div>{stateOfProgressAndTextMap[obr.status]}</div>
 				<div>{newestEpisodeNumberText}{numberOfEpisodeText}{chapterNameText}</div>
 				<div>{remainingNumberText}</div>
 			</td>)
