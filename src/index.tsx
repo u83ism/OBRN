@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { TitleLogo } from "./component/TitleLogo";
 import { HelloText } from "./component/HelloText";
 import { InformationTable } from "./component/InformationTable";
-import { TObrWithAuthorAndSite, } from "./entity/Type"
+import { TObrWithAuthorAndSite, TStateOfProgress, } from "./entity/Type"
 import { getObrWithAuthorAndSite } from "./entity/Analyzer";
 import { obrList } from "./entity/ObrList";
 import { sites } from "./entity/Sites";
@@ -11,19 +11,19 @@ import { authors } from "./entity/Authors";
 import { initialFilter } from "./entity/Filter";
 import { ObrTable } from "./component/ObrTable";
 import { ControlPanel } from "./component/ControlPanel";
-import { FilterType } from "./entity/FilterType";
+import { availabilityFilterType, availabilityTypes, filterCategoryTypes, filterType, NestedPartial } from "./entity/FilterType";
 
 
 //サイトデータと作者データを結合してアクティブな奴だけ抽出
 const obrListWithDetails = getObrWithAuthorAndSite(obrList, sites, authors)
-const activeObrListWithDetails = obrListWithDetails.filter((data: TObrWithAuthorAndSite) => data.canRead)
 
 const App = (): JSX.Element => {
 	const [filterStatus, setEnableFilter] = useState(initialFilter)
-	const updateFilter = () => {
-		const newFilter: FilterType = { ...filterStatus }
+	const updateFilter = (newParameter: NestedPartial<filterType>) => {
+		const newFilter: filterType = { ...filterStatus }
 
-		setEnableFilter()
+
+		// setEnableFilter()
 	}
 	const filteredObrListWithDetails = useMemo(() => {
 		return (filterStatus) ?

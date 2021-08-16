@@ -1,7 +1,7 @@
 import { TObr } from "./Type";
 
 
-export const obrList: Array<TObr> = [
+export const obrList: ReadonlyArray<TObr> = [
 	{
 		"canRead": true,
 		"id": 1,
@@ -3537,4 +3537,4 @@ export const obrList: Array<TObr> = [
 		"remainingNumber": 33,
 		"authorId": 52
 	}
-]
+] as const

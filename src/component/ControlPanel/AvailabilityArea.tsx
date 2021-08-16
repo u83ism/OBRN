@@ -1,11 +1,17 @@
 import React from "react"
-import { availabilityType } from "../../entity/FilterType"
+import { availabilityFilterType } from "../../entity/FilterType"
 
-export const AvailabilityArea = (availability: availabilityType): JSX.Element => {
-	const elements = Object.keys(availability)
+type Props = {
+	filterDetail: availabilityFilterType,
+	category: string
+}
+
+export const AvailabilityArea = (props: Props): JSX.Element => {
+	const elements = Object.keys(props.filterDetail)
 		.map((propertyName): JSX.Element => {
-			const mark = propertyName === "enable" ? "〇" : "×"
-			return <td colSpan={2}><button id={propertyName} >{mark}</button></td>
+			const stateText = propertyName as keyof availabilityFilterType
+			const mark = stateText === "enable" ? "〇" : "×"
+			return <td key={propertyName} colSpan={2}><button data-category={props.category} data-attribute={propertyName} >{mark}</button></td>
 		})
 
 	return (

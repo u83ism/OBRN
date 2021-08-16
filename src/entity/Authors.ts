@@ -1,6 +1,6 @@
 import { TAuthor } from "./Type";
 
-export const authors: Array<TAuthor> = [
+export const authors: ReadonlyArray<TAuthor> = [
 	{
 		"id": 1,
 		"name": "りん"
@@ -269,4 +269,4 @@ export const authors: Array<TAuthor> = [
 		id: 67,
 		name: "テル"
 	},
-]
+] as const

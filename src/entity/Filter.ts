@@ -1,6 +1,6 @@
-import { FilterType } from "./FilterType";
+import { filterType } from "./FilterType";
 
-export const initialFilter: FilterType = {
+export const initialFilter: filterType = {
 	availability: {
 		enable: true,
 		disable: false
