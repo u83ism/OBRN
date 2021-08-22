@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from "react"
 import ReactDOM from "react-dom";
-import { TObrWithAuthorAndSite } from "./entity/Type"
-import { getObrWithAuthorAndSite } from "./entity/Analyzer";
+import { getEnhancedAuthors, getEnhancedObrList } from "./logic/Analyzer";
 import { obrList } from "./entity/ObrList";
 import { sites } from "./entity/Sites";
 import { authors } from "./entity/Authors";
@@ -14,7 +13,10 @@ import { InformationTable } from "./component/InformationTable";
 import { getFilteredList } from "./logic/Filter";
 
 //サイトデータと作者データを結合してアクティブな奴だけ抽出
-const obrListWithDetails = getObrWithAuthorAndSite(obrList, sites, authors)
+
+
+const enhancedAuthors = getEnhancedAuthors(authors, obrList)
+const enhancedObrList = getEnhancedObrList(obrList, sites, enhancedAuthors)
 
 const App = (): JSX.Element => {
 	const [filterStatus, setEnableFilter] = useState(initialFilter)
@@ -22,7 +24,7 @@ const App = (): JSX.Element => {
 		setEnableFilter(newFilter)
 	}
 	const filteredObrListWithDetails = useMemo(
-		() => getFilteredList(obrListWithDetails, filterStatus), [filterStatus]
+		() => getFilteredList(enhancedObrList, filterStatus), [filterStatus]
 	)
 
 	const propsForControlPanel = {

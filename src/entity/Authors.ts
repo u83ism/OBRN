@@ -1,6 +1,6 @@
-import { TAuthor } from "./Type";
+import { BaseAuthorType } from "./Type";
 
-export const authors: ReadonlyArray<TAuthor> = [
+export const authors: ReadonlyArray<BaseAuthorType> = [
 	{
 		"id": 1,
 		"name": "りん"

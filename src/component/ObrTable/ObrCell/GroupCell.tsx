@@ -1,6 +1,6 @@
 import React from "react"
-import { TObr, TGroup, TMembers } from "../../../entity/Type";
-import { getNumber } from "../../../entity/Analyzer";
+import { BaseObrType, GroupType, MembersType } from "../../../entity/Type";
+import { getNumber } from "../../../logic/Analyzer";
 import { isNullOrUndefined } from "../../../Utility";
 
 
@@ -12,7 +12,7 @@ const getOptionalParameterText = (number: number | undefined, isAnimal: boolean,
 	return text
 }
 
-const getNumberOfMemberText = (members: TMembers): string => {
+const getNumberOfMemberText = (members: MembersType): string => {
 	const transferedManText = getOptionalParameterText(members.numberOfTransferedMan, false, true)
 	const visitorManText = getOptionalParameterText(members.numberOfVisitorMan, false, true)
 	const maleAnimalText = getOptionalParameterText(members.numberOfMaleAnimal, true, true)
@@ -34,9 +34,9 @@ const getNumberOfMemberText = (members: TMembers): string => {
 	計${totalNumberOfStudent}${totalNumberOfTransferedStudentText}名)`
 }
 
-const getGroupsLines = (groups: ReadonlyArray<TGroup>) => {
+const getGroupsLines = (groups: ReadonlyArray<GroupType>) => {
 	// groupもmapで回してるんでkeyが必要になるので注意
-	return groups.map((group: TGroup, index: number): JSX.Element => {
+	return groups.map((group: GroupType, index: number): JSX.Element => {
 		const members = group?.members
 		return (
 			<div key={index}>
@@ -47,7 +47,7 @@ const getGroupsLines = (groups: ReadonlyArray<TGroup>) => {
 	})
 }
 
-export const GroupCell = (obr: Omit<TObr, "siteId" | "authorId">): JSX.Element => {
+export const GroupCell = (obr: Omit<BaseObrType, "siteId" | "authorId">): JSX.Element => {
 	const yearText = (typeof obr.year !== "undefined") ? `${obr.year}年度` : ""
 	const programNumberText = (typeof obr.programNumber !== "undefined") ? `第${obr.programNumber}号` : ""
 	const yearAndProgramNumberText = yearText + programNumberText
@@ -55,11 +55,11 @@ export const GroupCell = (obr: Omit<TObr, "siteId" | "authorId">): JSX.Element =
 	let totalNumberText: string = ""
 	if (obr.groups.length > 1) {
 		const totalNumberOfMan = obr.groups.map(
-			(group: TGroup): number => getNumber(group.members.numberOfMan)
+			(group: GroupType): number => getNumber(group.members.numberOfMan)
 		).reduce((previous, current) => previous + current)
 
 		const totalNumberOfWoman = obr.groups.map(
-			(group: TGroup): number => getNumber(group.members.numberOfWoman)
+			(group: GroupType): number => getNumber(group.members.numberOfWoman)
 		).reduce((previous, current) => previous + current)
 
 		const totalNumberOfStudent = totalNumberOfMan + totalNumberOfWoman
