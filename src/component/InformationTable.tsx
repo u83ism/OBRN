@@ -10,6 +10,17 @@ const getInformationTable = (): JSX.Element => {
 			</thead>
 			<tbody>
 				<tr>
+					<td>2021年8月22日 15:40</td>
+					<td width="75%">
+						<p>
+							<strong>✨フィルタ機能ができました。</strong>
+						</p>
+						<p>
+							下のコントロールパネルで表示対象を絞り込むことができます。
+						</p>
+					</td>
+				</tr>
+				<tr>
 					<td>2021年8月13日 21:40</td>
 					<td width="75%">
 						<p>
@@ -40,8 +51,9 @@ const getInformationTable = (): JSX.Element => {
 						</ol>
 						とまぁ、こんなわけで内部的にデータは最新になりましたが、中途半端な状態なので以下Todoリストです。
 						<ol>
-							<li>更新,完結等のフィルタ機能の実装←react-router入れる</li>
+							<li>✔更新,完結等のフィルタ機能の実装</li>
 							<li>CSSフレームワーク(styledComponents/Material-UI)導入</li>
+							<li>react-router入れる</li>
 							<li>データをDB(firestore)に移行</li>
 							<li>ユーザー認証導入(Firebase Authentication)。ウェブサイトからサービスへ</li>
 							<li>登録フォーム実装</li>
