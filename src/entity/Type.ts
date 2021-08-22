@@ -1,4 +1,3 @@
-
 /**
  * メンバーについて.
  * 
@@ -34,10 +33,10 @@ export type TGroup = {
 	name?: string,
 }
 
-export type TStatuses = "prepare" | "progress" | "suspend" | "finish"
+export type TStateOfProgress = "prepare" | "progress" | "suspend" | "finish"
 
 type TObrBase = {
-	status: TStatuses,//制約用の型
+	status: TStateOfProgress,//制約用の型
 	canRead: boolean,
 	id: number,
 	authorId: number,
@@ -47,7 +46,7 @@ type TObrBase = {
 	 * クラス単位じゃない時（優勝者選抜、フードファイター等）があるので抽象化してグループという概念にしている。
 	 * 2クラス制の時があるので配列で持つ.
 	 */
-	groups: Array<TGroup>,
+	groups: ReadonlyArray<TGroup>,
 	comment?: string,
 	/**
 	 * "2XXX"年等にも対応する必要があるのでstring

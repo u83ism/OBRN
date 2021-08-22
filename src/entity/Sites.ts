@@ -1,6 +1,6 @@
 import { TSite } from "./Type";
 
-export const sites: Array<TSite> = [
+export const sites: ReadonlyArray<TSite> = [
 	{
 		"isOpen": true,
 		"nameCategory": "aa",
@@ -419,4 +419,4 @@ export const sites: Array<TSite> = [
 		"name": "Das verlorene Paradies",
 		"id": 56
 	}
-]
+] as const

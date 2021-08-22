@@ -34,7 +34,7 @@ const getNumberOfMemberText = (members: TMembers): string => {
 	計${totalNumberOfStudent}${totalNumberOfTransferedStudentText}名)`
 }
 
-const getGroupsLines = (groups: Array<TGroup>) => {
+const getGroupsLines = (groups: ReadonlyArray<TGroup>) => {
 	// groupもmapで回してるんでkeyが必要になるので注意
 	return groups.map((group: TGroup, index: number): JSX.Element => {
 		const members = group?.members

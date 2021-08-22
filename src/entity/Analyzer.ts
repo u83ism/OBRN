@@ -38,7 +38,7 @@ export const isFinalChapter = (obr: TObr): boolean => {
 	return true
 }
 
-export const getObrWithAuthorAndSite = (obrList: Array<TObr>, sites: Array<TSite>, authors: Array<TAuthor>): Array<TObrWithAuthorAndSite> => {
+export const getObrWithAuthorAndSite = (obrList: ReadonlyArray<TObr>, sites: ReadonlyArray<TSite>, authors: ReadonlyArray<TAuthor>): Array<TObrWithAuthorAndSite> => {
 	return obrList.map((obr): TObrWithAuthorAndSite => {
 		const site = sites.find(site => site.id === obr.siteId)
 		if (site === undefined) { throw new Error("作品と紐づけするサイトが存在しません") }
