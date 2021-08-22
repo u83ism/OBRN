@@ -1,6 +1,6 @@
-import { TSite } from "./Type";
+import { BaseSiteType } from "./Type";
 
-export const sites: ReadonlyArray<TSite> = [
+export const sites: ReadonlyArray<BaseSiteType> = [
 	{
 		"isOpen": true,
 		"nameCategory": "aa",

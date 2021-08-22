@@ -1,7 +1,7 @@
-import { TObr } from "./Type";
+import { BaseObrType } from "./Type";
 
 
-export const obrList: ReadonlyArray<TObr> = [
+export const obrList: ReadonlyArray<BaseObrType> = [
 	{
 		"canRead": true,
 		"id": 1,
@@ -260,7 +260,7 @@ export const obrList: ReadonlyArray<TObr> = [
 				}
 			}
 		],
-		"status": "progress",
+		"status": "suspend",
 		"numberOfEpisode": 25,
 		"nowChapterName": "序盤戦",
 		"newestEpisodeNumber": 23,

@@ -1,5 +1,5 @@
 import { FilterStatusType, ValueTypes } from "../entity/FilterType";
-import { TObrWithAuthorAndSite } from "../entity/Type";
+import { EnhancedObrType } from "../entity/Type";
 
 /**
  * OR条件にも対応できるフィルタ関数.
@@ -17,7 +17,7 @@ const getQuery = (status: FilterStatusType) => {
 	return query;
 }
 
-export const getFilteredList = (dataList: Array<TObrWithAuthorAndSite>, filterStatus: FilterStatusType) => {
+export const getFilteredList = (dataList: Array<EnhancedObrType>, filterStatus: FilterStatusType) => {
 	const query = getQuery(filterStatus)
 	const filteredData = dataList.filter((obr: PlaneObjectType) => {
 		return Object.entries(query)

@@ -6,7 +6,7 @@
  * 動物突っ込んでるプログラムがかつてあったのでMaleAnimalという項目がある。
  * 転校生がいることは知らせたいけど、人数は伏せたいケースがあるので「X」人等となるケースがある
  */
-export type TMembers = {
+export type MembersType = {
 	name?: string,
 	numberOfMan?: number,
 	numberOfTransferedMan?: number,
@@ -15,8 +15,8 @@ export type TMembers = {
 	numberOfWoman?: number,
 	numberOfTransferedWoman?: number,
 }
-export type TGroup = {
-	members: TMembers
+export type GroupType = {
+	members: MembersType
 	/**
 	 * 都道府県（"S県"とか架空県表記があるのでstring）
 	 */
@@ -33,10 +33,10 @@ export type TGroup = {
 	name?: string,
 }
 
-export type TStateOfProgress = "prepare" | "progress" | "suspend" | "finish"
+export type StateOfProgressType = "prepare" | "progress" | "suspend" | "finish"
 
-type TObrBase = {
-	status: TStateOfProgress,//制約用の型
+type ObrBaseType = {
+	status: StateOfProgressType,//制約用の型
 	canRead: boolean,
 	id: number,
 	authorId: number,
@@ -46,7 +46,7 @@ type TObrBase = {
 	 * クラス単位じゃない時（優勝者選抜、フードファイター等）があるので抽象化してグループという概念にしている。
 	 * 2クラス制の時があるので配列で持つ.
 	 */
-	groups: ReadonlyArray<TGroup>,
+	groups: ReadonlyArray<GroupType>,
 	comment?: string,
 	/**
 	 * "2XXX"年等にも対応する必要があるのでstring
@@ -58,13 +58,13 @@ type TObrBase = {
 	programNumber?: number | string,
 }
 
-export type TObrInPreparation = TObrBase & { status: "prepare" }
+export type ObrInPreparationType = ObrBaseType & { status: "prepare" }
 
-type TFinishedObrDiff = { numberOfEpisode?: number }
+type FinishedObrDiffType = { numberOfEpisode?: number }
 
-export type TFinishedObr = TObrBase & TFinishedObrDiff & { status: "finish" }
+export type FinishedObrType = ObrBaseType & FinishedObrDiffType & { status: "finish" }
 
-type TProgressObrDiff = TFinishedObrDiff & {
+type ProgressObrDiffType = FinishedObrDiffType & {
 	nowChapterName?: string,
 	/**
 	 * 「15-1」話等変則表記に対応する必要がある.
@@ -77,12 +77,12 @@ type TProgressObrDiff = TFinishedObrDiff & {
 	 */
 	remainingNumber?: number | string,
 }
-export type TProgressObr = TObrBase & TProgressObrDiff & { status: "progress" }
-export type TSuspendedObr = TObrBase & TProgressObrDiff & { status: "suspend" }
+export type ProgressObrType = ObrBaseType & ProgressObrDiffType & { status: "progress" }
+export type SuspendedObrType = ObrBaseType & ProgressObrDiffType & { status: "suspend" }
 
-export type TObr = TObrInPreparation | TFinishedObr | TProgressObr | TSuspendedObr
+export type BaseObrType = ObrInPreparationType | FinishedObrType | ProgressObrType | SuspendedObrType
 
-export type TSite = {
+export type BaseSiteType = {
 	isOpen: boolean,
 	id: number,
 	nameCategory: string,
@@ -92,13 +92,17 @@ export type TSite = {
 	bannerURL?: string
 }
 
-export type TAuthor = {
+export type BaseAuthorType = {
 	id: number,
 	name: string
 }
+export type EnhancedAuthorType = BaseAuthorType & {
+	medal?: string
+}
 
-export type TObrWithAuthorAndSite = TObr &
+
+export type EnhancedObrType = BaseObrType &
 {
-	author: TAuthor,
-	site: TSite,
+	author: EnhancedAuthorType,
+	site: BaseSiteType,
 }

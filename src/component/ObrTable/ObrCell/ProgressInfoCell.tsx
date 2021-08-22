@@ -1,8 +1,8 @@
 import React from "react";
-import { TObrWithAuthorAndSite } from "../../../entity/Type";
+import { EnhancedObrType } from "../../../entity/Type";
 import { stateOfProgressAndTextMap } from "../../../entity/WordDictionary";
 
-export const ProgressInfoCell = (obr: TObrWithAuthorAndSite): JSX.Element => {
+export const ProgressInfoCell = (obr: EnhancedObrType): JSX.Element => {
 	let element: JSX.Element
 	if (obr.status === "prepare") {
 		element = (<td>準備中</td>)
