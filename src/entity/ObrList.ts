@@ -3536,5 +3536,49 @@ export const obrList: ReadonlyArray<BaseObrType> = [
 		"newestEpisodeNumber": 41,
 		"remainingNumber": 33,
 		"authorId": 52
+	}, {
+		"canRead": true,
+		"id": 148,
+		"authorId": 41,
+		"siteId": 41,
+		"name": "BATTLE ROYALE～背徳の瞳～",
+		"year": 1995,
+		"groups": [
+			{
+				"prefecture": "埼玉県",
+				"name": "埼玉県川田中学校",
+				"members": {
+					"name": "3年2組",
+					"numberOfMan": 1,
+					"numberOfWoman": 1
+				}
+			}
+		],
+		"comment": "若紫文庫に投稿した作品のリメイクです。\n\t\t事故で他のクラスメイトが死亡。",
+		"status": "finish",
+		"numberOfEpisode": 18
+	},
+	{
+		"canRead": true,
+		"id": 149,
+		"authorId": 41,
+		"siteId": 41,
+		"name": "BATTLE ROYALE～Body & Soul～",
+		"year": 1996,
+		"groups": [
+			{
+				"prefecture": "栃木県",
+				"categoly": "県立",
+				"name": "栃木県立青葉中学校",
+				"members": {
+					"name": "3年1組",
+					"numberOfMan": 12,
+					"numberOfWoman": 12
+				}
+			}
+		],
+		"comment": "若紫文庫に投稿した作品のリメイクです。\n\t\t特殊ルール採用。",
+		"status": "finish",
+		"numberOfEpisode": 54
 	}
 ] as const
