@@ -10,19 +10,18 @@ type Props = {
 }
 
 export const AvailableFilterArea = (props: Props): JSX.Element => {
-	const handleFormat = (event: React.MouseEvent<HTMLElement>, newFilter: Array<valueOf<FilterStatusType>>) => {
+	const changeFilter = (event: React.MouseEvent<HTMLElement>, newFilter: Array<valueOf<FilterStatusType>>) => {
 		console.info(newFilter)
 		props.updateFilter(props.category, newFilter)
 	}
 
-
 	return (
 		<tr>
-			<th>視聴可能</th>
+			<th>閲覧可能</th>
 			<td key="true" colSpan={4}>
 				<ToggleButtonGroup
 					value={props.filters}
-					onChange={handleFormat}
+					onChange={changeFilter}
 					aria-label="available filter"
 				>
 					<ToggleButton value="onlyAvailable" aria-label="onlyAvailable">

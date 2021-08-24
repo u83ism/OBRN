@@ -1,7 +1,7 @@
 import React from "react"
 import { FilterStatusType, updateFilterStatusType } from "../entity/FilterType"
 import { AvailableFilterArea } from "./ControlPanel/AvailableFilterArea"
-import { StateOfProgressArea } from "./ControlPanel/StatusArea"
+import { StatusFilterArea } from "./ControlPanel/StatusFilterArea"
 
 type Props = {
 	status: FilterStatusType,
@@ -16,7 +16,7 @@ export const ControlPanel = ({ status, updateFilter }: Props) => {
 			</thead>
 			<tbody>
 				<AvailableFilterArea filters={status.available} category="available" updateFilter={updateFilter} />
-				<StateOfProgressArea filters={status.status} category="status" />
+				<StatusFilterArea filters={status.status} category="status" updateFilter={updateFilter} />
 			</tbody>
 		</table>
 	)
