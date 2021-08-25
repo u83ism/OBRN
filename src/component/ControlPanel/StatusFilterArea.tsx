@@ -1,5 +1,6 @@
 import React from "react"
 import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
+import { TableRow, TableCell } from '@material-ui/core';
 import { valueOf } from "../../entity/CommonType";
 import { FilterStatusType, updateFilterStatusType } from "../../entity/FilterType"
 import { stateOfProgressAndTextMap } from "../../entity/WordDictionary"
@@ -26,15 +27,19 @@ export const StatusFilterArea = (props: Props): JSX.Element => {
 		})
 
 	return (
-		<tr>
-			<th>進行状況</th>
-			<ToggleButtonGroup
-				value={props.filters}
-				onChange={changeFilter}
-				aria-label="status filter"
-			>
-				{elements}
-			</ToggleButtonGroup>
-		</tr>
+		<TableRow>
+			<TableCell>
+				進行状況
+			</TableCell>
+			<TableCell>
+				<ToggleButtonGroup
+					value={props.filters}
+					onChange={changeFilter}
+					aria-label="status filter"
+				>
+					{elements}
+				</ToggleButtonGroup>
+			</TableCell>
+		</TableRow>
 	)
 }

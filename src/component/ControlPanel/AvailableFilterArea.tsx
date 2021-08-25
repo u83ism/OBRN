@@ -1,4 +1,5 @@
 import React from "react"
+import { TableRow, TableCell } from '@material-ui/core';
 import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
 import { FilterStatusType, updateFilterStatusType } from "../../entity/FilterType"
 import { valueOf } from "../../entity/CommonType";
@@ -16,9 +17,9 @@ export const AvailableFilterArea = (props: Props): JSX.Element => {
 	}
 
 	return (
-		<tr>
-			<th>閲覧可能</th>
-			<td key="true" colSpan={4}>
+		<TableRow>
+			<TableCell>閲覧可能</TableCell>
+			<TableCell>
 				<ToggleButtonGroup
 					value={props.filters}
 					onChange={changeFilter}
@@ -31,7 +32,7 @@ export const AvailableFilterArea = (props: Props): JSX.Element => {
 						❌
 					</ToggleButton>
 				</ToggleButtonGroup>
-			</td>
-		</tr >
+			</TableCell>
+		</TableRow>
 	)
 }
