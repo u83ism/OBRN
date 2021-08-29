@@ -97,7 +97,8 @@ export type BaseAuthorType = {
 	name: string
 }
 export type EnhancedAuthorType = BaseAuthorType & {
-	medal?: string
+	numberOfFinishedObr: number
+	medal?: string,
 }
 
 
