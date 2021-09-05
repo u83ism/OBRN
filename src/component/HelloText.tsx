@@ -1,11 +1,13 @@
 import React, { memo } from "react"
+import { Paper, Typography } from "@material-ui/core"
 
 const getHelloText = (): JSX.Element => {
 	return (
-		<p>
-			いらっしゃいませ。<br />
-			当サイトは「オリジナルバトルロワイアル」（通称：オリバト）専門のリンク集です。<br />
-		</p >
+		<Paper>
+			<Typography paragraph>
+				「オリジナルバトルロワイアル」（通称：オリバト）専門のリンク集＆データベースです
+			</Typography>
+		</Paper>
 	)
 }
 

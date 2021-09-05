@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react"
 import ReactDOM from "react-dom";
 import styled from 'styled-components'
-import { Container } from "@material-ui/core";
+import { Box, Container } from "@material-ui/core";
 import { getEnhancedAuthors, getEnhancedObrList } from "./logic/Analyzer";
 import { valueOf } from "./entity/CommonType";
 import { obrList } from "./entity/ObrList";
@@ -42,11 +42,21 @@ const AppElement = ({ className }: any): JSX.Element => {
 	return (
 		<div className={className}>
 			<Container>
-				<Title />
-				<HelloText />
-				<InformationTable />
-				<ControlPanel {...propsForControlPanel} />
-				<ObrCardsArea {...{ list: filteredObrListWithDetails }} />
+				<Box marginBottom={5}>
+					<Title />
+				</Box>
+				<Box marginBottom={5}>
+					<HelloText />
+				</Box>
+				<Box marginBottom={5}>
+					<InformationTable />
+				</Box>
+				<Box marginBottom={5}>
+					<ControlPanel {...propsForControlPanel} />
+				</Box>
+				<Box marginBottom={5}>
+					<ObrCardsArea {...{ list: filteredObrListWithDetails }} />
+				</Box>
 			</Container>
 		</div>
 	)

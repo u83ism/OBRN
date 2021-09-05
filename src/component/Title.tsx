@@ -10,7 +10,7 @@ const getTitleElement = ({ className }: any): JSX.Element => {
 }
 
 const styledTitle = styled(getTitleElement)`
-	backdrop-filter: blur(5rem);
+	backdrop-filter: blur(3rem);
 `
 
 export const Title = memo(styledTitle)
