@@ -11,7 +11,7 @@ import { initialFilter } from "./entity/Filter";
 import { HeaderBar } from "./component/HeaderBar";
 import { ObrCardsArea } from "./component/ObrCardsArea";
 import { ControlPanel } from "./component/ControlPanel";
-import { TitleLogo } from "./component/TitleLogo";
+import { Title } from "./component/Title";
 import { HelloText } from "./component/HelloText";
 import { InformationTable } from "./component/InformationTable";
 import { getFilteredList } from "./logic/Filter";
@@ -42,8 +42,7 @@ const AppElement = ({ className }: any): JSX.Element => {
 	return (
 		<div className={className}>
 			<Container>
-				<HeaderBar />
-				<TitleLogo />
+				<Title />
 				<HelloText />
 				<InformationTable />
 				<ControlPanel {...propsForControlPanel} />
