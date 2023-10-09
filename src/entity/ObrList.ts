@@ -19,7 +19,7 @@ export const obrList: ReadonlyArray<BaseObrType> = [
 				}
 			}
 		],
-		"status": "progress",
+		"status": "suspend",
 		"numberOfEpisode": 19,
 		"nowChapterName": "中盤戦",
 		"newestEpisodeNumber": 17,
@@ -1500,7 +1500,7 @@ export const obrList: ReadonlyArray<BaseObrType> = [
 			}
 		],
 		"comment": "標準ルール。血と暴力の青春をただ書いていく予定です。",
-		"status": "progress",
+		"status": "suspend",
 		"numberOfEpisode": 54,
 		"nowChapterName": "決戦",
 		"newestEpisodeNumber": 53,
@@ -3340,7 +3340,7 @@ export const obrList: ReadonlyArray<BaseObrType> = [
 			}
 		],
 		"comment": " \n\t\t上記「EN1&2」「FC1&2」のキャラクターを使った番外編。フードロワイアル。",
-		"status": "progress",
+		"status": "suspend",
 		"numberOfEpisode": 22,
 		"newestEpisodeNumber": 22,
 		"remainingNumber": 28,
