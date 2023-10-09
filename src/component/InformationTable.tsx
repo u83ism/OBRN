@@ -8,12 +8,12 @@ const getInformationTable = (): JSX.Element => {
 				<TableBody>
 					<TableRow>
 						<TableCell>
-							2023年10月9日 19:00
+							2023年10月9日 22:40
 						</TableCell>
 						<TableCell component="th" scope="row">
 							<ol>
 								<li><strong>✨2年ぶりにデータベースを更新しました。</strong></li>
-								<li>✨御覧の通り、表示周りをリニューアルしました。ぶっちゃけ50%ぐらいしかできてませんが、この調子だと何年後になるか分からないので一旦更新します。</li>
+								<li>✨御覧の通り、表示周りをリニューアルしました。元の構想の70%ぐらいしかできてませんが、この調子だと何年後になるか分からないので一旦更新します。</li>
 								<li>
 									あとインフォページも今閉じちゃってるのでアレですが、新規登録希望など、何かあれば
 									<Link href={"https://twitter.com/u83unlimited"} underline="hover">
