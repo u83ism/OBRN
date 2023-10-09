@@ -12,16 +12,17 @@ import { StatusFilterArea } from "./ControlPanel/StatusFilterArea"
 type Props = {
 	status: FilterStatusType,
 	updateFilter: updateFilterStatusType,
+	visibleObrQuantity: number
 }
 
-export const ControlPanel = ({ status, updateFilter }: Props) => {
+export const ControlPanel = ({ status, updateFilter, visibleObrQuantity }: Props) => {
 	return (
 		<TableContainer component={Paper}>
 			<Table aria-label="Control panel">
 				<TableHead>
 					<TableRow>
 						<TableCell align="center" colSpan={2}>
-							🔧コントロールパネル
+							🔧コントロールパネル（表示作品数:{visibleObrQuantity}）
 						</TableCell>
 					</TableRow>
 				</TableHead>
