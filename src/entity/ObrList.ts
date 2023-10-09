@@ -1118,7 +1118,7 @@ export const obrList: ReadonlyArray<BaseObrType> = [
 		"authorId": 20
 	},
 	{
-		"canRead": true,
+		"canRead": false,
 		"id": 48,
 		"siteId": 21,
 		"name": "出発点。",
@@ -1141,7 +1141,7 @@ export const obrList: ReadonlyArray<BaseObrType> = [
 		"authorId": 21
 	},
 	{
-		"canRead": true,
+		"canRead": false,
 		"id": 49,
 		"siteId": 21,
 		"name": "ヒメイ",
@@ -2546,7 +2546,7 @@ export const obrList: ReadonlyArray<BaseObrType> = [
 		"authorId": 41
 	},
 	{
-		"canRead": true,
+		"canRead": false,
 		"id": 107,
 		"siteId": 42,
 		"name": "Woods Without Sound",
@@ -2569,7 +2569,7 @@ export const obrList: ReadonlyArray<BaseObrType> = [
 		"authorId": 42
 	},
 	{
-		"canRead": true,
+		"canRead": false,
 		"id": 108,
 		"siteId": 42,
 		"name": "Voice",
@@ -2592,7 +2592,7 @@ export const obrList: ReadonlyArray<BaseObrType> = [
 		"authorId": 42
 	},
 	{
-		"canRead": true,
+		"canRead": false,
 		"id": 109,
 		"siteId": 42,
 		"name": "Innervisions",
@@ -2615,7 +2615,7 @@ export const obrList: ReadonlyArray<BaseObrType> = [
 		"authorId": 42
 	},
 	{
-		"canRead": true,
+		"canRead": false,
 		"id": 110,
 		"siteId": 42,
 		"name": "Human Being",
@@ -3505,10 +3505,10 @@ export const obrList: ReadonlyArray<BaseObrType> = [
 			}
 		],
 		"status": "progress",
-		"numberOfEpisode": 20,
+		"numberOfEpisode": 31,
 		"nowChapterName": "序盤戦",
-		"newestEpisodeNumber": 19,
-		"remainingNumber": 36,
+		"newestEpisodeNumber": 30,
+		"remainingNumber": 33,
 		"authorId": 33
 	},
 	{
@@ -3531,10 +3531,10 @@ export const obrList: ReadonlyArray<BaseObrType> = [
 			}
 		],
 		"status": "progress",
-		"numberOfEpisode": 41,
+		"numberOfEpisode": 51,
 		"nowChapterName": "中盤戦",
-		"newestEpisodeNumber": 41,
-		"remainingNumber": 33,
+		"newestEpisodeNumber": 51,
+		"remainingNumber": 31,
 		"authorId": 52
 	}, {
 		"canRead": true,
