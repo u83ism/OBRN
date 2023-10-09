@@ -1,5 +1,5 @@
 import React, { memo } from "react"
-import { TableContainer, Table, TableRow, TableCell, TableBody, Paper } from "@mui/material";
+import { TableContainer, Table, TableRow, TableCell, TableBody, Paper, Link } from "@mui/material";
 
 const getInformationTable = (): JSX.Element => {
 	return (
@@ -8,12 +8,23 @@ const getInformationTable = (): JSX.Element => {
 				<TableBody>
 					<TableRow>
 						<TableCell>
-							2021年8月23日 3:55
+							2023年10月9日 19:00
 						</TableCell>
 						<TableCell component="th" scope="row">
 							<ol>
-								<li><strong>✨フィルタ機能ができました。</strong></li>
-								<li>✨完結作品数に応じたメダル（絵文字）が作者名の右隣に表示されます</li>
+								<li><strong>✨2年ぶりにデータベースを更新しました。</strong></li>
+								<li>✨御覧の通り、表示周りをリニューアルしました。ぶっちゃけ50%ぐらいしかできてませんが、この調子だと何年後になるか分からないので一旦更新します。</li>
+								<li>
+									あとインフォページも今閉じちゃってるのでアレですが、新規登録希望など、何かあれば
+									<Link href={"https://twitter.com/u83unlimited"} underline="hover">
+										Xで俺に適当にリプorDM飛ばしてコンタクトする
+									</Link>
+									か、
+									<Link href={"mailto:u83ism@gmail.com"} underline="hover">
+										メール
+									</Link>
+									ください。
+								</li>
 							</ol>
 							<p>
 								フィルタ機能に関しては下のコントロールパネルで表示対象を絞り込むことができます。
@@ -25,10 +36,10 @@ const getInformationTable = (): JSX.Element => {
 								頑張ってる人／頑張った人を目立たせるような仕掛けはしていきたいと考えています。
 							</p>
 						</TableCell>
-					</TableRow>
-				</TableBody>
-			</Table>
-		</TableContainer>
+					</TableRow >
+				</TableBody >
+			</Table >
+		</TableContainer >
 	)
 }
 
