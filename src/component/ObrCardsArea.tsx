@@ -7,7 +7,7 @@ export const ObrCardsArea = ({ list }: { list: ReadonlyArray<EnhancedObrType> })
 	const numberOfObr = list.length
 	const cards = list.map((obr: EnhancedObrType): JSX.Element => {
 		return (
-			<Grid item xs={3} key={`obrId-${obr.id}`}>
+			<Grid item xs={12} sm={6} md={4} lg={3} key={`obrId-${obr.id}`}>
 				<ObrCard {...obr} />
 			</Grid>
 		)
