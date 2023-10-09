@@ -44,16 +44,16 @@ export const isFinalChapter = (obr: BaseObrType): boolean => {
  * @param author 
  * @returns 
  */
-export const getMedal = (numberOfObr: number): string | null => {
+export const getMedal = (number: number): string | null => {
 	// 絵文字はsplitでもspread演算子でも崩れることがあるので、手間だが最初から配列化する
 	// 参考:https://qiita.com/amanoese/items/68bb9999829de4323302
 	const medals = [`🎇`, `🎆`, `🎖️`, `🏆`, `👑`,
 		`💎`, `🌈`, `🌏`, `🚀`, `🌙`,
 		`🌕`, `⭐`, `🌟`, `🌠`, `☄`, `🌌`]
-	if (numberOfObr < 0) {
+	if (number < 0) {
 		return null
-	} else if (numberOfObr < medals.length) {
-		return medals[numberOfObr - 1]
+	} else if (number < medals.length) {
+		return medals[number - 1]
 	} else {
 		return medals[medals.length - 1]
 	}
@@ -61,11 +61,12 @@ export const getMedal = (numberOfObr: number): string | null => {
 
 export const getEnhancedAuthors = (authors: ReadonlyArray<BaseAuthorType>, obrList: ReadonlyArray<BaseObrType>): ReadonlyArray<EnhancedAuthorType> => {
 	return authors.map(author => {
-		const numberOfObr = obrList.filter(obr => obr.status === "finish" && obr.authorId === author.id).length
+		const numberOfFinishedObr = obrList.filter(obr => obr.status === "finish" && obr.authorId === author.id).length
 		const enhancedAuthor: EnhancedAuthorType = {
 			...author,
+			numberOfFinishedObr
 		}
-		const medal = getMedal(numberOfObr)
+		const medal = getMedal(numberOfFinishedObr)
 		if (medal !== null) { enhancedAuthor.medal = medal }
 		return enhancedAuthor
 	})

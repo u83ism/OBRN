@@ -1,5 +1,8 @@
 import React from "react"
-import { BaseObrType, GroupType, MembersType } from "../../../entity/Type";
+import {
+	CardContent, Typography
+} from '@mui/material';
+import { EnhancedObrType, GroupType, MembersType } from "../../../entity/Type";
 import { getNumber } from "../../../logic/Analyzer";
 import { isNullOrUndefined } from "../../../Utility";
 
@@ -39,15 +42,15 @@ const getGroupsLines = (groups: ReadonlyArray<GroupType>) => {
 	return groups.map((group: GroupType, index: number): JSX.Element => {
 		const members = group?.members
 		return (
-			<div key={index}>
+			<Typography variant="body2" color="textSecondary" key={index}>
 				{group?.name}{members?.name}<br />
 				{getNumberOfMemberText(members)}
-			</div >
+			</Typography>
 		)
 	})
 }
 
-export const GroupCell = (obr: Omit<BaseObrType, "siteId" | "authorId">): JSX.Element => {
+export const Detail = (obr: EnhancedObrType): JSX.Element => {
 	const yearText = (typeof obr.year !== "undefined") ? `${obr.year}年度` : ""
 	const programNumberText = (typeof obr.programNumber !== "undefined") ? `第${obr.programNumber}号` : ""
 	const yearAndProgramNumberText = yearText + programNumberText
@@ -69,13 +72,11 @@ export const GroupCell = (obr: Omit<BaseObrType, "siteId" | "authorId">): JSX.El
 		`
 	}
 
-
 	return (
-		<td>
-			<div>{yearAndProgramNumberText}</div>
+		<CardContent sx={{ paddingTop: 0 }}>
+			<Typography variant="body2" color="textSecondary">{yearAndProgramNumberText}</Typography>
 			{getGroupsLines(obr.groups)}
-			<div>{totalNumberText}</div>
-		</td>
+			<Typography variant="body2" color="textSecondary">{totalNumberText}</Typography>
+		</CardContent>
 	)
 }
-

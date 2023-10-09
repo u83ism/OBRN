@@ -5,11 +5,6 @@ const path = require('path');
 
 const isProduction = process.env.NODE_ENV == 'production';
 
-
-const stylesHandler = 'style-loader';
-
-
-
 const config = {
     entry: './src/index.tsx',
     output: {
@@ -20,12 +15,25 @@ const config = {
             {
                 test: /\.(ts|tsx)$/i,
                 loader: 'ts-loader',
+                options: {
+                    transpileOnly: true
+                },
                 exclude: ['/node_modules/'],
-            }
+            },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader'],
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/,
+                use: {
+                    loader: 'file-loader',
+                },
+            },
         ],
     },
     resolve: {
-        extensions: ['.tsx', '.ts', '.js'],
+        extensions: ['.ts', '.tsx', '.js', '.jsx'],
     },
 };
 

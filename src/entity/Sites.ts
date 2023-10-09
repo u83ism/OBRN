@@ -11,7 +11,7 @@ export const sites: ReadonlyArray<BaseSiteType> = [
 	{
 		"isOpen": true,
 		"nameCategory": "aa",
-		"URL": "http://mippi.jp/xxlovelikexx/",
+		"URL": "https://xximylivexx.web.fc2.com/",
 		"name": "あいまいみい",
 		"id": 2
 	},
@@ -149,7 +149,7 @@ export const sites: ReadonlyArray<BaseSiteType> = [
 		"id": 20
 	},
 	{
-		"isOpen": true,
+		"isOpen": false,
 		"nameCategory": "ha",
 		"URL": "http://mist.in/higanbanar/",
 		"name": "ヒガンバラ",
@@ -310,7 +310,7 @@ export const sites: ReadonlyArray<BaseSiteType> = [
 		"id": 41
 	},
 	{
-		"isOpen": true,
+		"isOpen": false,
 		"nameCategory": "l",
 		"URL": "http://mippi.jp/lgo/",
 		"name": "Life goes on",

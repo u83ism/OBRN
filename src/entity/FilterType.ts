@@ -1,8 +1,13 @@
-import { EnhancedObrType, StateOfProgressType } from "./Type"
+import { StateOfProgressType } from "./Type"
+import { valueOf } from "./CommonType"
 
-export type ValueTypes = StateOfProgressType | true | false
+// booleanでも行けるがmaterial-uiのtoggleボタンの仕組み上、文字列化した方がスムーズそう
+type AvailableTypes = "onlyAvailable" | "onlyUnavailable"
 
 export type FilterStatusType = {
-	canRead: Array<boolean>,
+	available: Array<AvailableTypes>,
 	status: Array<StateOfProgressType>
 }
+
+export type updateFilterStatusType =
+	(category: keyof FilterStatusType, newFilter: Array<valueOf<FilterStatusType>>) => void
