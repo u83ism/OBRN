@@ -1,5 +1,5 @@
 import React from "react"
-import { Card, Grid } from '@material-ui/core';
+import { Card, Grid } from '@mui/material';
 import { EnhancedObrType } from "../entity/Type";
 import { Header } from "./ObrCardArea/Header";
 import { ObrCard } from "./ObrCardArea/ObrCard";

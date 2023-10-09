@@ -1,7 +1,7 @@
 import React from "react"
 import {
 	CardContent
-} from '@material-ui/core';
+} from '@mui/material';
 import { EnhancedObrType, GroupType, MembersType } from "../../../entity/Type";
 import { getNumber } from "../../../logic/Analyzer";
 import { isNullOrUndefined } from "../../../Utility";

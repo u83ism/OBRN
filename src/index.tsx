@@ -1,7 +1,22 @@
 import React, { useMemo, useState } from "react"
 import ReactDOM from "react-dom";
-import styled from 'styled-components'
-import { Box, Container } from "@material-ui/core";
+/**
+ * MUI
+ */
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+import {
+	Box,
+	Container,
+	Typography,
+	StyledEngineProvider,
+	ThemeProvider,
+	createTheme
+} from "@mui/material";
+import { styled } from "@mui/system";
+
 import { getEnhancedAuthors, getEnhancedObrList } from "./logic/Analyzer";
 import { valueOf } from "./entity/CommonType";
 import { obrList } from "./entity/ObrList";
@@ -17,9 +32,11 @@ import { InformationTable } from "./component/InformationTable";
 import { getFilteredList } from "./logic/Filter";
 import { FilterStatusType } from "./entity/FilterType";
 
+
 // 最初にデータ解析と結合
 const enhancedAuthors = getEnhancedAuthors(authors, obrList)
 const enhancedObrList = getEnhancedObrList(obrList, sites, enhancedAuthors)
+
 
 const AppElement = ({ className }: any): JSX.Element => {
 	const [filterStatus, setEnableFilter] = useState(initialFilter)
@@ -41,24 +58,27 @@ const AppElement = ({ className }: any): JSX.Element => {
 
 	return (
 		<div className={className}>
-			<Container>
-				<Box marginBottom={5}>
-					<Title />
-				</Box>
-				<Box marginBottom={5}>
-					<HelloText />
-				</Box>
-				<Box marginBottom={5}>
-					<InformationTable />
-				</Box>
-				<Box marginBottom={5}>
-					<ControlPanel {...propsForControlPanel} />
-				</Box>
-				<Box marginBottom={5}>
-					<ObrCardsArea {...{ list: filteredObrListWithDetails }} />
-				</Box>
-			</Container>
-		</div>
+			<StyledEngineProvider injectFirst>
+				<Container>
+					<Box marginBottom={5}>
+						<Typography variant="h2" component="h2">test</Typography>
+						<Title />
+					</Box>
+					<Box marginBottom={5}>
+						<HelloText />
+					</Box>
+					<Box marginBottom={5}>
+						<InformationTable />
+					</Box>
+					<Box marginBottom={5}>
+						<ControlPanel {...propsForControlPanel} />
+					</Box>
+					<Box marginBottom={5}>
+						<ObrCardsArea {...{ list: filteredObrListWithDetails }} />
+					</Box>
+				</Container>
+			</StyledEngineProvider>
+		</div >
 	)
 }
 
@@ -72,7 +92,7 @@ const getRandomIntInclusive = (min: any, max: any) => {
 }
 const backgroundPath = backGroundFolderPath + getRandomIntInclusive(1, backGroundNumber) + ".jpg";
 
-export const App = styled(AppElement)`
+const App = styled(AppElement)`
 	width: 100%;
 	height: 100%;
 	position: relative;

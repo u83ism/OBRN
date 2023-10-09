@@ -1,6 +1,6 @@
 import React from "react"
-import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
-import { TableRow, TableCell } from '@material-ui/core';
+import { ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { TableRow, TableCell } from '@mui/material';
 import { valueOf } from "../../entity/CommonType";
 import { FilterStatusType, updateFilterStatusType } from "../../entity/FilterType"
 import { stateOfProgressAndTextMap } from "../../entity/WordDictionary"

@@ -1,5 +1,5 @@
 import React, { memo } from "react"
-import { TableContainer, Table, TableRow, TableCell, TableBody, Paper } from "@material-ui/core";
+import { TableContainer, Table, TableRow, TableCell, TableBody, Paper } from "@mui/material";
 
 const getInformationTable = (): JSX.Element => {
 	return (

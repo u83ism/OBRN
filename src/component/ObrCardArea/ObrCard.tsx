@@ -1,14 +1,64 @@
 import React from "react"
-import clsx from 'clsx';
+import { styled } from '@mui/material/styles';
 import {
-	Card, CardActions, CardContent, Typography, Tooltip, Collapse, IconButton,
-	makeStyles, Theme, createStyles, colors, Link
-} from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+	Card,
+	CardActions,
+	CardContent,
+	Typography,
+	Tooltip,
+	Collapse,
+	IconButton,
+	Theme,
+	colors,
+	Link,
+} from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { EnhancedObrType } from "../../entity/Type";
 import { stateOfProgressAndTextMap } from "../../entity/WordDictionary";
 import { Detail } from "./ObrCard/Detail";
+import { useStyles } from "tss-react";
 
+
+const PREFIX = 'ObrCard';
+
+const classes = {
+	root: `${PREFIX}-root`,
+	media: `${PREFIX}-media`,
+	expand: `${PREFIX}-expand`,
+	expandOpen: `${PREFIX}-expandOpen`,
+	avatar: `${PREFIX}-avatar`
+};
+
+const StyledCard = styled(Card)`
+${(
+	{ theme }
+) => ({
+	[`& .${classes.root}`]: {
+		maxWidth: 345,
+	},
+
+	[`& .${classes.media}`]: {
+		height: 0,
+		paddingTop: '56.25%', // 16:9
+	},
+
+	[`& .${classes.expand}`]: {
+		transform: 'rotate(0deg)',
+		marginLeft: 'auto',
+		transition: theme.transitions.create('transform', {
+			duration: theme.transitions.duration.shortest,
+		}),
+	},
+
+	[`& .${classes.expandOpen}`]: {
+		transform: 'rotate(180deg)',
+	},
+
+	[`& .${classes.avatar}`]: {
+		backgroundColor: colors.red[500],
+	}
+})}
+`;
 
 const getProgressText = (obr: EnhancedObrType): string => {
 	if (obr.status === "prepare") {
@@ -36,45 +86,25 @@ const getProgressText = (obr: EnhancedObrType): string => {
 	}
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-	createStyles({
-		root: {
-			maxWidth: 345,
-		},
-		media: {
-			height: 0,
-			paddingTop: '56.25%', // 16:9
-		},
-		expand: {
-			transform: 'rotate(0deg)',
-			marginLeft: 'auto',
-			transition: theme.transitions.create('transform', {
-				duration: theme.transitions.duration.shortest,
-			}),
-		},
-		expandOpen: {
-			transform: 'rotate(180deg)',
-		},
-		avatar: {
-			backgroundColor: colors.red[500],
-		},
-	}),
-)
-
 export const ObrCard = (obr: EnhancedObrType): JSX.Element => {
-	const classes = useStyles()
 	const [expanded, setExpanded] = React.useState(false)
 	const handleExpandClick = () => {
 		setExpanded(!expanded)
 	}
 
+	const { css, cx } = useStyles()
+
+
 	const statusText = stateOfProgressAndTextMap[obr.status]
 	const medalText = obr.author?.medal ? `${obr.author?.medal} ` : ""
 	const medalExplanationText = `${obr.author.numberOfFinishedObr}作品完結`
 	const progressText = getProgressText(obr)
+	const expandClassName = cx(classes.expand, {
+		[classes.expandOpen]: expanded,
+	})
 
 	return (
-		<Card>
+		<StyledCard>
 			<CardContent>
 				<Typography color="textSecondary" gutterBottom>
 					{statusText}
@@ -94,24 +124,22 @@ export const ObrCard = (obr: EnhancedObrType): JSX.Element => {
 			</CardContent>
 			<CardActions disableSpacing>
 				<Typography className={classes.root}>
-					<Link href={obr.site.URL}>
+					<Link href={obr.site.URL} underline="hover">
 						読みに行く
 					</Link>
 				</Typography>
 				<IconButton
-					className={clsx(classes.expand, {
-						[classes.expandOpen]: expanded,
-					})}
+					className={expandClassName}
 					onClick={handleExpandClick}
 					aria-expanded={expanded}
 					aria-label="show more"
-				>
+					size="large">
 					<ExpandMoreIcon />
 				</IconButton>
 			</CardActions>
 			<Collapse in={expanded} timeout="auto" unmountOnExit>
 				<Detail {...obr} />
 			</Collapse>
-		</Card>
-	)
+		</StyledCard>
+	);
 }

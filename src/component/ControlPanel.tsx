@@ -3,7 +3,7 @@ import {
 	Table, TableBody, TableCell,
 	TableContainer, TableHead, TableRow,
 	Paper
-} from '@material-ui/core'
+} from '@mui/material'
 
 import { FilterStatusType, updateFilterStatusType } from "../entity/FilterType"
 import { AvailableFilterArea } from "./ControlPanel/AvailableFilterArea"

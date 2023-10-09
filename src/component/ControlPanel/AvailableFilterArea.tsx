@@ -1,6 +1,6 @@
 import React from "react"
-import { TableRow, TableCell } from '@material-ui/core';
-import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
+import { TableRow, TableCell } from '@mui/material';
+import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { FilterStatusType, updateFilterStatusType } from "../../entity/FilterType"
 import { valueOf } from "../../entity/CommonType";
 
@@ -12,7 +12,7 @@ type Props = {
 
 export const AvailableFilterArea = (props: Props): JSX.Element => {
 	const changeFilter = (event: React.MouseEvent<HTMLElement>, newFilter: Array<valueOf<FilterStatusType>>) => {
-		console.info(newFilter)
+		// console.info(newFilter)
 		props.updateFilter(props.category, newFilter)
 	}
 
