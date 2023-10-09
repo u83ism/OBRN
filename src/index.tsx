@@ -54,6 +54,7 @@ const AppElement = ({ className }: any): JSX.Element => {
 	const propsForControlPanel = {
 		status: filterStatus,
 		updateFilter: updateFilterStatus,
+		visibleObrQuantity: filteredObrListWithDetails.length
 	}
 
 	return (
@@ -61,7 +62,6 @@ const AppElement = ({ className }: any): JSX.Element => {
 			<StyledEngineProvider injectFirst>
 				<Container>
 					<Box marginBottom={5}>
-						<Typography variant="h2" component="h2">test</Typography>
 						<Title />
 					</Box>
 					<Box marginBottom={5}>
