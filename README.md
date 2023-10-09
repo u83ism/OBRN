@@ -1,9 +1,12 @@
 # OBRN
-ウェブサイト「OBRN」
+00年代前半、世間を騒がせた大ヒット小説「バトルロワイアル」（著：高見広春）の1.5次創作ジャンル、「オリジナルバトルロワイアル」の作品データベース＆リンク集
+
+# リンク
+[OBRN](https://obrn-d99b4.firebaseapp.com/)
 
 # Todo
 ## 大目標
-- CSSフレームワーク(styledComponents/Material-UI)導入
+- ✅ CSSフレームワーク(~~styledComponents~~Emotion/Material-UI)導入
 - react-router入れる
 - データをDB(firestore)に移行
 - ユーザー認証導入(Firebase Authentication)。ウェブサイトからサービスへ
