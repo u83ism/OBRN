@@ -56,6 +56,8 @@ type ObrBaseType = {
 	 * "第X号"にも対応する必要があるのでstring
 	 */
 	programNumber?: number | string,
+	// 更新日
+	updated?: Date
 }
 
 export type ObrInPreparationType = ObrBaseType & { status: "prepare" }

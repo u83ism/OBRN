@@ -19,7 +19,7 @@ import { styled } from "@mui/system";
 
 import { getEnhancedAuthors, getEnhancedObrList } from "./logic/Analyzer";
 import { valueOf } from "./entity/CommonType";
-import { obrList } from "./entity/ObrList";
+import { obrList } from "./entity/obr-works";
 import { sites } from "./entity/Sites";
 import { authors } from "./entity/Authors";
 import { initialFilter } from "./entity/Filter";
@@ -29,8 +29,9 @@ import { ControlPanel } from "./component/ControlPanel";
 import { Title } from "./component/Title";
 import { HelloText } from "./component/HelloText";
 import { InformationTable } from "./component/InformationTable";
-import { getFilteredList } from "./logic/Filter";
+import { getFiltered } from "./logic/Filter";
 import { FilterStatusType } from "./entity/FilterType";
+import { getSorted } from "./logic/sort";
 
 
 // 最初にデータ解析と結合
@@ -47,14 +48,17 @@ const AppElement = ({ className }: any): JSX.Element => {
 		}
 		setEnableFilter(newStatus)
 	}
-	const filteredObrListWithDetails = useMemo(
-		() => getFilteredList(enhancedObrList, filterStatus), [filterStatus]
+
+	const filterdAndSortedObrWorks = getSorted(getFiltered(enhancedObrList, filterStatus))
+
+	const memorizedObrWorks = useMemo(
+		() => filterdAndSortedObrWorks, [filterStatus]
 	)
 
 	const propsForControlPanel = {
 		status: filterStatus,
 		updateFilter: updateFilterStatus,
-		visibleObrQuantity: filteredObrListWithDetails.length
+		visibleObrQuantity: memorizedObrWorks.length
 	}
 
 	return (
@@ -74,7 +78,7 @@ const AppElement = ({ className }: any): JSX.Element => {
 						<ControlPanel {...propsForControlPanel} />
 					</Box>
 					<Box marginBottom={5}>
-						<ObrCardsArea {...{ list: filteredObrListWithDetails }} />
+						<ObrCardsArea {...{ list: memorizedObrWorks }} />
 					</Box>
 				</Container>
 			</StyledEngineProvider>

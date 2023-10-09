@@ -1,6 +1,6 @@
 import React from "react"
 import {
-	CardContent
+	CardContent, Typography
 } from '@mui/material';
 import { EnhancedObrType, GroupType, MembersType } from "../../../entity/Type";
 import { getNumber } from "../../../logic/Analyzer";
@@ -42,10 +42,10 @@ const getGroupsLines = (groups: ReadonlyArray<GroupType>) => {
 	return groups.map((group: GroupType, index: number): JSX.Element => {
 		const members = group?.members
 		return (
-			<div key={index}>
+			<Typography variant="body2" color="textSecondary" key={index}>
 				{group?.name}{members?.name}<br />
 				{getNumberOfMemberText(members)}
-			</div >
+			</Typography>
 		)
 	})
 }
@@ -74,9 +74,9 @@ export const Detail = (obr: EnhancedObrType): JSX.Element => {
 
 	return (
 		<CardContent sx={{ paddingTop: 0 }}>
-			<div>{yearAndProgramNumberText}</div>
+			<Typography variant="body2" color="textSecondary">{yearAndProgramNumberText}</Typography>
 			{getGroupsLines(obr.groups)}
-			<div>{totalNumberText}</div>
+			<Typography variant="body2" color="textSecondary">{totalNumberText}</Typography>
 		</CardContent>
 	)
 }

@@ -87,6 +87,14 @@ const getProgressText = (obr: EnhancedObrType): string => {
 	}
 }
 
+export const getUpdatedText = (date: Date | undefined): string => {
+	if (date === undefined) {
+		return ""
+	}
+	return `最終更新日:${date.getFullYear()}年${date.getMonth()}月${date.getDate()}日`
+}
+
+
 export const ObrCard = (obr: EnhancedObrType): JSX.Element => {
 	const [expanded, setExpanded] = React.useState(false)
 	const handleExpandClick = () => {
@@ -95,11 +103,11 @@ export const ObrCard = (obr: EnhancedObrType): JSX.Element => {
 
 	const { css, cx } = useStyles()
 
-
 	const statusText = stateOfProgressAndTextMap[obr.status]
 	const medalText = obr.author?.medal ? `${obr.author?.medal} ` : ""
 	const medalExplanationText = `${obr.author.numberOfFinishedObr}作品完結`
 	const progressText = getProgressText(obr)
+	const updatedText = getUpdatedText(obr.updated)
 	const expandClassName = cx(classes.expand, {
 		[classes.expandOpen]: expanded,
 	})
@@ -108,8 +116,11 @@ export const ObrCard = (obr: EnhancedObrType): JSX.Element => {
 		<StyledCard>
 			<CardActionArea href={obr.site.URL} >
 				<CardContent>
-					<Typography color="textSecondary" gutterBottom>
+					<Typography>
 						{statusText}
+					</Typography>
+					<Typography variant="body2" color="textSecondary" gutterBottom>
+						{updatedText}
 					</Typography>
 					<Typography variant="h5" component="h2">
 						{obr.name}
@@ -120,10 +131,10 @@ export const ObrCard = (obr: EnhancedObrType): JSX.Element => {
 							<span>{medalText}</span>
 						</Tooltip>
 					</Typography>
-					<Typography variant="body2" component="p">
+					<Typography color="textSecondary">
 						{progressText}
 					</Typography>
-					<Typography sx={{ pt: 3 }}>
+					<Typography variant="body2" color="textSecondary" sx={{ pt: 2 }}>
 						<div>掲載サイト：</div>
 						<Link href={obr.site.URL} underline="hover">
 							{obr.site.name}
@@ -132,7 +143,7 @@ export const ObrCard = (obr: EnhancedObrType): JSX.Element => {
 				</CardContent>
 			</CardActionArea>
 			<CardActions sx={{ px: 2 }}>
-				<Typography>
+				<Typography variant="body2" color="textSecondary">
 					詳細データ
 				</Typography>
 				<IconButton

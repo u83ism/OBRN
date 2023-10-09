@@ -3,7 +3,7 @@ import { Box, Card, Grid } from '@mui/material';
 import { EnhancedObrType } from "../entity/Type";
 import { ObrCard } from "./ObrCardArea/ObrCard";
 
-export const ObrCardsArea = ({ list }: { list: Array<EnhancedObrType> }): JSX.Element => {
+export const ObrCardsArea = ({ list }: { list: ReadonlyArray<EnhancedObrType> }): JSX.Element => {
 	const numberOfObr = list.length
 	const cards = list.map((obr: EnhancedObrType): JSX.Element => {
 		return (

@@ -29,7 +29,7 @@ const getQuery = (status: FilterStatusType) => {
 	return query;
 }
 
-export const getFilteredList = (dataList: Array<EnhancedObrType>, filterStatus: FilterStatusType) => {
+export const getFiltered = (dataList: Array<EnhancedObrType>, filterStatus: FilterStatusType) => {
 	const query = getQuery(filterStatus)
 	const filteredData = dataList.filter((obr: PlaneObjectType) => {
 		return Object.entries(query)
