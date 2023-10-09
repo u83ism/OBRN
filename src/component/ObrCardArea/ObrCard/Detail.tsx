@@ -72,9 +72,11 @@ export const Detail = (obr: EnhancedObrType): JSX.Element => {
 		`
 	}
 
-	return (<CardContent>
-		<div>{yearAndProgramNumberText}</div>
-		{getGroupsLines(obr.groups)}
-		<div>{totalNumberText}</div>
-	</CardContent>)
+	return (
+		<CardContent sx={{ paddingTop: 0 }}>
+			<div>{yearAndProgramNumberText}</div>
+			{getGroupsLines(obr.groups)}
+			<div>{totalNumberText}</div>
+		</CardContent>
+	)
 }

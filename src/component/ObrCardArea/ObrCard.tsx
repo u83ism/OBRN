@@ -3,6 +3,7 @@ import { styled } from '@mui/material/styles';
 import {
 	Card,
 	CardActions,
+	CardActionArea,
 	CardContent,
 	Typography,
 	Tooltip,
@@ -105,28 +106,34 @@ export const ObrCard = (obr: EnhancedObrType): JSX.Element => {
 
 	return (
 		<StyledCard>
-			<CardContent>
-				<Typography color="textSecondary" gutterBottom>
-					{statusText}
-				</Typography>
-				<Typography variant="h5" component="h2">
-					{obr.name}
-				</Typography>
-				<Typography color="textSecondary">
-					作者：{obr.author.name}
-					<Tooltip title={medalExplanationText} aria-label={medalExplanationText} placement="right" arrow>
-						<span>{medalText}</span>
-					</Tooltip>
-				</Typography>
-				<Typography variant="body2" component="p">
-					{progressText}
-				</Typography>
-			</CardContent>
-			<CardActions disableSpacing>
-				<Typography className={classes.root}>
-					<Link href={obr.site.URL} underline="hover">
-						読みに行く
-					</Link>
+			<CardActionArea href={obr.site.URL} >
+				<CardContent>
+					<Typography color="textSecondary" gutterBottom>
+						{statusText}
+					</Typography>
+					<Typography variant="h5" component="h2">
+						{obr.name}
+					</Typography>
+					<Typography color="textSecondary">
+						作者：{obr.author.name}
+						<Tooltip title={medalExplanationText} aria-label={medalExplanationText} placement="right" arrow>
+							<span>{medalText}</span>
+						</Tooltip>
+					</Typography>
+					<Typography variant="body2" component="p">
+						{progressText}
+					</Typography>
+					<Typography sx={{ pt: 3 }}>
+						<div>掲載サイト：</div>
+						<Link href={obr.site.URL} underline="hover">
+							{obr.site.name}
+						</Link>
+					</Typography>
+				</CardContent>
+			</CardActionArea>
+			<CardActions sx={{ px: 2 }}>
+				<Typography>
+					詳細データ
 				</Typography>
 				<IconButton
 					className={expandClassName}
@@ -140,6 +147,6 @@ export const ObrCard = (obr: EnhancedObrType): JSX.Element => {
 			<Collapse in={expanded} timeout="auto" unmountOnExit>
 				<Detail {...obr} />
 			</Collapse>
-		</StyledCard>
+		</StyledCard >
 	);
 }
