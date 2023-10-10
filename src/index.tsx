@@ -13,7 +13,8 @@ import {
 	Typography,
 	StyledEngineProvider,
 	ThemeProvider,
-	createTheme
+	createTheme,
+	responsiveFontSizes
 } from "@mui/material";
 import { styled } from "@mui/system";
 
@@ -33,11 +34,12 @@ import { getFiltered } from "./logic/Filter";
 import { FilterStatusType } from "./entity/FilterType";
 import { getSorted } from "./logic/sort";
 
+// MUIのカスタム
+const customTheme = responsiveFontSizes(createTheme())
 
 // 最初にデータ解析と結合
 const enhancedAuthors = getEnhancedAuthors(authors, obrList)
 const enhancedObrList = getEnhancedObrList(obrList, sites, enhancedAuthors)
-
 
 const AppElement = ({ className }: any): JSX.Element => {
 	const [filterStatus, setEnableFilter] = useState(initialFilter)
@@ -64,29 +66,31 @@ const AppElement = ({ className }: any): JSX.Element => {
 	return (
 		<div className={className}>
 			<StyledEngineProvider injectFirst>
-				<Container>
-					<Box marginBottom={5}>
-						<Title />
-					</Box>
-					<Box marginBottom={5}>
-						<HelloText />
-					</Box>
-					<Box marginBottom={5}>
-						<InformationTable />
-					</Box>
-					<Box marginBottom={5}>
-						<ControlPanel {...propsForControlPanel} />
-					</Box>
-					<Box marginBottom={5}>
-						<ObrCardsArea {...{ list: memorizedObrWorks }} />
-					</Box>
-				</Container>
+				<ThemeProvider theme={customTheme}>
+					<Container>
+						<Box marginBottom={5}>
+							<Title />
+						</Box>
+						<Box marginBottom={5}>
+							<HelloText />
+						</Box>
+						<Box marginBottom={5}>
+							<InformationTable />
+						</Box>
+						<Box marginBottom={5}>
+							<ControlPanel {...propsForControlPanel} />
+						</Box>
+						<Box marginBottom={5}>
+							<ObrCardsArea {...{ list: memorizedObrWorks }} />
+						</Box>
+					</Container>
+				</ThemeProvider>
 			</StyledEngineProvider>
 		</div >
 	)
 }
 
-
+//表示回り
 const backGroundFolderPath = "./img/background/";
 const backGroundNumber = 33;
 const getRandomIntInclusive = (min: any, max: any) => {
