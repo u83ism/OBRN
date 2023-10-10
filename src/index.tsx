@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from "react"
-import ReactDOM from "react-dom";
+import React, { StrictMode, useMemo, useState } from "react"
+import { createRoot } from "react-dom/client";
 /**
  * MUI
  */
@@ -121,4 +121,12 @@ const App = styled(AppElement)`
 	}
 `
 
-ReactDOM.render(<App />, document.getElementById("root"));
+const rootElementId = "root"
+const rootElement = document.getElementById(rootElementId)
+if (rootElement === null) { throw new Error(`Reactのroot要素としてID:${rootElementId}のタグが必要です`) }
+const root = createRoot(rootElement)
+root.render(
+	<StrictMode>
+		<App />
+	</StrictMode>
+);
