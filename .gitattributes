@@ -1,0 +1,6 @@
+# Webフォントをバイナリとして認識させないと設定しておかないと、フォントファイル内の改行コードを変換してしまい壊れる
+*.otf binary
+*.eot binary
+*.svg binary
+*.ttf binary
+*.woff binary

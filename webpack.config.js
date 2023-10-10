@@ -9,6 +9,7 @@ const config = {
     entry: './src/index.tsx',
     output: {
         path: path.resolve(__dirname, "public", 'dist'),
+        publicPath: '/public/dist/',
     },
     module: {
         rules: [
@@ -21,14 +22,12 @@ const config = {
                 exclude: ['/node_modules/'],
             },
             {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader'],
+                test: /\.(woff|woff2|eot|ttf|otf)$/i,
+                type: 'asset/resource',
             },
             {
-                test: /\.(woff|woff2|eot|ttf|otf)$/,
-                use: {
-                    loader: 'file-loader',
-                },
+                test: /\.css$/i,
+                use: ['style-loader', "css-loader"],
             },
         ],
     },
@@ -36,7 +35,6 @@ const config = {
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
     },
 };
-
 module.exports = () => {
     if (isProduction) {
         config.mode = 'production';
