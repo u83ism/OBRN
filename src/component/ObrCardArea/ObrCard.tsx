@@ -135,10 +135,7 @@ export const ObrCard = (obr: EnhancedObrType): JSX.Element => {
 						{progressText}
 					</Typography>
 					<Typography variant="body2" color="textSecondary" sx={{ pt: 2 }}>
-						<div>掲載サイト：</div>
-						<Link href={obr.site.URL} underline="hover">
-							{obr.site.name}
-						</Link>
+						掲載サイト：{obr.site.name}
 					</Typography>
 				</CardContent>
 			</CardActionArea>
