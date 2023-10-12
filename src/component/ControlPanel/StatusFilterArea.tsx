@@ -12,7 +12,7 @@ type Props = {
 }
 
 export const StatusFilterArea = (props: Props): JSX.Element => {
-	const changeFilter = (event: React.MouseEvent<HTMLElement>, newFilter: Array<valueOf<FilterStatusType>>) => {
+	const changeFilter = (_event: React.MouseEvent<HTMLElement>, newFilter: Array<valueOf<FilterStatusType>>) => {
 		// console.info(newFilter)
 		props.updateFilter(props.category, newFilter)
 	}

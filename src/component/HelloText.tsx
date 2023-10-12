@@ -1,5 +1,5 @@
-import React, { memo } from "react"
 import { Paper, Typography } from "@mui/material"
+import { memo } from "react"
 
 const getHelloText = (): JSX.Element => {
 	return (
