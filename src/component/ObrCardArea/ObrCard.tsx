@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 import { styled } from '@mui/material/styles';
 import {
 	Card,
@@ -8,10 +8,7 @@ import {
 	Typography,
 	Tooltip,
 	Collapse,
-	IconButton,
-	Theme,
-	colors,
-	Link,
+	IconButton, colors
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { EnhancedObrType } from "../../entity/Type";

@@ -1,4 +1,4 @@
-import React, { memo } from "react"
+import { memo } from "react"
 import { TableContainer, Table, TableRow, TableCell, TableBody, Paper, Link } from "@mui/material";
 
 const getInformationTable = (): JSX.Element => {

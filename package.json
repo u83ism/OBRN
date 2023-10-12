@@ -1,14 +1,9 @@
 {
   "name": "obrn",
-  "version": "2.3.2",
+  "version": "2.4.0",
   "description": "オリジナルバトルロワイアル（オリバト）に関するDB＆リンク集",
-  "main": "index.js",
-  "scripts": {
-    "build": "webpack",
-    "watch": "webpack -w --mode=development --devtool=source-map",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "deploy": "firebase deploy --only hosting"
-  },
+  "private": true,
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/u83ism/OBRN.git"
@@ -19,23 +14,13 @@
     "url": "https://github.com/u83ism/OBRN/issues"
   },
   "homepage": "https://github.com/u83ism/OBRN#readme",
-  "devDependencies": {
-    "@types/react": "^18.2.27",
-    "@types/react-dom": "^18.2.12",
-    "@typescript-eslint/eslint-plugin": "^6.7.5",
-    "@typescript-eslint/parser": "^6.7.5",
-    "css-loader": "^6.8.1",
-    "eslint": "^8.51.0",
-    "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "firebase-tools": "^12.6.2",
-    "npm-check-updates": "^16.14.5",
-    "style-loader": "^3.3.3",
-    "ts-loader": "^9.5.0",
-    "typescript": "^5.2.2",
-    "typescript-styled-plugin": "^0.18.2",
-    "webpack": "^5.88.2",
-    "webpack-cli": "^5.1.4"
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview",
+    "deploy-staging": "firebase hosting:channel:deploy obrn-staging",
+    "deploy-production": "firebase deploy --only hosting"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -47,5 +32,20 @@
     "react": "^17.0.0 || ^18.0.0",
     "react-dom": "^17.0.0 || ^18.0.0",
     "tss-react": "^4.9.2"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitejs/plugin-react": "^4.0.3",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5",
+    "npm-check-updates": "^16.14.5",
+    "eslint-plugin-react": "^7.33.2",
+    "firebase-tools": "^12.6.2"
   }
 }
