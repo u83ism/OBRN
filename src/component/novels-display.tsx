@@ -9,10 +9,7 @@ import '@fontsource/roboto/700.css';
 import {
   Box,
   Container,
-  StyledEngineProvider,
-  ThemeProvider,
-  createTheme,
-  responsiveFontSizes
+  StyledEngineProvider
 } from "@mui/material";
 import { styled } from "@mui/system";
 
@@ -29,9 +26,6 @@ import { InformationTable } from "./novels-display/InformationTable";
 import { getFiltered } from "../logic/Filter";
 import { FilterStatusType } from "../entity/FilterType";
 import { getSorted } from "../logic/sort";
-
-// MUIのカスタム
-const customTheme = responsiveFontSizes(createTheme())
 
 // 最初にデータ解析と結合
 const enhancedAuthors = getEnhancedAuthors(authors, obrList)
@@ -62,22 +56,20 @@ const NovelsDisplayElement = ({ className }: any): JSX.Element => {
   return (
     <div className={className}>
       <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={customTheme}>
-          <Container>
-            <Box sx={{ marginY: 5 }}>
-              <HelloText />
-            </Box>
-            <Box marginBottom={5}>
-              <InformationTable />
-            </Box>
-            <Box marginBottom={5}>
-              <ControlPanel {...propsForControlPanel} />
-            </Box>
-            <Box marginBottom={5}>
-              <ObrCardsArea {...{ list: memorizedObrWorks }} />
-            </Box>
-          </Container>
-        </ThemeProvider>
+        <Container>
+          <Box sx={{ marginY: 5 }}>
+            <HelloText />
+          </Box>
+          <Box marginBottom={5}>
+            <InformationTable />
+          </Box>
+          <Box marginBottom={5}>
+            <ControlPanel {...propsForControlPanel} />
+          </Box>
+          <Box marginBottom={5}>
+            <ObrCardsArea {...{ list: memorizedObrWorks }} />
+          </Box>
+        </Container>
       </StyledEngineProvider>
     </div >
   )
