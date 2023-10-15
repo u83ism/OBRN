@@ -18,10 +18,10 @@ export const StatusFilterArea = (props: Props): JSX.Element => {
 	}
 
 	const elements = Object.entries(stateOfProgressAndTextMap)
-		.map(([state, text]: [string, string]): JSX.Element => {
+		.map(([state, display]): JSX.Element => {
 			return (
 				<ToggleButton key={state} value={state} aria-label={state}>
-					{text}
+					{display.emoji} {display.text}
 				</ToggleButton>
 			)
 		})

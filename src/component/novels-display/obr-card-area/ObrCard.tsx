@@ -1,6 +1,7 @@
 import React from "react";
 import { styled } from '@mui/material/styles';
 import {
+	Button,
 	Card,
 	CardActions,
 	CardActionArea,
@@ -8,10 +9,10 @@ import {
 	Typography,
 	Tooltip,
 	Collapse,
-	IconButton, colors
+	IconButton, colors, Box, Chip, Avatar, Theme, Palette, ChipOwnProps
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { EnhancedObrType } from "../../../entity/Type";
+import { EnhancedObrType, StateOfProgressType } from "../../../entity/Type";
 import { stateOfProgressAndTextMap } from "../../../entity/WordDictionary";
 import { Detail } from "./obr-card/Detail";
 import { useStyles } from "tss-react";
@@ -91,6 +92,8 @@ export const getUpdatedText = (date: Date | undefined): string => {
 	return `最終更新日:${date.getFullYear()}年${date.getMonth()}月${date.getDate()}日`
 }
 
+type theme = Palette
+
 
 export const ObrCard = (obr: EnhancedObrType): JSX.Element => {
 	const [expanded, setExpanded] = React.useState(false)
@@ -100,7 +103,7 @@ export const ObrCard = (obr: EnhancedObrType): JSX.Element => {
 
 	const { css, cx } = useStyles()
 
-	const statusText = stateOfProgressAndTextMap[obr.status]
+	const statusDisplay = stateOfProgressAndTextMap[obr.status]
 	const medalText = obr.author?.medal ? `${obr.author?.medal} ` : ""
 	const medalExplanationText = `${obr.author.numberOfFinishedObr}作品完結`
 	const progressText = getProgressText(obr)
@@ -109,31 +112,46 @@ export const ObrCard = (obr: EnhancedObrType): JSX.Element => {
 		[classes.expandOpen]: expanded,
 	})
 
+	const stateOfProgressAndColorThemeMap: { [key in StateOfProgressType]: ChipOwnProps["color"] } = {
+		"finish": "success",
+		"prepare": "warning",
+		"suspend": "warning",
+		"progress": "primary"
+	}
+
 	return (
 		<StyledCard>
 			<CardActionArea href={obr.site.URL} >
-				<CardContent>
-					<Typography>
-						{statusText}
-					</Typography>
-					<Typography variant="body2" color="textSecondary" gutterBottom>
-						{updatedText}
-					</Typography>
-					<Typography variant="h5" component="h2">
-						{obr.name}
-					</Typography>
-					<Typography color="textSecondary">
-						作者：{obr.author.name}
-						<Tooltip title={medalExplanationText} aria-label={medalExplanationText} placement="right" arrow>
-							<span>{medalText}</span>
-						</Tooltip>
-					</Typography>
-					<Typography color="textSecondary">
-						{progressText}
-					</Typography>
-					<Typography variant="body2" color="textSecondary" sx={{ pt: 2 }}>
-						掲載サイト：{obr.site.name}
-					</Typography>
+				<CardContent sx={{ paddingBottom: 0 }}>
+					<Box sx={{ paddingBottom: 2 }}>
+						<Chip
+							label={statusDisplay.text}
+							avatar={<Avatar>{statusDisplay.emoji}</Avatar>}
+							color={stateOfProgressAndColorThemeMap[obr.status]}
+						// size="small"
+						/>
+						<Typography variant="body2" color="textSecondary" gutterBottom>
+							{updatedText}
+						</Typography>
+						<Typography variant="h5" component="h2">
+							{obr.name}
+						</Typography>
+						<Typography color="textSecondary">
+							作者：{obr.author.name}
+							<Tooltip title={medalExplanationText} aria-label={medalExplanationText} placement="right" arrow>
+								<span>{medalText}</span>
+							</Tooltip>
+						</Typography>
+						<Typography color="textSecondary">
+							{progressText}
+						</Typography>
+					</Box>
+					<Box>
+						<Typography variant="body2" color="textSecondary" sx={{ pt: 2 }}>
+							掲載サイト：{obr.site.name}
+						</Typography>
+						<Button sx={{ paddingLeft: 0 }}>読みに行く</Button>
+					</Box>
 				</CardContent>
 			</CardActionArea>
 			<CardActions sx={{ px: 2 }}>
