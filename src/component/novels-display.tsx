@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useMemo, useState } from "react";
 /**
  * MUI
  */
@@ -24,7 +24,6 @@ import { authors } from "../entity/Authors";
 import { initialFilter } from "../entity/Filter";
 import { ObrCardsArea } from "./novels-display/ObrCardsArea";
 import { ControlPanel } from "./novels-display/ControlPanel";
-import { Title } from "./novels-display/Title";
 import { HelloText } from "./novels-display/HelloText";
 import { InformationTable } from "./novels-display/InformationTable";
 import { getFiltered } from "../logic/Filter";
