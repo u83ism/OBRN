@@ -65,10 +65,7 @@ const NovelsDisplayElement = ({ className }: any): JSX.Element => {
       <StyledEngineProvider injectFirst>
         <ThemeProvider theme={customTheme}>
           <Container>
-            <Box marginBottom={5}>
-              <Title />
-            </Box>
-            <Box marginBottom={5}>
+            <Box sx={{ marginY: 5 }}>
               <HelloText />
             </Box>
             <Box marginBottom={5}>

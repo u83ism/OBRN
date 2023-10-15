@@ -21,6 +21,7 @@ import { mainListItems, secondaryListItems } from './listItems';
 import Deposits from './Deposits';
 import Orders from './Orders';
 import { NovelsDisplay } from '../novels-display';
+import { Title } from "../novels-display/Title";
 
 function Copyright(props: any) {
   return (
@@ -112,15 +113,9 @@ export default function Dashboard() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            component="h1"
-            variant="h6"
-            color="inherit"
-            noWrap
-            sx={{ flexGrow: 1 }}
-          >
-            Dashboard
-          </Typography>
+          <Box sx={{ flexGrow: 1 }}>
+            <Title />
+          </Box>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
