@@ -1,5 +1,5 @@
-import { memo } from "react"
-import { Box, SxProps, styled, Typography } from "@mui/material"
+import React, { memo } from "react"
+import { SxProps, styled, Typography } from "@mui/material"
 
 const titleProps: SxProps = {
 	'&::first-letter': {
@@ -24,7 +24,7 @@ const getTitleElement = ({ className }: any): JSX.Element => {
 
 				<Typography
 					variant="h6"
-					component="h1"
+					component="div"
 					className={className}
 					sx={titleProps}
 					key={index}
@@ -35,9 +35,9 @@ const getTitleElement = ({ className }: any): JSX.Element => {
 		})
 
 	return (
-		<Box>
+		<React.Fragment>
 			{words}
-		</Box>
+		</React.Fragment>
 	);
 }
 
