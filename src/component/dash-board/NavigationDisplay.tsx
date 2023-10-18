@@ -6,6 +6,7 @@ import ListItemText from '@mui/material/ListItemText';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import InfoIcon from '@mui/icons-material/Info';
 import EventIcon from '@mui/icons-material/Event';
+import { NavLink } from "react-router-dom";
 
 type Routing = "root" | "info" | "event"
 type Display = {
@@ -44,7 +45,7 @@ export const NavigationDisplay = (): JSX.Element => {
         </ListItemButton>
       </ListItem>
       <ListItem disablePadding>
-        <ListItemButton href="/info.html">
+        <ListItemButton href="/information">
           <ListItemIcon>
             {routingAndDisplayMap.info.icon}
           </ListItemIcon>
@@ -52,7 +53,7 @@ export const NavigationDisplay = (): JSX.Element => {
         </ListItemButton>
       </ListItem>
       <ListItem disablePadding>
-        <ListItemButton href="/event.html">
+        <ListItemButton href="/event.html" target="_blank">
           <ListItemIcon>
             {routingAndDisplayMap.event.icon}
           </ListItemIcon>
