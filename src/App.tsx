@@ -13,6 +13,7 @@ import Dashboard from "./component/dash-board/Dashboard";
 import { ErrorPage } from './component/error-page';
 import { InformationPage } from './component/information-page';
 import { NovelsDisplay } from './component/novels-display';
+import { RandomBackground } from './component/dash-board/random-background';
 
 
 // react-routerとMUIの双方にLINKコンポーネントがあるので連携させる

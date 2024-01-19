@@ -14,6 +14,7 @@ import * as React from 'react';
 import { Outlet } from "react-router-dom";
 import { Title } from "../novels-display/Title";
 import { NavigationDisplay } from './NavigationDisplay';
+import { RandomBackground } from './random-background';
 
 const drawerWidth = 240;
 
@@ -120,7 +121,9 @@ export default function PersistentDrawerLeft() {
       </Drawer>
       <Main open={open} sx={{ padding: 0, minHeight: '100vh' }}>
         <Toolbar />
-        <Outlet />
+        <RandomBackground>
+          <Outlet />
+        </RandomBackground>
       </Main>
     </Box >
   );

@@ -6,7 +6,6 @@ import ListItemText from '@mui/material/ListItemText';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import InfoIcon from '@mui/icons-material/Info';
 import EventIcon from '@mui/icons-material/Event';
-import { NavLink } from "react-router-dom";
 
 type Routing = "root" | "info" | "event"
 type Display = {
