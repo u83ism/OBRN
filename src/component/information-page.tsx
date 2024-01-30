@@ -29,7 +29,7 @@ export const InformationPage = (): JSX.Element => {
 						<Typography paragraph>OBRNへの登録は以下の流れとなります。</Typography>
 						<Typography variant="h5" component="h3" gutterBottom>
 							3-1.<a href="mailto:u83ism@gmail.com">メール</a>
-							もしくは <a href="https: //twitter.com/u83unlimited">Xの私のアカウント宛にリプなりDMなりでコンタクト</a>
+							もしくは <a href="https://x.com/u83unlimited">Xの私のアカウント宛にリプなりDMなりでコンタクト</a>
 							で以下の項目をお知らせ下さい。
 						</Typography>
 						<Box m={5}>
