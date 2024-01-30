@@ -20,17 +20,17 @@ const db = getFirestore(app);
 connectFirestoreEmulator(db, '127.0.0.1', 8080);
 
 import { collection, addDoc } from "firebase/firestore";
-import { obrList } from "../entity/obr-works";
-import { sites } from "../entity/Sites";
+import { obrList } from "./src/entity/obr-works";
+import { sites } from "./src/entity/Sites";
 
 
 export const changeDB = async (): Promise<void> => {
-	// const obrCollection = collection(db, "obr-works")
-	// for (const obr of obrList) {
-	// 	await addDoc(obrCollection, obr)
-	// }
-	// const sitesCollection = collection(db, "sites")
-	// for (const site of sites) {
-	// 	await addDoc(sitesCollection, site)
-	// }
+	const obrCollection = collection(db, "obr-works")
+	for (const obr of obrList) {
+		await addDoc(obrCollection, obr)
+	}
+	const sitesCollection = collection(db, "sites")
+	for (const site of sites) {
+		await addDoc(sitesCollection, site)
+	}
 }
