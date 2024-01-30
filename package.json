@@ -20,34 +20,37 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "deploy-staging": "firebase hosting:channel:deploy obrn-staging",
-    "deploy-production": "firebase deploy --only hosting"
+    "deploy-production": "firebase deploy --only hosting",
+    "batch" : "ts-node firebase-batch"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.1",
+    "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
     "@fontsource/roboto": "^5.0.8",
-    "@mui/icons-material": "^5.14.19",
-    "@mui/material": "^5.14.20",
-    "@mui/system": "^5.14.20",
+    "@mui/icons-material": "^5.15.4",
+    "@mui/material": "^5.15.4",
+    "@mui/system": "^5.15.4",
     "firebase": "^10.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.20.1",
+    "react-router-dom": "^6.21.2",
     "tss-react": "^4.9.3"
   },
   "devDependencies": {
-    "@types/react": "^18.2.43",
-    "@types/react-dom": "^18.2.17",
-    "@typescript-eslint/eslint-plugin": "^6.13.2",
-    "@typescript-eslint/parser": "^6.13.2",
+    "@types/react": "^18.2.47",
+    "@types/react-dom": "^18.2.18",
+    "@typescript-eslint/eslint-plugin": "^6.18.1",
+    "@typescript-eslint/parser": "^6.18.1",
     "@vitejs/plugin-react": "^4.2.1",
-    "eslint": "^8.55.0",
+    "eslint": "^8.56.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
-    "firebase-tools": "^13.0.1",
-    "npm-check-updates": "^16.14.11",
+    "firebase-admin": "^12.0.0",
+    "firebase-tools": "^13.0.3",
+    "npm-check-updates": "^16.14.12",
+    "ts-node": "^10.9.2",
     "typescript": "^5.3.3",
-    "vite": "^5.0.7"
+    "vite": "^5.0.11"
   }
 }
