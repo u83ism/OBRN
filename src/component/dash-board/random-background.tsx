@@ -1,5 +1,5 @@
 import { Container } from "@mui/material";
-import { StyledEngineProvider, styled } from "@mui/system";
+import { styled } from "@mui/system";
 import React from "react";
 
 //表示回り
