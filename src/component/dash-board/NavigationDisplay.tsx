@@ -44,7 +44,7 @@ export const NavigationDisplay = (): JSX.Element => {
         </ListItemButton>
       </ListItem>
       <ListItem disablePadding>
-        <ListItemButton href="/info.html">
+        <ListItemButton href="/information">
           <ListItemIcon>
             {routingAndDisplayMap.info.icon}
           </ListItemIcon>
@@ -52,7 +52,7 @@ export const NavigationDisplay = (): JSX.Element => {
         </ListItemButton>
       </ListItem>
       <ListItem disablePadding>
-        <ListItemButton href="/event.html">
+        <ListItemButton href="/event.html" target="_blank">
           <ListItemIcon>
             {routingAndDisplayMap.event.icon}
           </ListItemIcon>
