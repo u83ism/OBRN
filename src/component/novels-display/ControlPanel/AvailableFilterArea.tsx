@@ -1,5 +1,5 @@
 import React from "react"
-import { TableRow, TableCell } from '@mui/material';
+import { TableRow, TableCell, Typography, Grid } from '@mui/material';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { FilterStatusType, updateFilterStatusType } from "../../../entity/FilterType"
 import { valueOf } from "../../../entity/CommonType";
@@ -17,22 +17,24 @@ export const AvailableFilterArea = (props: Props): JSX.Element => {
 	}
 
 	return (
-		<TableRow>
-			<TableCell>閲覧可能</TableCell>
-			<TableCell>
+		<Grid container>
+			<Grid item xs={12} sm={2}>
+				<Typography variant="subtitle1" component="h3">閲覧可能</Typography>
+			</Grid>
+			<Grid item xs={12} sm={10}>
 				<ToggleButtonGroup
 					value={props.filters}
 					onChange={changeFilter}
 					aria-label="available filter"
 				>
 					<ToggleButton value="onlyAvailable" aria-label="onlyAvailable">
-						⭕
+						<Typography variant="button">⭕</Typography>
 					</ToggleButton>
 					<ToggleButton value="onlyUnavailable" aria-label="onlyUnavailable">
-						❌
+						<Typography variant="button">❌</Typography>
 					</ToggleButton>
 				</ToggleButtonGroup>
-			</TableCell>
-		</TableRow>
+			</Grid>
+		</Grid>
 	)
 }

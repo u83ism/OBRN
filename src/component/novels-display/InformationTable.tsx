@@ -1,5 +1,6 @@
 import React, { memo } from "react"
 import { TableContainer, Table, TableRow, TableCell, TableBody, Paper, Link } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const getInformationTable = (): JSX.Element => {
 
