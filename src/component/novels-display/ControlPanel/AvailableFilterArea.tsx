@@ -17,9 +17,9 @@ export const AvailableFilterArea = (props: Props): JSX.Element => {
 	}
 
 	return (
-		<Grid container>
+		<Grid container alignItems="center">
 			<Grid item xs={12} sm={2}>
-				<Typography variant="subtitle1" component="h3">閲覧可能</Typography>
+				<Typography variant="subtitle2" component="h3">閲覧可能</Typography>
 			</Grid>
 			<Grid item xs={12} sm={10}>
 				<ToggleButtonGroup

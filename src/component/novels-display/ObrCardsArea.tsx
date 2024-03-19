@@ -1,5 +1,5 @@
 import React from "react"
-import { Box, Card, Grid } from '@mui/material';
+import { Box, Card, Grid, Typography } from '@mui/material';
 import { EnhancedObrType } from "../../entity/Type";
 import { ObrCard } from "./obr-card-area/ObrCard";
 
@@ -22,7 +22,7 @@ export const ObrCardsArea = ({ list }: { list: ReadonlyArray<EnhancedObrType> })
 	const emptyCard: JSX.Element = (
 		<Card>
 			<Box sx={{ p: 2 }}>
-				検索条件に該当する作品がありません
+				<Typography variant="body1">🙇‍♂️ 検索条件に該当する作品がありません</Typography>
 			</Box>
 		</Card >
 	)

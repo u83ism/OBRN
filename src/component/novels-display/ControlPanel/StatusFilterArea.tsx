@@ -29,9 +29,9 @@ export const StatusFilterArea = (props: Props): JSX.Element => {
 	const matches = useMediaQuery(theme.breakpoints.up("sm"))
 	const orientation = matches ? `horizontal` : `vertical`
 	return (
-		<Grid container>
+		<Grid container alignItems="center">
 			<Grid item xs={12} sm={2}>
-				<Typography variant="subtitle1" component="h3">進行状況</Typography>
+				<Typography variant="subtitle2" component="h3">進行状況</Typography>
 			</Grid>
 			<Grid item xs={12} sm={10}>
 				<ToggleButtonGroup

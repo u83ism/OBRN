@@ -27,7 +27,7 @@ export const ControlPanel = ({ status, updateFilter, visibleObrQuantity }: Props
 	return (
 		<Paper>
 			<Box padding={1}>
-				<Typography variant="h6" component="h2">🔧コントロールパネル（表示作品数:{visibleObrQuantity}）</Typography>
+				<Typography variant="subtitle1" component="h2">🔧コントロールパネル（表示作品数:{visibleObrQuantity}）</Typography>
 			</Box>
 			<Box padding={1} margin={1}>
 				<AvailableFilterArea filters={status.available} category="available" updateFilter={updateFilter} />
