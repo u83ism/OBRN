@@ -11,7 +11,7 @@ import List from '@mui/material/List';
 import Toolbar from '@mui/material/Toolbar';
 import { styled, useTheme } from '@mui/material/styles';
 import * as React from 'react';
-import { Outlet } from "react-router-dom";
+import { Outlet } from "react-router";
 import { Title } from "../novels-display/Title";
 import { NavigationDisplay } from './NavigationDisplay';
 import { RandomBackground } from './random-background';

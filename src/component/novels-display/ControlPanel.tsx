@@ -3,7 +3,9 @@ import {
 	TableContainer, TableHead, TableRow,
 	Paper,
 	useTheme,
-	SxProps
+	SxProps,
+	Typography,
+	Box
 } from '@mui/material'
 
 import { FilterStatusType, updateFilterStatusType } from "../../entity/FilterType"
@@ -22,27 +24,17 @@ export const ControlPanel = ({ status, updateFilter, visibleObrQuantity }: Props
 		backgroundColor: theme.palette.primary.main,
 		color: theme.palette.common.white,
 	}
-
 	return (
-		<TableContainer component={Paper}>
-			<Table aria-label="Control panel">
-				<TableHead>
-					<TableRow>
-						<TableCell
-							align="center"
-							colSpan={2}
-							sx={css}
-							color="white"
-						>
-							🔧コントロールパネル（表示作品数:{visibleObrQuantity}）
-						</TableCell>
-					</TableRow>
-				</TableHead>
-				<TableBody>
-					<AvailableFilterArea filters={status.available} category="available" updateFilter={updateFilter} />
-					<StatusFilterArea filters={status.status} category="status" updateFilter={updateFilter} />
-				</TableBody>
-			</Table>
-		</TableContainer>
+		<Paper>
+			<Box padding={1}>
+				<Typography variant="subtitle1" component="h2">🔧コントロールパネル（表示作品数:{visibleObrQuantity}）</Typography>
+			</Box>
+			<Box padding={1} margin={1}>
+				<AvailableFilterArea filters={status.available} category="available" updateFilter={updateFilter} />
+			</Box>
+			<Box padding={1} margin={1}>
+				<StatusFilterArea filters={status.status} category="status" updateFilter={updateFilter} />
+			</Box>
+		</Paper>
 	)
 }
