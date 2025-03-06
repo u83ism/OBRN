@@ -11,21 +11,21 @@ import {
   Container,
   StyledEngineProvider
 } from "@mui/material";
-import { styled } from "@mui/system";
 
-import { getEnhancedAuthors, getEnhancedObrList } from "../logic/Analyzer";
-import { valueOf } from "../entity/CommonType";
-import { obrList } from "../entity/obr-works";
-import { sites } from "../entity/Sites";
 import { authors } from "../entity/Authors";
+import { valueOf } from "../entity/CommonType";
 import { initialFilter } from "../entity/Filter";
-import { ObrCardsArea } from "./novels-display/ObrCardsArea";
+import { FilterStatusType } from "../entity/FilterType";
+import { sites } from "../entity/Sites";
+import { obrList } from "../entity/obr-works";
+import { updateInformationList } from "../entity/update-information";
+import { getEnhancedAuthors, getEnhancedObrList } from "../logic/Analyzer";
+import { getFiltered } from "../logic/Filter";
+import { getSorted } from "../logic/sort";
 import { ControlPanel } from "./novels-display/ControlPanel";
 import { HelloText } from "./novels-display/HelloText";
 import { InformationTable } from "./novels-display/InformationTable";
-import { getFiltered } from "../logic/Filter";
-import { FilterStatusType } from "../entity/FilterType";
-import { getSorted } from "../logic/sort";
+import { ObrCardsArea } from "./novels-display/ObrCardsArea";
 
 // 最初にデータ解析と結合
 const enhancedAuthors = getEnhancedAuthors(authors, obrList)
@@ -61,7 +61,7 @@ export const NovelsDisplay = ({ className }: any): JSX.Element => {
             <HelloText />
           </Box>
           <Box marginBottom={5}>
-            <InformationTable />
+            <InformationTable {...{ list: updateInformationList }} />
           </Box>
           <Box marginBottom={5}>
             <ControlPanel {...propsForControlPanel} />

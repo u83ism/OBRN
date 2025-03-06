@@ -8,7 +8,7 @@ import '@fontsource/roboto/700.css';
 import { ThemeOptions, ThemeProvider, createTheme, responsiveFontSizes } from "@mui/material";
 import { LinkProps } from '@mui/material/Link';
 import React from "react";
-import { Link as RouterLink, LinkProps as RouterLinkProps, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Link as RouterLink, LinkProps as RouterLinkProps, RouterProvider, createBrowserRouter } from 'react-router';
 import Dashboard from "./component/dash-board/Dashboard";
 import { ErrorPage } from './component/error-page';
 import { InformationPage } from './component/information-page';
@@ -62,7 +62,17 @@ const router = createBrowserRouter(
         },
       ]
     },
-  ]
+  ],
+  {
+    future: {
+      v7_relativeSplatPath: true,
+      v7_startTransition: true,
+      v7_fetcherPersist: true,
+      v7_normalizeFormMethod: true,
+      v7_partialHydration: true,
+      v7_skipActionErrorRevalidation: true
+    }
+  }
 )
 
 export const App = (): JSX.Element => {
