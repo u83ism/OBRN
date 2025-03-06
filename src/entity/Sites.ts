@@ -217,10 +217,10 @@ export const sites: ReadonlyArray<BaseSiteType> = [
 		"id": 29
 	},
 	{
-		"isOpen": true,
+		"isOpen": false,
 		"nameCategory": "ra",
 		"URL": "http://id55.fm-p.jp/532/reitouapple/",
-		"name": "冷凍りんごは歯が折れる ",
+		"name": "冷凍りんごは歯が折れる",
 		"comment": "無節操ジャンルサイトですので、OBRのみのURLはこちらになります",
 		"id": 30
 	},

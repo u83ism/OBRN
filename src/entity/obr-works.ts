@@ -1481,7 +1481,7 @@ export const obrList: ReadonlyArray<BaseObrType> = [
 		"authorId": 29
 	},
 	{
-		"canRead": true,
+		"canRead": false,
 		"id": 63,
 		"siteId": 30,
 		"name": "午後のパレード",
@@ -3490,7 +3490,7 @@ export const obrList: ReadonlyArray<BaseObrType> = [
 	},
 	{
 		"canRead": true,
-		"updated": new Date(2023, 5, 27),
+		"updated": new Date(2025, 2, 1),
 		"id": 146,
 		"siteId": 33,
 		"name": "～Patriotism～",
@@ -3506,10 +3506,10 @@ export const obrList: ReadonlyArray<BaseObrType> = [
 			}
 		],
 		"status": "progress",
-		"numberOfEpisode": 31,
-		"nowChapterName": "序盤戦",
-		"newestEpisodeNumber": 30,
-		"remainingNumber": 33,
+		"numberOfEpisode": 38,
+		"nowChapterName": "中盤戦",
+		"newestEpisodeNumber": 37,
+		"remainingNumber": 31,
 		"authorId": 33
 	},
 	{
@@ -3532,7 +3532,7 @@ export const obrList: ReadonlyArray<BaseObrType> = [
 				}
 			}
 		],
-		"status": "progress",
+		"status": "suspend",
 		"numberOfEpisode": 51,
 		"nowChapterName": "中盤戦",
 		"newestEpisodeNumber": 51,
