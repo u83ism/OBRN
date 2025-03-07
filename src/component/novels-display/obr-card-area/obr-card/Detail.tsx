@@ -5,6 +5,7 @@ import {
 import { EnhancedObrType, GroupType, MembersType } from "../../../../entity/Type";
 import { getNumber } from "../../../../logic/Analyzer";
 import { isNullOrUndefined } from "../../../../Utility";
+import { JSX } from 'react/jsx-runtime';
 
 
 const getOptionalParameterText = (number: number | undefined, isAnimal: boolean, isPositive: boolean): string => {

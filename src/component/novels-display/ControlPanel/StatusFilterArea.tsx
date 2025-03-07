@@ -1,6 +1,7 @@
 import React from "react"
 import { Grid, ToggleButton, ToggleButtonGroup, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { TableRow, TableCell } from '@mui/material';
+import { JSX } from 'react/jsx-runtime';
 import { valueOf } from "../../../entity/CommonType";
 import { FilterStatusType, updateFilterStatusType } from "../../../entity/FilterType"
 import { stateOfProgressAndTextMap } from "../../../entity/WordDictionary"

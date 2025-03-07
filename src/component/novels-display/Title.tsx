@@ -1,5 +1,6 @@
 import React, { memo } from "react"
 import { SxProps, styled, Typography } from "@mui/material"
+import { JSX } from 'react/jsx-runtime';
 
 const titleProps: SxProps = {
 	'&::first-letter': {

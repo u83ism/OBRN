@@ -1,4 +1,5 @@
 import { useRouteError, isRouteErrorResponse } from "react-router";
+import { JSX } from 'react/jsx-runtime';
 
 export const ErrorPage = (): JSX.Element => {
 	const error = useRouteError();

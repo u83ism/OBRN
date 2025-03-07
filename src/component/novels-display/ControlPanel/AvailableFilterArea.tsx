@@ -3,6 +3,7 @@ import { Typography, Grid } from '@mui/material';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { FilterStatusType, updateFilterStatusType } from "../../../entity/FilterType"
 import { valueOf } from "../../../entity/CommonType";
+import { JSX } from 'react/jsx-runtime';
 
 type Props = {
 	filters: FilterStatusType["available"],

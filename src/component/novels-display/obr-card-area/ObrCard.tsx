@@ -17,7 +17,7 @@ import { EnhancedObrType, StateOfProgressType } from "../../../entity/Type";
 import { stateOfProgressAndTextMap } from "../../../entity/WordDictionary";
 import { Detail } from "./obr-card/Detail";
 import { useStyles } from "tss-react";
-
+import { JSX } from 'react/jsx-runtime';
 
 const PREFIX = 'ObrCard';
 

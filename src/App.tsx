@@ -14,6 +14,7 @@ import { ErrorPage } from './component/error-page';
 import { InformationPage } from './component/information-page';
 import { NovelsDisplay } from './component/novels-display';
 import { RandomBackground } from './component/dash-board/random-background';
+import { JSX } from 'react/jsx-runtime';
 
 
 // react-routerとMUIの双方にLINKコンポーネントがあるので連携させる
@@ -62,17 +63,7 @@ const router = createBrowserRouter(
         },
       ]
     },
-  ],
-  {
-    future: {
-      v7_relativeSplatPath: true,
-      v7_startTransition: true,
-      v7_fetcherPersist: true,
-      v7_normalizeFormMethod: true,
-      v7_partialHydration: true,
-      v7_skipActionErrorRevalidation: true
-    }
-  }
+  ]
 )
 
 export const App = (): JSX.Element => {

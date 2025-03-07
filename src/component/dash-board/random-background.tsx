@@ -1,6 +1,7 @@
 import { Container } from "@mui/material";
 import { styled } from "@mui/system";
 import React from "react";
+import { JSX } from 'react/jsx-runtime';
 
 //表示回り
 const backGroundFolderPath = "./img/background/";

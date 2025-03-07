@@ -1,5 +1,7 @@
 import { Box, Container, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Typography } from "@mui/material"
 import InfoIcon from '@mui/icons-material/Info';
+import { JSX } from 'react/jsx-runtime';
+
 export const InformationPage = (): JSX.Element => {
 	return (
 		<Container>
