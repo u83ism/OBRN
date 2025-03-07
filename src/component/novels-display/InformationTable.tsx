@@ -1,10 +1,10 @@
 import { TableContainer, Table, TableRow, TableCell, TableBody, Paper, Typography } from "@mui/material";
 import { UpdateInformation } from "../../entity/update-information";
+import { ContentsElement } from "./ContentsElement";
 
 type Props = {
 	list: ReadonlyArray<UpdateInformation>
 }
-
 
 export const InformationTable = ({ list }: Props): JSX.Element => {
 	const rows = list.map((information, index) => {
@@ -21,7 +21,7 @@ export const InformationTable = ({ list }: Props): JSX.Element => {
 					<Typography variant="body2">{fullyearString}年{monthString}月{dateString}日 {hoursString}:{minutesString}</Typography>
 				</TableCell>
 				<TableCell component="th" scope="row">
-					{information.contents}
+					<ContentsElement contents={information.contents} />
 				</TableCell>
 			</TableRow >
 		)

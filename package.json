@@ -1,6 +1,6 @@
 {
   "name": "obrn",
-  "version": "2.7.5",
+  "version": "2.7.15",
   "description": "オリジナルバトルロワイアル（オリバト）に関するDB＆リンク集",
   "private": true,
   "type": "module",
@@ -21,7 +21,7 @@
     "preview": "vite preview",
     "deploy-staging": "firebase hosting:channel:deploy obrn-staging",
     "deploy-production": "firebase deploy --only hosting",
-    "batch" : "ts-node firebase-batch"
+    "batch": "ts-node firebase-batch"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
