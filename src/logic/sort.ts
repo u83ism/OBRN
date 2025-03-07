@@ -1,23 +1,42 @@
-import { EnhancedObrType } from "../entity/Type"
+import { EnhancedObrType, StateOfProgressType } from "../entity/Type"
 
-//今のところ、最新の更新を優先するようにしているが、コントロールパネルの改良に伴い動的にソート内容変える可能性高し
+// ソート優先順位：
+// 1. siteのisOpen基準。trueを前に
+// 2. obr-worksのstatus基準。 "progress", "finish", "suspend", "prepare"の順で前に
+// 3. updatedが存在して、更新日が新しい方が前。古い方が続き、パラメータが存在しない場合は一番後ろ
 export const getSorted = (obrs: Array<EnhancedObrType>): ReadonlyArray<EnhancedObrType> => {
-	let compareResult: number = 1;
+	const statusPriority: Record<StateOfProgressType, number> = {
+		"progress": 0,
+		"finish": 1,
+		"suspend": 2,
+		"prepare": 3
+	};
+
 	const sorted = obrs.toSorted((firstObr, secondObr) => {
+		// 1. siteのisOpen基準。trueを前に
+		if (firstObr.site.isOpen !== secondObr.site.isOpen) {
+			return firstObr.site.isOpen ? -1 : 1;
+		}
+
+		// 2. obr-worksのstatus基準。 "progress", "finish", "suspend", "prepare"の順で前に
+		if (firstObr.status !== secondObr.status) {
+			return statusPriority[firstObr.status] - statusPriority[secondObr.status];
+		}
+
+		// 3. updatedが存在して、更新日が新しい方が前。古い方が続き、パラメータが存在しない場合は一番後ろ
 		if (firstObr?.updated !== undefined && secondObr?.updated !== undefined) {
-			compareResult = (secondObr.updated.getTime() - firstObr.updated.getTime())
+			// 両方更新日がある場合は新しい方を前に
+			return secondObr.updated.getTime() - firstObr.updated.getTime();
 		} else if (firstObr?.updated !== undefined && secondObr?.updated === undefined) {
-			// 更新日が登録されている方を優先するので後ろに回す
-			compareResult = -1;
+			// 更新日が登録されている方を優先
+			return -1;
 		} else if (firstObr?.updated === undefined && secondObr?.updated !== undefined) {
-			// 更新日が登録されている方を優先するので前に回す
-			compareResult = 1;
+			return 1;
 		} else {
 			// 両方更新日が登録されていないなら入れ替えない
-			compareResult = 0;
+			return 0;
 		}
-		return compareResult
-	})
+	});
 
-	return sorted
+	return sorted;
 }
