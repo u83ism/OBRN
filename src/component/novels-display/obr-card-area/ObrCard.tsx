@@ -1,5 +1,6 @@
 import React from "react";
 import { styled } from '@mui/material/styles';
+import { alpha } from '@mui/material/styles';
 import {
 	Button,
 	Card,
@@ -121,7 +122,16 @@ export const ObrCard = (obr: EnhancedObrType): JSX.Element => {
 
 	return (
 		<StyledCard>
-			<CardActionArea href={obr.site.URL} >
+			<CardActionArea
+				{...(obr.site.isOpen ? { href: obr.site.URL } : {})}
+				disabled={!obr.site.isOpen}
+				sx={{
+					opacity: obr.site.isOpen ? 1 : 0.5,
+					backgroundColor: obr.site.isOpen ? 'inherit' : (theme) => alpha(theme.palette.grey[700], 0.2),
+					cursor: obr.site.isOpen ? 'pointer' : 'default',
+					position: 'relative'
+				}}
+			>
 				<CardContent sx={{ paddingBottom: 0 }}>
 					<Box sx={{ paddingBottom: 2 }}>
 						<Chip
@@ -148,13 +158,36 @@ export const ObrCard = (obr: EnhancedObrType): JSX.Element => {
 					</Box>
 					<Box>
 						<Typography variant="body2" color="textSecondary" sx={{ pt: 2 }}>
-							掲載サイト：{obr.site.name}
+							掲載サイト：{obr.site.name} {!obr.site.isOpen && <span style={{ color: 'red' }}>(閉鎖)</span>}
 						</Typography>
-						<Button sx={{ paddingLeft: 0 }}>読みに行く</Button>
+						{obr.site.isOpen ? (
+							<Button
+								sx={{ paddingLeft: 0 }}
+							>読みに行く</Button>
+						) : (
+							<Button
+								sx={{
+									paddingLeft: 0,
+									color: 'error.main',
+									opacity: 0.7,
+									pointerEvents: 'none',
+									fontWeight: 'bold'
+								}}
+								disabled
+							>
+								閲覧不可
+							</Button>
+						)}
 					</Box>
 				</CardContent>
 			</CardActionArea>
-			<CardActions sx={{ px: 2 }}>
+			<CardActions
+				sx={{
+					px: 2,
+					opacity: obr.site.isOpen ? 1 : 0.5,
+					backgroundColor: obr.site.isOpen ? 'inherit' : (theme) => alpha(theme.palette.grey[700], 0.2)
+				}}
+			>
 				<Typography variant="body2" color="textSecondary">
 					詳細データ
 				</Typography>
@@ -168,7 +201,12 @@ export const ObrCard = (obr: EnhancedObrType): JSX.Element => {
 				</IconButton>
 			</CardActions>
 			<Collapse in={expanded} timeout="auto" unmountOnExit>
-				<Detail {...obr} />
+				<Box sx={{
+					opacity: obr.site.isOpen ? 1 : 0.5,
+					backgroundColor: obr.site.isOpen ? 'inherit' : (theme) => alpha(theme.palette.grey[700], 0.2)
+				}}>
+					<Detail {...obr} />
+				</Box>
 			</Collapse>
 		</StyledCard >
 	);

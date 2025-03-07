@@ -1,5 +1,5 @@
 import React from "react"
-import { TableRow, TableCell, Typography, Grid } from '@mui/material';
+import { Typography, Grid } from '@mui/material';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { FilterStatusType, updateFilterStatusType } from "../../../entity/FilterType"
 import { valueOf } from "../../../entity/CommonType";
