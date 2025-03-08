@@ -11,6 +11,7 @@ import React from "react";
 import { Link as RouterLink, LinkProps as RouterLinkProps, RouterProvider, createBrowserRouter } from 'react-router';
 import Dashboard from "./component/dash-board/Dashboard";
 import { ErrorPage } from './component/error-page';
+import { EventPage } from './component/event-page';
 import { InformationPage } from './component/information-page';
 import { NovelsDisplay } from './component/novels-display';
 import { RandomBackground } from './component/dash-board/random-background';
@@ -60,6 +61,10 @@ const router = createBrowserRouter(
         {
           path: "/information",
           element: <InformationPage />
+        },
+        {
+          path: "/event",
+          element: <EventPage />
         },
       ]
     },

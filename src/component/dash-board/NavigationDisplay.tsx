@@ -54,7 +54,7 @@ export const NavigationDisplay = (): JSX.Element => {
         </ListItemButton>
       </ListItem>
       <ListItem disablePadding>
-        <ListItemButton href="/event.html" target="_blank">
+        <ListItemButton href="/event">
           <ListItemIcon>
             {routingAndDisplayMap.event.icon}
           </ListItemIcon>
@@ -64,4 +64,3 @@ export const NavigationDisplay = (): JSX.Element => {
     </React.Fragment>
   )
 };
-
