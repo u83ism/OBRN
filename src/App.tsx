@@ -14,6 +14,7 @@ import { ErrorPage } from './component/error-page';
 import { EventPage } from './component/event-page';
 import { InformationPage } from './component/information-page';
 import { NovelsDisplay } from './component/novels-display';
+import { TalkPage } from './component/talk/TalkPage';
 import { RandomBackground } from './component/dash-board/random-background';
 import { JSX } from 'react/jsx-runtime';
 
@@ -65,6 +66,10 @@ const router = createBrowserRouter(
         {
           path: "/event",
           element: <EventPage />
+        },
+        {
+          path: "/talk/:id",
+          element: <TalkPage />
         },
       ]
     },

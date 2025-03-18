@@ -1,4 +1,4 @@
-import { Box, Container, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
+import { Box, Container, Link, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material"
 import { JSX } from 'react/jsx-runtime';
 
 export const EventPage = (): JSX.Element => {
@@ -23,32 +23,32 @@ export const EventPage = (): JSX.Element => {
 								</TableHead>
 								<TableBody>
 									<TableRow>
-										<TableCell><a href="talk1.html">第1回「感情描写を重視したオリバトを」</a></TableCell>
+										<TableCell><Link href="/talk/1">第1回「感情描写を重視したオリバトを」</Link></TableCell>
 										<TableCell>若丸進二<br />（「毒人間の館」管理人）</TableCell>
 										<TableCell>2003年9月4日</TableCell>
 									</TableRow>
 									<TableRow>
-										<TableCell><a href="talk2.html">第2回「丁寧さが光る巧の技」</a></TableCell>
+										<TableCell><Link href="/talk/2">第2回「丁寧さが光る巧の技」</Link></TableCell>
 										<TableCell>桜城聖耶<br />（「東亜的英雄伝」管理人）</TableCell>
 										<TableCell>2003年9月27日</TableCell>
 									</TableRow>
 									<TableRow>
-										<TableCell><a href="talk3.html">第3回「うれしい！楽しい！大好き！」</a></TableCell>
+										<TableCell><Link href="/talk/3">第3回「うれしい！楽しい！大好き！」</Link></TableCell>
 										<TableCell>松風美奈子<br />（「若紫文庫」管理人）</TableCell>
 										<TableCell>2004年1月17日</TableCell>
 									</TableRow>
 									<TableRow>
-										<TableCell><a href="talk4.html">第4回「蘇える遺言と素晴らしきアイデア」</a></TableCell>
+										<TableCell><Link href="/talk/4">第4回「蘇える遺言と素晴らしきアイデア」</Link></TableCell>
 										<TableCell>みかど<br />（「Last Message」管理人）</TableCell>
 										<TableCell>2004年1月31日</TableCell>
 									</TableRow>
 									<TableRow>
-										<TableCell><a href="talk5.html">第5回「大きな分岐点」</a></TableCell>
+										<TableCell><Link href="/talk/5">第5回「大きな分岐点」</Link></TableCell>
 										<TableCell>ルコラ<br />（「another program channel」管理人）</TableCell>
 										<TableCell>2004年6月6日</TableCell>
 									</TableRow>
 									<TableRow>
-										<TableCell><a href="talk6.html">第6回「We are "ZERO"」</a></TableCell>
+										<TableCell><Link href="/talk/6">第6回「We are "ZERO"」</Link></TableCell>
 										<TableCell>
 											藤堂尚也<br />
 											（「ZERO in バトルロワイアル」管理人）<br />
@@ -58,7 +58,7 @@ export const EventPage = (): JSX.Element => {
 										<TableCell>2005年9月2日</TableCell>
 									</TableRow>
 									<TableRow>
-										<TableCell><a href="talk7.html">第7回「真剣20代しゃべり場」</a></TableCell>
+										<TableCell><Link href="/talk/7">第7回「真剣20代しゃべり場」</Link></TableCell>
 										<TableCell>
 											めのう<br />
 											（「明鏡氷河」管理人）
