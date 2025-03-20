@@ -11,9 +11,12 @@ import React from "react";
 import { Link as RouterLink, LinkProps as RouterLinkProps, RouterProvider, createBrowserRouter } from 'react-router';
 import Dashboard from "./component/dash-board/Dashboard";
 import { ErrorPage } from './component/error-page';
+import { EventPage } from './component/event-page';
 import { InformationPage } from './component/information-page';
 import { NovelsDisplay } from './component/novels-display';
-import { RandomBackground } from './component/dash-board/random-background';
+import { TalkPage } from './component/talk/TalkPage';
+import { BackgroundProvider } from './context/BackgroundContext';
+import { JSX } from 'react/jsx-runtime';
 
 
 // react-routerとMUIの双方にLINKコンポーネントがあるので連携させる
@@ -60,25 +63,25 @@ const router = createBrowserRouter(
           path: "/information",
           element: <InformationPage />
         },
+        {
+          path: "/event",
+          element: <EventPage />
+        },
+        {
+          path: "/talk/:id",
+          element: <TalkPage />
+        },
       ]
     },
-  ],
-  {
-    future: {
-      v7_relativeSplatPath: true,
-      v7_startTransition: true,
-      v7_fetcherPersist: true,
-      v7_normalizeFormMethod: true,
-      v7_partialHydration: true,
-      v7_skipActionErrorRevalidation: true
-    }
-  }
+  ]
 )
 
 export const App = (): JSX.Element => {
   return (
-    <ThemeProvider theme={customTheme}>
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <BackgroundProvider>
+      <ThemeProvider theme={customTheme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </BackgroundProvider>
   )
 }

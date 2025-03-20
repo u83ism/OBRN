@@ -1,5 +1,7 @@
 import { Box, Paper, Typography } from "@mui/material"
 import { memo } from "react"
+import { JSX } from 'react/jsx-runtime';
+
 const getHelloText = (): JSX.Element => {
 	return (
 		<Paper>

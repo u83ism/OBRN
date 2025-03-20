@@ -6,6 +6,15 @@ export type UpdateInformation = {
 export const updateInformationList: ReadonlyArray<UpdateInformation> = [
 	{
 		// UTC表記
+		date: new Date("2025-03-20T23:00:00.000Z"),
+		contents:
+			[
+				"企画ページ、オリバト対談ページをフルリニューアル。AI(CLINE)が25ドルぐらいで全部やってくれました。思ったよりかかったな😫",
+				"EC2がサービス終了するらしいので対象サイトの調査、告知を検討しています"
+			],
+	},
+	{
+		// UTC表記
 		date: new Date("2025-03-07T19:00:00.000Z"),
 		contents:
 			["閉鎖したサイトの表示を改善", "ソート規則を変更"],

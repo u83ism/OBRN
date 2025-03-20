@@ -26,6 +26,7 @@ import { ControlPanel } from "./novels-display/ControlPanel";
 import { HelloText } from "./novels-display/HelloText";
 import { InformationTable } from "./novels-display/InformationTable";
 import { ObrCardsArea } from "./novels-display/ObrCardsArea";
+import { JSX } from 'react/jsx-runtime';
 
 // 最初にデータ解析と結合
 const enhancedAuthors = getEnhancedAuthors(authors, obrList)

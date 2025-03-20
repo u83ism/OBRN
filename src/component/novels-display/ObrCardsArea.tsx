@@ -2,6 +2,7 @@ import React from "react"
 import { Box, Card, Grid, Typography } from '@mui/material';
 import { EnhancedObrType } from "../../entity/Type";
 import { ObrCard } from "./obr-card-area/ObrCard";
+import { JSX } from 'react/jsx-runtime';
 
 export const ObrCardsArea = ({ list }: { list: ReadonlyArray<EnhancedObrType> }): JSX.Element => {
 	const numberOfObr = list.length

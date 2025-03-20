@@ -1,6 +1,7 @@
 import { TableContainer, Table, TableRow, TableCell, TableBody, Paper, Typography } from "@mui/material";
 import { UpdateInformation } from "../../entity/update-information";
 import { ContentsElement } from "./ContentsElement";
+import { JSX } from 'react/jsx-runtime';
 
 type Props = {
 	list: ReadonlyArray<UpdateInformation>
