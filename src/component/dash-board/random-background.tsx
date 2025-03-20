@@ -2,18 +2,10 @@ import { Container } from "@mui/material";
 import { styled } from "@mui/system";
 import React from "react";
 import { JSX } from 'react/jsx-runtime';
+import { useBackground } from "../../context/BackgroundContext";
 
-//表示回り
-const backGroundFolderPath = "./img/background/";
-const backgroundCount = 33;
-const getRandomIntInclusive = (min: number, max: number) => {
-	min = Math.ceil(min);
-	max = Math.floor(max);
-	return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-const backgroundPath = backGroundFolderPath + getRandomIntInclusive(1, backgroundCount) + ".jpg";
-
-const StyledContainer = styled(Container)`
+// 動的にスタイルを生成するための関数
+const createStyledContainer = (backgroundPath: string) => styled(Container)`
 	min-width: 100%;
 	min-height:100%;
 	position: relative;
@@ -36,17 +28,28 @@ const StyledContainer = styled(Container)`
 		bottom: -0.3rem;
 		z-index: -1;/*重なり順序を一番下にしておく*/
 	}
-`
-
+`;
 
 type Props = {
 	children: React.ReactNode;
 };
 
 export const RandomBackground = ({ children }: Props): JSX.Element => {
+	// コンテキストから背景パスを取得
+	const { backgroundPath } = useBackground();
+
+	// 背景パスが設定されるまで待機
+	if (!backgroundPath) {
+		// 背景パスが設定されるまでの間、子要素だけを表示
+		return <>{children}</>;
+	}
+
+	// 動的にスタイル付きコンテナを生成
+	const StyledContainer = createStyledContainer(backgroundPath);
+
 	return (
 		<StyledContainer>
 			{children}
 		</StyledContainer>
-	)
+	);
 }

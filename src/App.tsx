@@ -15,7 +15,7 @@ import { EventPage } from './component/event-page';
 import { InformationPage } from './component/information-page';
 import { NovelsDisplay } from './component/novels-display';
 import { TalkPage } from './component/talk/TalkPage';
-import { RandomBackground } from './component/dash-board/random-background';
+import { BackgroundProvider } from './context/BackgroundContext';
 import { JSX } from 'react/jsx-runtime';
 
 
@@ -78,8 +78,10 @@ const router = createBrowserRouter(
 
 export const App = (): JSX.Element => {
   return (
-    <ThemeProvider theme={customTheme}>
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <BackgroundProvider>
+      <ThemeProvider theme={customTheme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </BackgroundProvider>
   )
 }
