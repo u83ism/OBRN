@@ -69,17 +69,6 @@ export const talklog1: TalkData = {
           text: "キャラが立っているので思い出したんですけど、担当教官も凄いですよね。"
         },
         {
-          type: 'images',
-          images: [
-            {
-              src: "http://wakamarusinnji.fc2web.com/k1.gif",
-              alt: "プログラム担当教官の画像",
-              caption: "プログラム担当教官 榊原 吾郎",
-              fullSrc: "http://wakamarusinnji.fc2web.com/k1.gif"
-            }
-          ]
-        },
-        {
           talker: "若丸進二",
           text: "正直な話、担当教官はさほど案も練らずに生み出しました。ただ原作の坂持に劣らぬようにしようとは思っていましたが。その結果が、スキンヘッド、サングラス、あご髭、という厳つい外見に繋がったわけですが。"
         },
@@ -235,17 +224,6 @@ export const talklog1: TalkData = {
         {
           talker: "若丸進二",
           text: "文章と挿絵が上手く融合した時、これはもうたまらないですね。その集大成が<a href=\"http://wakamarusinnji.fc2web.com/br108.htm\" target=\"_blank\">108話</a>の、新城忍の「ぶ・っ・殺・す」。怒りという感情を物凄く上手く描けたというか。",
-        },
-        {
-          type: 'images',
-          images: [
-            {
-              src: "http://wakamarusinnji.fc2web.com/brcg57.gif",
-              alt: "新城忍の激怒した表情の画像",
-              caption: "新城忍の激怒した表情",
-              fullSrc: "http://wakamarusinnji.fc2web.com/brcg57.gif"
-            }
-          ]
         },
         {
           talker: "夕闇幻楼",
