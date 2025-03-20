@@ -37,7 +37,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
   }),
 }));
 
-interface AppBarProps extends MuiAppBarProps {
+type AppBarProps = MuiAppBarProps & {
   open?: boolean;
 }
 
