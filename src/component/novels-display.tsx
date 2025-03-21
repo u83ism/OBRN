@@ -7,6 +7,7 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import {
+  Alert,
   Box,
   Container,
   StyledEngineProvider
@@ -61,6 +62,21 @@ export const NovelsDisplay = ({ className }: any): JSX.Element => {
           <Box sx={{ marginY: 5 }}>
             <HelloText />
           </Box>
+          <Alert variant="filled" severity="error" sx={{ marginY: 5 }}>
+            かつて主流だったホームページ運営サービス <a href="http://www.fc2web.com/">「FC2WEB」</a>から、2025年6月30日をもってサービス終了することが発表されました。
+            OBRN登録サイトでは以下のサイトが該当します。
+            <ul>
+              <li>毒人間の館（若丸信二氏）</li>
+              <li>ファンタジスタ！（佐倉恭祐氏）</li>
+              <li>夢日和（知美子氏）</li>
+              <li>BLACK PROJECT（ケータ氏）</li>
+              <li>Doomsday（夜空氏）</li>
+              <li>Noise+（千鳥美氏）</li>
+              <li>Red umbrella（崩氏）</li>
+              <li>Star☆Dust（水金翔氏）</li>
+            </ul>
+            管理者の方は移転をよろしくお願いします。移転連絡いただければこの表からは消します。
+          </Alert>
           <Box marginBottom={5}>
             <InformationTable {...{ list: updateInformationList }} />
           </Box>

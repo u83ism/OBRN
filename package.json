@@ -1,6 +1,6 @@
 {
   "name": "obrn",
-  "version": "2.7.16",
+  "version": "2.8.1",
   "description": "オリジナルバトルロワイアル（オリバト）に関するDB＆リンク集",
   "private": true,
   "type": "module",
