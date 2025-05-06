@@ -7,8 +7,8 @@
 # Todo
 ## 大目標
 - ✅ CSSフレームワーク(~~styledComponents~~Emotion/Material-UI)導入
-- react-router入れる
-- データをDB(firestore)に移行
+- ✅ react-router入れる
+- ▶ データをDB(firestore)に移行
 - ユーザー認証導入(Firebase Authentication)。ウェブサイトからサービスへ
 - 登録フォーム実装
 - 作品統計情報の提供
