@@ -16,8 +16,25 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 // Initialize Cloud Firestore and get a reference to the service
-const db = getFirestore(app);
-connectFirestoreEmulator(db, '127.0.0.1', 8080);
+export const db = getFirestore(app);
+
+// 環境変数でエミュレータ接続を制御
+// Viteアプリ内では import.meta.env.DEV
+// Node.js環境では process.env.NODE_ENV または明示的な接続関数を使用
+const isDev = typeof import.meta !== 'undefined' && import.meta.env?.DEV ||
+	process.env.NODE_ENV === 'development';
+
+// 開発環境の場合のみエミュレータに接続
+if (isDev) {
+	console.log("Connecting to Firestore emulator");
+	connectFirestoreEmulator(db, '127.0.0.1', 8080);
+}
+
+// バッチ処理から明示的にエミュレータに接続するための関数
+export const connectToEmulator = () => {
+	console.log("Explicitly connecting to Firestore emulator");
+	connectFirestoreEmulator(db, '127.0.0.1', 8080);
+};
 
 import { collection, addDoc } from "firebase/firestore";
 import { obrList } from "../entity/obr-works";
