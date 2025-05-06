@@ -15,13 +15,14 @@
   },
   "homepage": "https://github.com/u83ism/OBRN#readme",
   "scripts": {
+    "emurate-fire-store": "firebase emulators:start --only firestore",
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "deploy-staging": "firebase hosting:channel:deploy obrn-staging",
     "deploy-production": "firebase deploy --only hosting",
-    "batch": "ts-node firebase-batch"
+    "batch": "tsx batch/migrateLocalData.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -52,6 +53,7 @@
     "firebase-tools": "^13.33.0",
     "npm-check-updates": "^17.1.15",
     "ts-node": "^10.9.2",
+    "tsx": "^4.19.3",
     "typescript": "^5.8.2",
     "vite": "^6.2.1"
   }
