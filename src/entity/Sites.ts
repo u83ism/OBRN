@@ -386,7 +386,7 @@ export const sites: ReadonlyArray<BaseSiteType> = [
 	{
 		"isOpen": true,
 		"nameCategory": "s",
-		"URL": "http://stardust0302.fc2web.com/",
+		"URL": "https://stardustorbt.web.fc2.com/",
 		"name": "Star☆Dust",
 		"comment": "読みやすく、を目標にマイペース更新しています。イラスト・質問・お題などもたまに更新しているのでよろしければそちらもどうぞ(^_^)",
 		"id": 52
