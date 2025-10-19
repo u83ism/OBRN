@@ -35,19 +35,3 @@ export const connectToEmulator = () => {
 	console.log("Explicitly connecting to Firestore emulator");
 	connectFirestoreEmulator(db, '127.0.0.1', 8080);
 };
-
-import { collection, addDoc } from "firebase/firestore";
-import { obrList } from "../entity/obr-works";
-import { sites } from "../entity/Sites";
-
-
-export const changeDB = async (): Promise<void> => {
-	// const obrCollection = collection(db, "obr-works")
-	// for (const obr of obrList) {
-	// 	await addDoc(obrCollection, obr)
-	// }
-	// const sitesCollection = collection(db, "sites")
-	// for (const site of sites) {
-	// 	await addDoc(sitesCollection, site)
-	// }
-}
