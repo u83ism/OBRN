@@ -16,6 +16,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { EnhancedObrType, StateOfProgressType } from "../../../entity/Type";
 import { stateOfProgressAndTextMap } from "../../../entity/WordDictionary";
 import { Detail } from "./obr-card/Detail";
+import { getUpdatedText } from "./obr-card/utils";
 import { useStyles } from "tss-react";
 import { JSX } from 'react/jsx-runtime';
 
@@ -84,13 +85,6 @@ const getProgressText = (obr: EnhancedObrType): string => {
 		const _exhaustiveCheck: never = obr;
 		throw new Error("対応していない進行状況です")
 	}
-}
-
-export const getUpdatedText = (date: Date | undefined): string => {
-	if (date === undefined) {
-		return ""
-	}
-	return `最終更新日:${date.getFullYear()}年${date.getMonth()}月${date.getDate()}日`
 }
 
 type theme = Palette

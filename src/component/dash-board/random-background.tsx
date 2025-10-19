@@ -2,7 +2,7 @@ import { Container } from "@mui/material";
 import { styled } from "@mui/system";
 import React from "react";
 import { JSX } from 'react/jsx-runtime';
-import { useBackground } from "../../context/BackgroundContext";
+import { useBackground } from "../../hooks/useBackground";
 
 // 動的にスタイルを生成するための関数
 const createStyledContainer = (backgroundPath: string) => styled(Container)`

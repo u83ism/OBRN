@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { useState, useEffect, ReactNode } from 'react';
+import { BackgroundContext } from './background-context-type';
 
 // 背景画像の設定
 const backGroundFolderPath = "/img/background/";
@@ -36,14 +37,6 @@ const saveBackgroundPathToStorage = (path: string): void => {
   }
 };
 
-// コンテキストの型定義
-type BackgroundContextType = {
-  backgroundPath: string;
-}
-
-// コンテキストの作成
-const BackgroundContext = createContext<BackgroundContextType | undefined>(undefined);
-
 // コンテキストプロバイダーの型定義
 type BackgroundProviderProps = {
   children: ReactNode;
@@ -73,13 +66,4 @@ export const BackgroundProvider: React.FC<BackgroundProviderProps> = ({ children
       {children}
     </BackgroundContext.Provider>
   );
-};
-
-// カスタムフック
-export const useBackground = (): BackgroundContextType => {
-  const context = useContext(BackgroundContext);
-  if (context === undefined) {
-    throw new Error('useBackground must be used within a BackgroundProvider');
-  }
-  return context;
 };
