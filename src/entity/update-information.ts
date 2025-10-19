@@ -6,9 +6,11 @@ export type UpdateInformation = {
 export const updateInformationList: ReadonlyArray<UpdateInformation> = [
 	{
 		// UTC表記
-		date: new Date("2025-06-24T23:20:00.000Z"),
+		date: new Date("2025-10-18T05:20:00.000Z"),
 		contents:
-			["Star☆DustがFC2WEBのサービス終了に伴い、サイトを移転したので対応"],
+			[
+				"サイトデータを更新"
+			],
 	},
 	{
 		// UTC表記

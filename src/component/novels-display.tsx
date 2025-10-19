@@ -98,19 +98,6 @@ export const NovelsDisplay = ({ className }: any): JSX.Element => {
           <Box sx={{ marginY: 5 }}>
             <HelloText />
           </Box>
-          <Alert variant="filled" severity="error" sx={{ marginY: 5 }}>
-            かつて大手だったホームページ運営サービス <a href="http://www.fc2web.com/">「FC2WEB」</a>が、2025年6月30日をもってサービス終了しました。
-            OBRN登録サイトでは以下のサイトが該当します。
-            <ul>
-              <li>ファンタジスタ！（佐倉恭祐氏）</li>
-              <li>夢日和（知美子氏）</li>
-              <li>BLACK PROJECT（ケータ氏）</li>
-              <li>Doomsday（夜空氏） → 本人に「このまま閉鎖」の意向を確認</li>
-              <li>Noise+（千鳥美氏）</li>
-              <li>Red umbrella（崩氏）</li>
-            </ul>
-            管理者の方は移転をよろしくお願いします。移転連絡いただければこの表からは消します。
-          </Alert>
           <Box marginBottom={5}>
             <InformationTable {...{ list: updateInformationList }} />
           </Box>
