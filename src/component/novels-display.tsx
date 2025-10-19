@@ -13,12 +13,9 @@ import {
   StyledEngineProvider
 } from "@mui/material";
 
-// import { authors } from "../entity/Authors"; // Firestoreから取得するためコメントアウト
 import { valueOf } from "../entity/CommonType";
 import { initialFilter } from "../entity/Filter";
 import { FilterStatusType } from "../entity/FilterType";
-// import { sites } from "../entity/Sites"; // Firestoreから取得するためコメントアウト
-// import { obrList } from "../entity/obr-works"; // Firestoreから取得するためコメントアウト
 import { updateInformationList } from "../entity/update-information";
 import { BaseAuthorType, BaseObrType, BaseSiteType, EnhancedAuthorType, EnhancedObrType } from "../entity/Type"; // 型を追加
 import { useFirestoreCollection } from "../hooks/useFirestoreCollection"; // フックをインポート
@@ -31,7 +28,6 @@ import { InformationTable } from "./novels-display/InformationTable";
 import { ObrCardsArea } from "./novels-display/ObrCardsArea";
 import { JSX } from 'react/jsx-runtime';
 
-// データ取得と解析はコンポーネント内で行うため、ここでは削除
 
 export const NovelsDisplay = ({ className }: any): JSX.Element => {
   // Firestoreからデータを取得
@@ -103,10 +99,9 @@ export const NovelsDisplay = ({ className }: any): JSX.Element => {
             <HelloText />
           </Box>
           <Alert variant="filled" severity="error" sx={{ marginY: 5 }}>
-            かつて主流だったホームページ運営サービス <a href="http://www.fc2web.com/">「FC2WEB」</a>から、2025年6月30日をもってサービス終了することが発表されました。
+            かつて大手だったホームページ運営サービス <a href="http://www.fc2web.com/">「FC2WEB」</a>が、2025年6月30日をもってサービス終了しました。
             OBRN登録サイトでは以下のサイトが該当します。
             <ul>
-              <li>毒人間の館（若丸信二氏）</li>
               <li>ファンタジスタ！（佐倉恭祐氏）</li>
               <li>夢日和（知美子氏）</li>
               <li>BLACK PROJECT（ケータ氏）</li>
