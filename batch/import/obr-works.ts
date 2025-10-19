@@ -3490,7 +3490,7 @@ export const obrList: ReadonlyArray<BaseObrType> = [
 	},
 	{
 		"canRead": true,
-		"updated": new Date(2025, 2, 1),
+		"updated": new Date(2025, 6, 26),
 		"id": 146,
 		"siteId": 33,
 		"name": "～Patriotism～",
@@ -3508,7 +3508,7 @@ export const obrList: ReadonlyArray<BaseObrType> = [
 		"status": "progress",
 		"numberOfEpisode": 38,
 		"nowChapterName": "中盤戦",
-		"newestEpisodeNumber": 37,
+		"newestEpisodeNumber": 39,
 		"remainingNumber": 31,
 		"authorId": 33
 	},
