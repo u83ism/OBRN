@@ -1,12 +1,30 @@
 import { collection, doc, setDoc, writeBatch } from "firebase/firestore";
 import { db, connectToEmulator } from "../src/repository/firestore"; 
-import { authors } from "../src/entity/Authors";
-import { sites } from "../src/entity/Sites";
-import { obrList } from "../src/entity/obr-works";
+import { authors } from "./import/Authors";
+import { sites } from "./import/Sites";
+import { obrList } from "./import/obr-works";
 import { BaseAuthorType, BaseSiteType, BaseObrType } from "../src/entity/Type"; 
+import { parseArgs } from 'node:util';
 
-// バッチ処理実行時は明示的にエミュレータに接続
-connectToEmulator();
+// コマンドライン引数を解析して環境を決定
+const { values } = parseArgs({
+  options: {
+    env: {
+      type: 'string',
+      default: 'development',
+    },
+  },
+});
+
+const isProduction = values.env === 'production';
+
+// 本番環境でない場合のみエミュレータに接続
+if (!isProduction) {
+  console.log("Connecting to Firestore emulator");
+  connectToEmulator();
+} else {
+  console.log("Connecting to Production Firestore");
+}
 
 // Firestoreに保存するデータからidを除外する関数
 const omitId = <T extends { id: number | string }>(obj: T): Omit<T, 'id'> => {
